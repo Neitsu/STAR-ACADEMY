@@ -33,9 +33,10 @@
     body[data-theme="light"] .card{ background:linear-gradient(180deg,#ffffff,#f3f4f6); border-color:var(--border); box-shadow:0 12px 25px rgba(148,163,184,.4); }
     body[data-theme="light"] .table-wrapper{ background:#ffffff; border-color:var(--border); }
     body[data-theme="light"] thead{ background:linear-gradient(90deg,#e5e7eb,#f3f4f6); }
-    body[data-theme="light"] tbody tr, body[data-theme="light"] tbody tr:nth-child(2n){ background:#ffffff; }
+    body[data-theme="light"] tbody tr{ background:#ffffff; }
+    body[data-theme="light"] tbody tr:nth-child(2n){ background:#f9fafb; }
     body[data-theme="light"] tbody tr:hover{ background:#fce7f3; }
-    body[data-theme="light"] tbody tr.selected{ background:linear-gradient(90deg,#ffe4e6,#e0f2fe); }
+    body[data-theme="light"] tbody tr.selected{ background: linear-gradient(90deg, rgba(255,228,230,.9), rgba(224,242,254,.9)), #ffffff; }
     body[data-theme="light"] .chart-wrap{ background:linear-gradient(180deg,#ffffff,#e5e7eb); border-color:var(--border); }
 
     body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif; background:radial-gradient(circle at top,#1d2537 0,#020617 55%,#000 100%); color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased }
@@ -77,27 +78,36 @@
     body[data-theme="light"] .seg button.active{ background:#e5e7eb; color:#111827; border-color:#d1d5db; }
     .table-wrapper{ margin-top:10px; border-radius:16px; border:1px solid rgba(31,41,55,.95); background:radial-gradient(circle at top,#020617 0,#020617 50%,#000 100%); overflow-x:auto; overflow-y:hidden; }
     table{ width:100%; border-collapse:collapse; font-size:.8rem; min-width:1800px; }
-    thead{ background:linear-gradient(90deg,rgba(15,23,42,.98),rgba(17,24,39,.98)); position:relative }
+    
+    thead{ position:relative; background: #0b1220; }
     thead th{ text-align:left; font-weight:500; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,.95); color:var(--muted); text-transform:uppercase; letter-spacing:.12em; font-size:.68rem; white-space:nowrap }
     thead th.num{ text-align:center; }
-    th.sticky-rank{ position:sticky; left:0; z-index:5; background:inherit; }
-    th.sticky-col{ position:sticky; left:50px; z-index:4; background:inherit; }
-    tbody tr{ border-bottom:1px solid rgba(31,41,55,.85); background:linear-gradient(90deg,rgba(15,23,42,.92),rgba(15,23,42,.9)); cursor:pointer; transition:background .12s ease,transform .06s ease }
-    tbody tr:nth-child(2n){background:linear-gradient(90deg,rgba(15,23,42,.92),rgba(15,23,42,.94))}
-    tbody tr:hover{background:rgba(255,0,122,.15)}
-    tbody tr.selected{ background:radial-gradient(circle at 0 0,rgba(255,0,122,.3),rgba(0,210,255,.25)); transform:translateY(-1px) }
-    tbody tr.row-elim{opacity:0.8;}
+    
+    /* Colonnes fixes complètement opaques */
+    th.sticky-rank, th.sticky-col { position:sticky; z-index:5; background: #0b1220; }
+    th.sticky-rank { left:0; }
+    th.sticky-col { left:50px; }
+    body[data-theme="light"] th.sticky-rank, body[data-theme="light"] th.sticky-col { background: #e5e7eb; }
+
+    /* Lignes de tableau opache senza trasparenza */
+    tbody tr{ border-bottom:1px solid rgba(31,41,55,.85); background: #0f172a; cursor:pointer; transition:background .12s ease,transform .06s ease }
+    tbody tr:nth-child(2n){ background: #111827; }
+    tbody tr:hover{ background: #1e1b4b; }
+    tbody tr.selected{ background: linear-gradient(90deg, rgba(255,0,122,.2), rgba(0,210,255,.15)), #0f172a; transform:translateY(-1px) }
+    tbody tr.row-elim{ opacity:0.75; }
     tbody td{ padding:7px 10px; vertical-align:middle }
+    
     td.rank{ width:50px; font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums; text-align:center; }
     td.rank.sticky-rank{ position:sticky; left:0; z-index:3; background:inherit; }
     td.num{ text-align:center; font-variant-numeric:tabular-nums; }
     td.name{ display:flex; align-items:center; gap:8px; font-weight:500; position:relative; z-index:3; white-space:nowrap; }
     td.name.sticky-col{ position:sticky; left:50px; background:inherit; box-shadow:8px 0 12px rgba(15,23,42,.9); }
     body[data-theme="light"] td.name.sticky-col{ box-shadow:8px 0 12px rgba(209,213,219,.9); }
-    .avatar{ width:26px; height:26px; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 6px 16px rgba(15,23,42,.8) }
-    .chip{ display:inline-flex; align-items:center; padding:2px 7px; border-radius:999px; background:rgba(15,23,42,.9); border:1px solid rgba(55,65,81,.9); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted) }
-    body[data-theme="light"] .chip{ background:#f3f4f6; border-color:#d1d5db; color:#6b7280; }
-    .chip.elim{ border-color:rgba(248,113,113,.7); color:#fecaca; background:rgba(127,29,29,.7) }
+    
+    .avatar{ width:26px; height:26px; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 6px 16px rgba(15,23,42,.8); transition: filter 0.3s ease; }
+    /* Effetto bianco e nero per gli eliminati */
+    .avatar.elim { filter: grayscale(100%); border-color: rgba(248,113,113,.5); opacity: 0.8; }
+    
     .delta{ font-variant-numeric:tabular-nums; white-space:nowrap; font-size:.75rem; color:var(--muted); margin-left:6px; }
     .delta.up{color:var(--up)}
     .delta.down{color:var(--down)}
@@ -186,7 +196,7 @@
 
             <div class="toolbar-right">
               <button id="sortBtn" class="btn btn-ghost" type="button">Trier par nom</button>
-              <button id="toggleElimBtn" class="btn btn-ghost" type="button">Masquer éliminés</button>
+              <button id="toggleElimBtn" class="btn btn-ghost" type="button">Masquer eliminés</button>
               <button id="share" class="btn btn-primary" type="button">Copier le lien</button>
               <button id="themeToggle" class="btn btn-ghost" type="button">Mode clair</button>
             </div>
@@ -228,7 +238,7 @@
           <header>
             <div>
               <div class="card-title">Fiche élève & courbe</div>
-              <div class="card-subtitle">Clique sur un·e élève pour voir sa trajectoire.</div>
+              <div class="card-subtitle">Clique sur un·e élève per vedere la sua traiettoria.</div>
             </div>
           </header>
 
@@ -601,7 +611,9 @@
         tr.dataset.id = r.id;
         if (r.eliminated) tr.classList.add("row-elim");
 
-        const elimBadge = r.eliminated ? ' <span class="chip elim">Éliminé</span>' : "";
+        // Photo en bianco e nero se eliminato, nessun testo extra accanto al nome
+        const avatarClass = r.eliminated ? "avatar elim" : "avatar";
+        
         const deltaClass  = r.deltaPlaces>0 ? "up" : r.deltaPlaces<0 ? "down" : "";
         const deltaSymbol = r.deltaPlaces>0 ? "▲" : r.deltaPlaces<0 ? "▼" : "•";
         const deltaText   = Math.abs(r.deltaPlaces);
@@ -612,7 +624,7 @@
 
         const tdName = document.createElement("td");
         tdName.className = "name sticky-col";
-        tdName.innerHTML = `<img alt="${r.nom}" class="avatar" src="${r.img}" onerror="this.src='assets/placeholder.jpg'"/><span>${r.nom}${elimBadge}</span><span class="delta ${deltaClass}">${deltaSymbol} ${deltaText}</span>`;
+        tdName.innerHTML = `<img alt="${r.nom}" class="${avatarClass}" src="${r.img}" onerror="this.src='assets/placeholder.jpg'"/><span>${r.nom}</span><span class="delta ${deltaClass}">${deltaSymbol} ${deltaText}</span>`;
         tr.appendChild(tdName);
 
         PRIMES_KEYS.forEach(key => {
@@ -648,7 +660,11 @@
       dom.infoName.textContent  = eleve.nom;
       dom.infoPromo.textContent = "Promo " + eleve.promo;
 
-      const status = eleve.eliminatedAt != null ? `Éliminé·e à la prime ${eleve.eliminatedAt}` : "Encore en course";
+      // Status in rosso sopra il grafico
+      const status = eleve.eliminatedAt != null 
+        ? `<span style="color:var(--danger); font-weight:600;">Éliminé·e à la prime ${eleve.eliminatedAt}</span>` 
+        : "Encore en course";
+        
       dom.infoExtra.innerHTML = `Rang actuel : <strong>${row ? row.rank : "—"}</strong> • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong> • ${status}`;
     }
 
@@ -778,7 +794,7 @@
       }
       updateHideElimUI();
 
-      if (appState.promo === "all" && !new URLSearchParams(location.search).has("promo")) {
+      if (appState.promo === "all" && !newSearchParams(location.search).has("promo")) {
           if(eleves.some(e => e.promo === "2026")) appState.promo = "2026";
       }
 
