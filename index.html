@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Star Academy — Classements (layout Produce Camp)</title>
+  <title>Star Academy — Classements</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     *{box-sizing:border-box}
@@ -13,9 +13,9 @@
       --border:#1f2937;
       --text:#e5e7eb;
       --muted:#9ca3af;
-      --accent:#4f46e5;
-      --accent-soft:rgba(79,70,229,.12);
-      --accent-strong:#a855f7;
+      --accent:#ff007a; /* Rose vif 2026 */
+      --accent-soft:rgba(255,0,122,.12);
+      --accent-strong:#00d2ff; /* Cyan 2026 */
       --danger:#ef4444;
       --gold:#facc15;
       --up:#22c55e;
@@ -32,9 +32,9 @@
       --border:#d1d5db;
       --text:#111827;
       --muted:#6b7280;
-      --accent:#2563eb;
-      --accent-soft:rgba(37,99,235,.1);
-      --accent-strong:#7c3aed;
+      --accent:#d6006b;
+      --accent-soft:rgba(214,0,107,.1);
+      --accent-strong:#009ca6;
       --danger:#b91c1c;
       --gold:#ca8a04;
       --up:#16a34a;
@@ -59,10 +59,10 @@
       background:#ffffff;
     }
     body[data-theme="light"] tbody tr:hover{
-      background:#e5e7eb;
+      background:#fce7f3; /* Hover rosé clair */
     }
     body[data-theme="light"] tbody tr.selected{
-      background:linear-gradient(90deg,#e0f2fe,#ede9fe);
+      background:linear-gradient(90deg,#ffe4e6,#e0f2fe);
     }
     body[data-theme="light"] .chart-wrap{
       background:linear-gradient(180deg,#ffffff,#e5e7eb);
@@ -93,10 +93,12 @@
       display:inline-flex;
       padding:4px 10px;
       border-radius:999px;
-      background:linear-gradient(120deg,#a855f7,#4f46e5);
-      color:#0f172a;
+      /* Dégradé arc-en-ciel de la saison 2026 */
+      background:linear-gradient(120deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff);
+      color:#fff;
       font-size:.75rem;
-      box-shadow:0 12px 30px rgba(88,28,135,.7)
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      box-shadow:0 12px 30px rgba(255,0,122,.5)
     }
     h1{
       margin:.4rem 0 0;
@@ -132,7 +134,7 @@
       content:"";
       position:absolute;
       inset:-40%;
-      background:radial-gradient(circle at 0 0,rgba(56,189,248,.08),transparent 55%);
+      background:radial-gradient(circle at 0 0,rgba(255,0,122,.08),transparent 55%); /* Éclat rose */
       opacity:.7;
       pointer-events:none
     }
@@ -233,20 +235,22 @@
       transition:background .15s ease,border-color .15s ease,transform .1s ease
     }
     .btn-ghost{background:transparent;border-color:rgba(51,65,85,.9);color:var(--muted)}
+    
+    /* Bouton avec dégradé Rose/Orange */
     .btn-primary{
-      background:linear-gradient(135deg,#4f46e5,#7c3aed);
-      border-color:rgba(129,140,248,.9);
-      color:#e5e7eb;
-      box-shadow:0 10px 25px rgba(55,48,163,.7)
+      background:linear-gradient(135deg, #ff007a, #ff8a00);
+      border-color:rgba(255,138,0,.9);
+      color:#fff;
+      box-shadow:0 10px 25px rgba(255,0,122,.4)
     }
     .btn:hover{transform:translateY(-1px);border-color:#e5e7eb}
-    .btn-primary:hover{background:linear-gradient(135deg,#6366f1,#a855f7)}
+    .btn-primary:hover{background:linear-gradient(135deg, #ff3399, #ff9900)}
     body[data-theme="light"] .btn-ghost{
       border-color:#d1d5db;
       color:#4b5563;
     }
     body[data-theme="light"] .btn-primary{
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      background:linear-gradient(135deg, #d6006b, #e65c00);
       color:#f9fafb;
     }
     .seg{
@@ -272,8 +276,9 @@
       min-width:0
     }
     .seg button.active{
-      background:rgba(79,70,229,.15);
-      color:#e5e7eb
+      background:var(--accent-soft);
+      color:#e5e7eb;
+      border: 1px solid rgba(255,0,122,0.3);
     }
     body[data-theme="light"] .seg{
       background:#f3f4f6;
@@ -282,6 +287,7 @@
     body[data-theme="light"] .seg button.active{
       background:#e5e7eb;
       color:#111827;
+      border-color:#d1d5db;
     }
 
     .table-wrapper{
@@ -306,7 +312,7 @@
       content:"";
       position:absolute;
       inset:0;
-      background:radial-gradient(circle at 0 0,rgba(129,140,248,.18),transparent 55%);
+      background:radial-gradient(circle at 0 0,rgba(255,0,122,.18),transparent 55%);
       opacity:.7;
       pointer-events:none
     }
@@ -325,7 +331,6 @@
       text-align:center;
     }
 
-    /* Colonnes figées (# + Élève) */
     th.sticky-rank{
       position:sticky;
       left:0;
@@ -346,11 +351,14 @@
       transition:background .12s ease,transform .06s ease
     }
     tbody tr:nth-child(2n){background:linear-gradient(90deg,rgba(15,23,42,.92),rgba(15,23,42,.94))}
-    tbody tr:hover{background:rgba(30,64,175,.35)}
+    
+    /* Effets de survol et de sélection stylisés 2026 */
+    tbody tr:hover{background:rgba(255,0,122,.15)}
     tbody tr.selected{
-      background:radial-gradient(circle at 0 0,rgba(129,140,248,.45),rgba(30,64,175,.85));
+      background:radial-gradient(circle at 0 0,rgba(255,0,122,.3),rgba(0,210,255,.25));
       transform:translateY(-1px)
     }
+    
     tbody tr.row-elim{opacity:0.8;}
     tbody td{
       padding:7px 10px;
@@ -446,13 +454,14 @@
       gap:12px;
       align-items:center
     }
+    /* Dégradé arc-en-ciel autour de la photo de profil */
     .profile-pic-wrap{
       position:relative;
       width:88px;
       height:88px;
       border-radius:24px;
       padding:2px;
-      background:conic-gradient(from 210deg,#4f46e5,#a855f7,#22c55e,#4f46e5);
+      background:conic-gradient(from 210deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff, #ff007a);
       box-shadow:0 18px 45px rgba(15,23,42,.9)
     }
     .profile-pic-inner{
@@ -520,7 +529,7 @@
       content:"";
       position:absolute;
       inset:0;
-      background:radial-gradient(circle at 20% 0,rgba(59,130,246,.22),transparent 55%);
+      background:radial-gradient(circle at 20% 0,rgba(255,0,122,.15),transparent 55%);
       opacity:.7;
       pointer-events:none
     }
@@ -561,7 +570,7 @@
         Dashboard primes
       </div>
       <h1>Classements croisés</h1>
-         </header>
+    </header>
 
     <div class="container">
       <div class="grid">
@@ -826,7 +835,6 @@
       "Mehdi": null, "Melissa": 3, "Noah": null, "Sarah": 4,
       "Théo L.": 14, "Théo P.": 5, "Victor": 8
     };
-    // ⚠️ Correction ici : Anouk = 2 (et non 1)
     const P4_POP = {
       "Ambre": 1, "Anouk": 2, "Bastiaan": 12, "Ema": 13, "Jeanne": 3,
       "Lea": 11, "Léane": 7, "Lenny": null, "Leo": 5, "Lily": 13,
@@ -874,12 +882,30 @@
       "Théo L.": 8, "Théo P.": 6, "Victor": 7
     };
 
-    // Tableaux par prime pour initialiser dynamiquement p0..p16
     const P_PERSO = [P0_PERSO, P1_PERSO, P2_PERSO, P3_PERSO, P4_PERSO, P5_PERSO, P6_PERSO];
     const P_PROFS = [P0_PROFS, P1_PROFS, P2_PROFS, P3_PROFS, P4_PROFS, P5_PROFS, P6_PROFS];
     const P_POP   = [null, P1_POP, P2_POP, P3_POP, P4_POP, P5_POP, P6_POP];
 
     const baseEleves = [
+      // Promo 2026 (Nouveaux Académiciens ajoutés !)
+      { id:201, nom: "Amel",     promo: "2026", img: "assets/amel.jpg",     eliminatedAt: null },
+      { id:202, nom: "Antoine",  promo: "2026", img: "assets/antoine.jpg",  eliminatedAt: null },
+      { id:203, nom: "Brieuc",   promo: "2026", img: "assets/brieuc.jpg",   eliminatedAt: null },
+      { id:204, nom: "Cameron",  promo: "2026", img: "assets/cameron.jpg",  eliminatedAt: null },
+      { id:205, nom: "Elija",    promo: "2026", img: "assets/elija.jpg",    eliminatedAt: null },
+      { id:206, nom: "Félix",    promo: "2026", img: "assets/felix.jpg",    eliminatedAt: null },
+      { id:207, nom: "Isabella", promo: "2026", img: "assets/isabella.jpg", eliminatedAt: null },
+      { id:208, nom: "Khalil",   promo: "2026", img: "assets/khalil.jpg",   eliminatedAt: null },
+      { id:209, nom: "Kylian",   promo: "2026", img: "assets/kylian.jpg",   eliminatedAt: null },
+      { id:210, nom: "Leeloo",   promo: "2026", img: "assets/leeloo.jpg",   eliminatedAt: null },
+      { id:211, nom: "Maud",     promo: "2026", img: "assets/maud.jpg",     eliminatedAt: null },
+      { id:212, nom: "Mélina",   promo: "2026", img: "assets/melina.jpg",   eliminatedAt: null },
+      { id:213, nom: "Morgan",   promo: "2026", img: "assets/morgan.jpg",   eliminatedAt: null },
+      { id:214, nom: "Noémie",   promo: "2026", img: "assets/noemie.jpg",   eliminatedAt: null },
+      { id:215, nom: "Tracy",    promo: "2026", img: "assets/tracy.jpg",    eliminatedAt: null },
+      { id:216, nom: "Ydriss",   promo: "2026", img: "assets/ydriss.jpg",   eliminatedAt: null },
+      { id:217, nom: "Zoé",      promo: "2026", img: "assets/zoe.jpg",      eliminatedAt: null },
+
       // Promo 2025
       { id: 1,  nom: "Ambre",    promo: "2025", img: "assets/ambre.jpg",    eliminatedAt: null },
       { id: 2,  nom: "Anouk",    promo: "2025", img: "assets/anouk.jpg",    eliminatedAt: null },
@@ -926,12 +952,10 @@
         const key = "p" + p;
 
         if (e.promo === "2025") {
-          // Données pré-remplies uniquement pour la promo 2025
           perso[key] = P_PERSO[p]?.[e.nom] ?? null;
           profs[key] = P_PROFS[p]?.[e.nom] ?? null;
           pop[key]   = P_POP[p]?.[e.nom] ?? null;
         } else {
-          // Promo 2024 (et futures) : on part de zéro, tu complèteras en mode édition
           perso[key] = null;
           profs[key] = null;
           pop[key]   = null;
@@ -994,7 +1018,6 @@
         promo:    p.get("promo") || "all",
         prime:    p.get("prime") || "auto",
         sort:     p.get("sort")  || "rank",
-        // null = non précisé dans l'URL (on pourra prendre le localStorage)
         hideElim: hasHideElim ? (hideElimRaw === "1" || hideElimRaw === "true") : null
       };
     }
@@ -1018,7 +1041,6 @@
       if (view === "perso") return eleve.perso;
       if (view === "profs") return eleve.profs;
       if (view === "pop")   return eleve.pop;
-      // fusion : moyenne des sources disponibles par prime
       const obj = {};
       PRIMES_KEYS.forEach((key, idx) => {
         const vals = [eleve.perso[key], eleve.profs[key]];
@@ -1104,7 +1126,7 @@
     }
 
     /*********************************
-     * LocalStorage (scores + éliminations + modes)
+     * LocalStorage
      *********************************/
     function loadSavedData() {
       try {
@@ -1202,14 +1224,12 @@
       applyTheme(theme);
     }
 
-    /********* Afficher / masquer les éliminé·e·s *********/
     function updateHideElimUI(){
       if (!dom.toggleElimBtn) return;
       dom.toggleElimBtn.textContent = appState.hideElim ? "Afficher éliminés" : "Masquer éliminés";
     }
 
     function initHideElim(){
-      // Si l'URL ne précise rien, on reprend la dernière préférence (localStorage)
       if (!hideElimFromURL) {
         try{
           const saved = localStorage.getItem("staracHideElim");
@@ -1229,10 +1249,13 @@
     }
 
     function initPromosSelect() {
-      const promos = ["all", ...uniq(eleves.map(e => e.promo))];
+      // Met la nouvelle promo la plus récente en premier choix logique
+      const promos = ["all", ...uniq(eleves.map(e => e.promo)).sort().reverse()];
       dom.promoSelect.innerHTML = promos
         .map(p => `<option value="${p}">${p === "all" ? "Toutes promos" : p}</option>`)
         .join("");
+      
+      // Si on arrive sans choix, on sélectionne "all" ou on pourrait forcer "2026"
       dom.promoSelect.value = appState.promo;
     }
 
@@ -1262,8 +1285,6 @@
     function updateModeUI() {
       if (!dom.modeToggle) return;
       dom.modeToggle.textContent = appState.isEditMode ? "Mode lecture" : "Mode édition";
-
-      // Met à jour l'éditeur d'élimination pour l'élève sélectionné
       const currentEleve = eleves.find(e => e.id === selectedId);
       updateElimEditor(currentEleve || null);
     }
@@ -1321,7 +1342,6 @@
         `;
         tr.appendChild(tdName);
 
-        // Colonnes Prime 0 -> Prime 16
         PRIMES_KEYS.forEach((key, idx) => {
           const td = document.createElement("td");
           td.className = "num";
@@ -1355,7 +1375,6 @@
         dom.tbody.appendChild(tr);
       });
 
-      // Mise en évidence de la colonne de la prime active
       document.querySelectorAll("#top thead th").forEach(th => {
         th.style.color = "var(--muted)";
       });
@@ -1523,7 +1542,6 @@
       });
 
       if (rows.length) {
-        // garder la sélection si possible
         let idToSelect = selectedId;
         if (idToSelect == null || !rows.some(r => r.id === idToSelect)) {
           idToSelect = rows[0].id;
@@ -1642,11 +1660,9 @@
           if (!eleve) return;
 
           if (!dom.elimCheckbox.checked) {
-            // ➜ On enlève l’élimination
             eleve.eliminatedAt = null;
             dom.elimPrime.value = "";
           } else {
-            // ➜ Si aucune prime n’est choisie, on prend la prime active
             let v = dom.elimPrime.value;
             if (v === "") {
               const primeNum = primeToNum(appState.prime);
@@ -1674,6 +1690,13 @@
       initElimSelect();
       initEditMode();
       bindEvents();
+      
+      // S'assurer de pointer par défaut sur 2026 à l'ouverture si rien n'est stocké
+      if (appState.promo === "all" && !new URLSearchParams(location.search).has("promo")) {
+          appState.promo = "2026";
+          dom.promoSelect.value = "2026";
+      }
+      
       apply();
     }
 
