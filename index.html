@@ -116,7 +116,6 @@
     
     .avatar{ width:26px; height:26px; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 6px 16px rgba(15,23,42,.8); transition: filter 0.3s ease; }
     .avatar.elim { filter: grayscale(100%); border-color: rgba(248,113,113,.5); opacity: 0.8; }
-    /* Les finalistes gardent leurs couleurs */
     .avatar.winner { border-color: var(--gold); box-shadow:0 0 15px rgba(250,204,21,.5); }
     
     .delta{ font-variant-numeric:tabular-nums; white-space:nowrap; font-size:.75rem; color:var(--muted); margin-left:6px; }
@@ -206,7 +205,7 @@
             </div>
 
             <div class="toolbar-right">
-              <button id="sortBtn" class="btn btn-ghost" type="button">Trier par nom</button>
+              <button id="sortBtn" class="btn btn-ghost" style="width:145px; justify-content:center;" type="button">Trier : Moyenne</button>
               <button id="toggleElimBtn" class="btn btn-ghost" type="button">Masquer éliminés</button>
               <button id="share" class="btn btn-primary" type="button">Copier le lien</button>
               <button id="themeToggle" class="btn btn-ghost" type="button">Mode clair</button>
@@ -304,6 +303,14 @@
       }
     };
 
+    // Classement officiel 2025 fourni par l'utilisateur
+    const OFFICIAL_RANKS_2025 = {
+      "Ambre": 1, "Lea": 2, "Victor": 3, "Sarah": 4, "Bastiaan": 5,
+      "Anouk": 6, "Théo P.": 7, "Melissa": 8, "Jeanne": 9, "Leo": 10,
+      "Lily": 11, "Théo L.": 12, "Léane": 13, "Ema": 14, "Noah": 15,
+      "Lenny": 16, "Mehdi": 17
+    };
+
     const MAX_PRIME = 16;
     const PRIMES_KEYS = Array.from({ length: MAX_PRIME + 1 }, (_, i) => "p" + i);
     
@@ -331,16 +338,13 @@
       }
 
       if (!hasConfiguredLinks) {
-        document.getElementById("loading-msg").innerHTML = `
-          Tu dois configurer les liens Google Sheets dans le code source pour voir les données.<br/>
-          (Cherche <b>SHEET_URLS</b> dans le fichier HTML).`;
+        document.getElementById("loading-msg").innerHTML = `Tu dois configurer les liens Google Sheets dans le code source.`;
         return;
       }
 
       try {
         await Promise.all(fetchPromises);
         eleves = Array.from(elevesMap.values());
-        
         document.getElementById("loading-msg").style.display = "none";
         document.getElementById("top").style.display = "table";
         initApp();
@@ -366,29 +370,21 @@
         const img      = cols[1] ? cols[1].trim() : "assets/placeholder.jpg";
         const rawElim  = cols[2] ? cols[2].trim() : "";
         
-        // Gestion des mots clés de classement final et des nombres
         let elimAt = null;
-        let isFinalRank = false;
-        let finalRankValue = 999;
+        let customStatus = null;
+        let isWinner = false;
         
         if (rawElim !== "") {
             const lowerElim = rawElim.toLowerCase();
-            if (lowerElim.includes("gagnant") || lowerElim.includes("winner")) {
-                elimAt = rawElim;
-                isFinalRank = true;
-                finalRankValue = 1;
-            } else if (lowerElim.includes("finaliste") || lowerElim.includes("2") || lowerElim.includes("3") || lowerElim.includes("4")) {
-                // Si c'est un statut final texte ou un top 2/3/4 assumé en fin de saison
-                elimAt = rawElim;
-                if (!isNaN(parseInt(rawElim, 10))) {
-                   finalRankValue = parseInt(rawElim, 10);
-                } else {
-                   finalRankValue = 2; // Valeur arbitraire pour "finaliste" après le gagnant
-                }
-                isFinalRank = true;
+            // Si c'est composé uniquement de chiffres, c'est le prime d'élimination
+            if (/^\d+$/.test(rawElim)) {
+                elimAt = parseInt(rawElim, 10);
             } else {
-                const parsed = parseInt(rawElim, 10);
-                if (!isNaN(parsed)) elimAt = parsed;
+                // C'est un texte libre (Gagnant, 2ème, Abandon, etc.)
+                customStatus = rawElim;
+                if (lowerElim.includes("winner") || lowerElim.includes("gagnant") || lowerElim.includes("1er") || lowerElim.includes("1ère")) {
+                    isWinner = true;
+                }
             }
         }
 
@@ -401,8 +397,8 @@
             promo: promo,
             img: img || "assets/placeholder.jpg",
             eliminatedAt: elimAt,
-            isFinalRank: isFinalRank,
-            finalRankValue: finalRankValue,
+            customStatus: customStatus,
+            isWinner: isWinner,
             perso: {},
             profs: {},
             pop: {}
@@ -411,10 +407,10 @@
         
         const currentEleve = elevesMap.get(id);
         
-        if (elimAt !== null) {
-            currentEleve.eliminatedAt = elimAt;
-            currentEleve.isFinalRank = isFinalRank;
-            currentEleve.finalRankValue = finalRankValue;
+        if (elimAt !== null) currentEleve.eliminatedAt = elimAt;
+        if (customStatus !== null) {
+            currentEleve.customStatus = customStatus;
+            if (isWinner) currentEleve.isWinner = true;
         }
         if (img && img !== "assets/placeholder.jpg") currentEleve.img = img;
 
@@ -475,7 +471,7 @@
         q:        p.get("q")     || "",
         promo:    p.get("promo") || "all",
         prime:    p.get("prime") || "auto",
-        sort:     p.get("sort")  || "rank",
+        sort:     p.get("sort")  || "avg", // "avg", "off", "name"
         hideElim: hasHideElim ? (p.get("hideElim") === "1" || p.get("hideElim") === "true") : null
       };
     }
@@ -486,7 +482,7 @@
       if (state.q)                                     p.set("q",     state.q);
       if (state.promo && state.promo !== "all")       p.set("promo", state.promo);
       if (state.prime && state.prime !== "auto")      p.set("prime", state.prime);
-      if (state.sort  && state.sort  !== "rank")      p.set("sort",  state.sort);
+      if (state.sort  && state.sort  !== "avg")       p.set("sort",  state.sort);
       if (state.hideElim)                              p.set("hideElim", "1");
       const qs = p.toString();
       const url = location.pathname + (qs ? ("?" + qs) : "");
@@ -501,7 +497,7 @@
       const obj = {};
       PRIMES_KEYS.forEach((key, idx) => {
         const vals = [eleve.perso[key], eleve.profs[key], eleve.pop[key]];
-        obj[key] = mean(vals); // La fonction mean ignore déjà les null/NaN
+        obj[key] = mean(vals); 
       });
       return obj;
     }
@@ -536,22 +532,33 @@
           const row = { ...eleve };
           PRIMES_KEYS.forEach(key => { row[key] = src[key] ?? null; });
           row.moy = (view === "fusion") ? fusionMeanUpTo(eleve, primeNum) : averageUpTo(src, primeNum);
+          
+          // Récupère le vrai classement final si disponible pour le mode Tri Officiel
+          row.officialRank = 999; 
+          if (row.promo === "2025" && OFFICIAL_RANKS_2025[row.nom] != null) {
+             row.officialRank = OFFICIAL_RANKS_2025[row.nom];
+          }
           return row;
         })
         .sort((a,b) => {
-          // Si on est en fin de saison et qu'on a des finalistes
-          if (a.isFinalRank && !b.isFinalRank) return -1;
-          if (!a.isFinalRank && b.isFinalRank) return 1;
-          if (a.isFinalRank && b.isFinalRank) return a.finalRankValue - b.finalRankValue;
-
-          // Sinon, tri classique par moyenne
-          const av = (a.moy == null ? Infinity : a.moy);
-          const bv = (b.moy == null ? Infinity : b.moy);
-          if (av !== bv) return av - bv;
-          const al = lastKnownRank(a);
-          const bl = lastKnownRank(b);
-          if (al !== bl) return al - bl;
-          return a.nom.localeCompare(b.nom);
+          if (appState.sort === "name") {
+              return a.nom.localeCompare(b.nom);
+          } 
+          else if (appState.sort === "off") {
+              // Tri par Classement Officiel Final
+              if (a.officialRank !== b.officialRank) return a.officialRank - b.officialRank;
+              return a.nom.localeCompare(b.nom); // fallback
+          } 
+          else {
+              // Tri Classique (Moyenne)
+              const av = (a.moy == null ? Infinity : a.moy);
+              const bv = (b.moy == null ? Infinity : b.moy);
+              if (av !== bv) return av - bv;
+              const al = lastKnownRank(a);
+              const bl = lastKnownRank(b);
+              if (al !== bl) return al - bl;
+              return a.nom.localeCompare(b.nom);
+          }
         })
         .map((row,i) => ({ ...row, rank: i+1 }));
     }
@@ -560,9 +567,10 @@
       const pNow = primeNum;
       const pPrev = (pNow > 0) ? pNow - 1 : null;
       const rowsNow = computeRows(list, view, pNow);
-      const rankPrevMap = new Map();
       
+      const rankPrevMap = new Map();
       if (pPrev != null) {
+        // Pour les flèches d'évolution, on utilise toujours le même tri que l'actuel
         const rowsPrev = computeRows(list, view, pPrev);
         rowsPrev.forEach(r => rankPrevMap.set(r.id, r.rank));
       }
@@ -572,7 +580,8 @@
         const deltaPlaces = (prevRank != null) ? (prevRank - r.rank) : 0;
         
         let isEliminated = false;
-        if (!r.isFinalRank && r.eliminatedAt != null) {
+        // Si ce n'est pas un finaliste et qu'on a dépassé son prime d'élimination
+        if (r.customStatus == null && r.eliminatedAt != null) {
             isEliminated = pNow >= r.eliminatedAt;
         }
 
@@ -611,14 +620,21 @@
       try{ localStorage.setItem("staracTheme", theme); }catch(e){}
     }
 
+    function updateSortUI() {
+        if (!dom.sortBtn) return;
+        if (appState.sort === "avg") dom.sortBtn.textContent = "Trier : Moyenne";
+        else if (appState.sort === "off") dom.sortBtn.textContent = "Trier : Officiel";
+        else dom.sortBtn.textContent = "Trier : Nom";
+    }
+
     function updateHideElimUI(){
       if (dom.toggleElimBtn) dom.toggleElimBtn.textContent = appState.hideElim ? "Afficher éliminés" : "Masquer éliminés";
     }
 
     function filterEliminated(list, primeNum){
       if (!appState.hideElim) return list;
-      // On ne masque pas les vainqueurs/finalistes
-      return list.filter(e => e.isFinalRank || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
+      // On garde ceux qui ont un customStatus (Finalistes, Winners) ou ceux pas encore éliminés
+      return list.filter(e => e.customStatus != null || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
     }
 
     function initPromosSelect() {
@@ -654,7 +670,7 @@
 
         let avatarClass = "avatar";
         if (r.eliminated) avatarClass = "avatar elim";
-        if (r.isFinalRank && r.finalRankValue === 1) avatarClass = "avatar winner";
+        if (r.isWinner) avatarClass = "avatar winner";
         
         const deltaClass  = r.deltaPlaces>0 ? "up" : r.deltaPlaces<0 ? "down" : "";
         const deltaSymbol = r.deltaPlaces>0 ? "▲" : r.deltaPlaces<0 ? "▼" : "•";
@@ -703,13 +719,13 @@
       dom.infoPromo.textContent = "Promo " + eleve.promo;
 
       let status = "Encore en course";
-      if (eleve.isFinalRank) {
-          status = `<span style="color:var(--gold); font-weight:600;">⭐ ${eleve.eliminatedAt.toUpperCase()} ⭐</span>`;
+      if (eleve.customStatus != null) {
+          status = `<span style="color:var(--gold); font-weight:600;">⭐ ${eleve.customStatus.toUpperCase()} ⭐</span>`;
       } else if (eleve.eliminatedAt != null) {
           status = `<span style="color:var(--danger); font-weight:600;">Éliminé·e au prime ${eleve.eliminatedAt}</span>`;
       }
         
-      dom.infoExtra.innerHTML = `Rang actuel : <strong>${row ? row.rank : "—"}</strong> • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong> • ${status}`;
+      dom.infoExtra.innerHTML = `Rang actuel : <strong>${row ? row.rank : "—"}</strong> • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong><br/><br/>${status}`;
     }
 
     function buildGlobalChart(baseList, view) {
@@ -762,13 +778,11 @@
     function apply() {
       const primeNum = primeToNum(appState.prime);
       const baseList = filterEliminated(getFilteredBaseList(), primeNum);
-      let rows = compute(baseList, primeNum, appState.view);
-
-      if (appState.nameAsc) rows = rows.slice().sort((a,b)=>a.nom.localeCompare(b.nom)).map((x,i)=>({ ...x, rank:i+1 }));
+      const rows = compute(baseList, primeNum, appState.view);
 
       renderTable(rows, primeNum);
       buildGlobalChart(baseList, appState.view);
-      writeParamsToURL({ ...appState, sort: appState.nameAsc ? "name" : "rank" });
+      writeParamsToURL(appState);
 
       if (rows.length) {
         let idToSelect = selectedId;
@@ -783,7 +797,15 @@
       dom.inputSearch.addEventListener("input", e => { appState.q = e.target.value; apply(); });
       dom.promoSelect.addEventListener("change", e => { appState.promo = e.target.value; apply(); });
       dom.primeSelect.addEventListener("change", e => { appState.prime = e.target.value; apply(); });
-      dom.sortBtn.addEventListener("click", () => { appState.nameAsc = !appState.nameAsc; apply(); });
+      
+      dom.sortBtn.addEventListener("click", () => { 
+          if (appState.sort === "avg") appState.sort = "off";
+          else if (appState.sort === "off") appState.sort = "name";
+          else appState.sort = "avg";
+          
+          updateSortUI();
+          apply(); 
+      });
 
       if (dom.toggleElimBtn) {
         dom.toggleElimBtn.addEventListener("click", () => {
@@ -811,8 +833,7 @@
         const tr = e.target.closest("tr");
         if (!tr) return;
         const primeNum = primeToNum(appState.prime);
-        let rows = compute(filterEliminated(getFilteredBaseList(), primeNum), primeNum, appState.view);
-        if (appState.nameAsc) rows = rows.slice().sort((a,b)=>a.nom.localeCompare(b.nom)).map((x,i)=>({ ...x, rank:i+1 }));
+        const rows = compute(filterEliminated(getFilteredBaseList(), primeNum), primeNum, appState.view);
         selectRowById(tr.dataset.id, rows);
       });
 
@@ -829,14 +850,16 @@
       appState = {
         ...urlState,
         hideElim: (urlState.hideElim == null ? false : !!urlState.hideElim),
-        nameAsc: (urlState.sort === "name")
+        sort: (urlState.sort || "avg")
       };
 
       try{ applyTheme(localStorage.getItem("staracTheme") || "dark"); }catch(e){}
       if (urlState.hideElim == null) {
         try{ appState.hideElim = (localStorage.getItem("staracHideElim") === "1"); }catch(e){}
       }
+      
       updateHideElimUI();
+      updateSortUI();
 
       if (appState.promo === "all" && !new URLSearchParams(location.search).has("promo")) {
           if(eleves.some(e => e.promo === "2026")) appState.promo = "2026";
