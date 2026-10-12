@@ -83,14 +83,12 @@
     thead th{ text-align:left; font-weight:500; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,.95); color:var(--muted); text-transform:uppercase; letter-spacing:.12em; font-size:.68rem; white-space:nowrap }
     thead th.num{ text-align:center; }
     
-    /* Colonnes fixes complètement opaques et largeur bloquée */
     th.sticky-col, td.name.sticky-col { width:220px; min-width:220px; max-width:220px; }
     th.sticky-rank, th.sticky-col { position:sticky; z-index:5; background: #0b1220; }
     th.sticky-rank { left:0; }
     th.sticky-col { left:50px; }
     body[data-theme="light"] th.sticky-rank, body[data-theme="light"] th.sticky-col { background: #e5e7eb; }
 
-    /* Lignes de tableau opaques */
     tbody tr{ border-bottom:1px solid rgba(31,41,55,.85); background: #0f172a; cursor:pointer; transition:background .12s ease,transform .06s ease }
     tbody tr:nth-child(2n){ background: #111827; }
     tbody tr:hover{ background: #1e1b4b; }
@@ -98,18 +96,15 @@
     tbody tr.row-elim{ opacity:0.75; }
     tbody td{ padding:7px 10px; vertical-align:middle }
     
-    /* Z-index et positionnement des colonnes fixées pour le body */
     td.rank.sticky-rank{ position:sticky; left:0; z-index:4; }
     td.name.sticky-col{ position:sticky; left:50px; z-index:4; box-shadow:8px 0 12px rgba(15,23,42,.9); }
     body[data-theme="light"] td.name.sticky-col{ box-shadow:8px 0 12px rgba(209,213,219,.9); }
     
-    /* Couleurs de fond 100% opaques pour les colonnes figées (Theme Sombre) */
     tbody tr td.rank.sticky-rank, tbody tr td.name.sticky-col { background: #0f172a; }
     tbody tr:nth-child(2n) td.rank.sticky-rank, tbody tr:nth-child(2n) td.name.sticky-col { background: #111827; }
     tbody tr:hover td.rank.sticky-rank, tbody tr:hover td.name.sticky-col { background: #1e1b4b; }
     tbody tr.selected td.rank.sticky-rank, tbody tr.selected td.name.sticky-col { background: #2d1b4e; }
 
-    /* Couleurs de fond 100% opaques pour les colonnes figées (Theme Clair) */
     body[data-theme="light"] tbody tr td.rank.sticky-rank, body[data-theme="light"] tbody tr td.name.sticky-col { background: #ffffff; }
     body[data-theme="light"] tbody tr:nth-child(2n) td.rank.sticky-rank, body[data-theme="light"] tbody tr:nth-child(2n) td.name.sticky-col { background: #f9fafb; }
     body[data-theme="light"] tbody tr:hover td.rank.sticky-rank, body[data-theme="light"] tbody tr:hover td.name.sticky-col { background: #fce7f3; }
@@ -120,8 +115,9 @@
     td.name{ display:flex; align-items:center; gap:8px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     
     .avatar{ width:26px; height:26px; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 6px 16px rgba(15,23,42,.8); transition: filter 0.3s ease; }
-    /* Effet noir et blanc pour les éliminés */
     .avatar.elim { filter: grayscale(100%); border-color: rgba(248,113,113,.5); opacity: 0.8; }
+    /* Les finalistes gardent leurs couleurs */
+    .avatar.winner { border-color: var(--gold); box-shadow:0 0 15px rgba(250,204,21,.5); }
     
     .delta{ font-variant-numeric:tabular-nums; white-space:nowrap; font-size:.75rem; color:var(--muted); margin-left:6px; }
     .delta.up{color:var(--up)}
@@ -368,9 +364,35 @@
         if (!nom) continue;
 
         const img      = cols[1] ? cols[1].trim() : "assets/placeholder.jpg";
-        const elimStr  = cols[2] ? cols[2].trim() : "";
-        const elimAt   = elimStr !== "" ? parseInt(elimStr, 10) : null;
-        const id       = `${promo}_${nom}`;
+        const rawElim  = cols[2] ? cols[2].trim() : "";
+        
+        // Gestion des mots clés de classement final et des nombres
+        let elimAt = null;
+        let isFinalRank = false;
+        let finalRankValue = 999;
+        
+        if (rawElim !== "") {
+            const lowerElim = rawElim.toLowerCase();
+            if (lowerElim.includes("gagnant") || lowerElim.includes("winner")) {
+                elimAt = rawElim;
+                isFinalRank = true;
+                finalRankValue = 1;
+            } else if (lowerElim.includes("finaliste") || lowerElim.includes("2") || lowerElim.includes("3") || lowerElim.includes("4")) {
+                // Si c'est un statut final texte ou un top 2/3/4 assumé en fin de saison
+                elimAt = rawElim;
+                if (!isNaN(parseInt(rawElim, 10))) {
+                   finalRankValue = parseInt(rawElim, 10);
+                } else {
+                   finalRankValue = 2; // Valeur arbitraire pour "finaliste" après le gagnant
+                }
+                isFinalRank = true;
+            } else {
+                const parsed = parseInt(rawElim, 10);
+                if (!isNaN(parsed)) elimAt = parsed;
+            }
+        }
+
+        const id = `${promo}_${nom}`;
 
         if (!elevesMap.has(id)) {
           elevesMap.set(id, {
@@ -379,6 +401,8 @@
             promo: promo,
             img: img || "assets/placeholder.jpg",
             eliminatedAt: elimAt,
+            isFinalRank: isFinalRank,
+            finalRankValue: finalRankValue,
             perso: {},
             profs: {},
             pop: {}
@@ -387,7 +411,11 @@
         
         const currentEleve = elevesMap.get(id);
         
-        if (elimAt !== null) currentEleve.eliminatedAt = elimAt;
+        if (elimAt !== null) {
+            currentEleve.eliminatedAt = elimAt;
+            currentEleve.isFinalRank = isFinalRank;
+            currentEleve.finalRankValue = finalRankValue;
+        }
         if (img && img !== "assets/placeholder.jpg") currentEleve.img = img;
 
         const sourceKey = (source === 'popu') ? 'pop' : source;
@@ -397,7 +425,7 @@
           if (colIndex < cols.length) {
               let val = cols[colIndex] ? cols[colIndex].trim() : "";
               val = val.replace(/^"|"$/g, '');
-              currentEleve[sourceKey]["p" + p] = (val !== "") ? Number(val) : null;
+              currentEleve[sourceKey]["p" + p] = (val !== "") ? Number(val.replace(',', '.')) : null;
           } else {
               currentEleve[sourceKey]["p" + p] = null;
           }
@@ -412,7 +440,7 @@
     };
     const uniq = (arr) => [...new Set(arr)];
     const mean = (arr) => {
-      const vals = arr.filter(v => v != null).map(Number);
+      const vals = arr.filter(v => v != null && !isNaN(v)).map(Number);
       if (!vals.length) return null;
       return vals.reduce((a,b)=>a+b,0)/vals.length;
     };
@@ -472,9 +500,8 @@
       
       const obj = {};
       PRIMES_KEYS.forEach((key, idx) => {
-        const vals = [eleve.perso[key], eleve.profs[key]];
-        if (idx > 0) vals.push(eleve.pop[key]);
-        obj[key] = mean(vals);
+        const vals = [eleve.perso[key], eleve.profs[key], eleve.pop[key]];
+        obj[key] = mean(vals); // La fonction mean ignore déjà les null/NaN
       });
       return obj;
     }
@@ -489,8 +516,7 @@
       const vals = [];
       for (let p = 0; p <= upto; p++) {
         const key = "p" + p;
-        vals.push(eleve.perso[key], eleve.profs[key]);
-        if (p > 0) vals.push(eleve.pop[key]);
+        vals.push(eleve.perso[key], eleve.profs[key], eleve.pop[key]);
       }
       return mean(vals);
     }
@@ -513,6 +539,12 @@
           return row;
         })
         .sort((a,b) => {
+          // Si on est en fin de saison et qu'on a des finalistes
+          if (a.isFinalRank && !b.isFinalRank) return -1;
+          if (!a.isFinalRank && b.isFinalRank) return 1;
+          if (a.isFinalRank && b.isFinalRank) return a.finalRankValue - b.finalRankValue;
+
+          // Sinon, tri classique par moyenne
           const av = (a.moy == null ? Infinity : a.moy);
           const bv = (b.moy == null ? Infinity : b.moy);
           if (av !== bv) return av - bv;
@@ -538,9 +570,15 @@
       return rowsNow.map(r => {
         const prevRank = rankPrevMap.get(r.id);
         const deltaPlaces = (prevRank != null) ? (prevRank - r.rank) : 0;
+        
+        let isEliminated = false;
+        if (!r.isFinalRank && r.eliminatedAt != null) {
+            isEliminated = pNow >= r.eliminatedAt;
+        }
+
         return {
           ...r,
-          eliminated: (r.eliminatedAt != null && pNow >= r.eliminatedAt),
+          eliminated: isEliminated,
           deltaPlaces
         };
       });
@@ -579,7 +617,8 @@
 
     function filterEliminated(list, primeNum){
       if (!appState.hideElim) return list;
-      return list.filter(e => !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
+      // On ne masque pas les vainqueurs/finalistes
+      return list.filter(e => e.isFinalRank || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
     }
 
     function initPromosSelect() {
@@ -613,7 +652,9 @@
         tr.dataset.id = r.id;
         if (r.eliminated) tr.classList.add("row-elim");
 
-        const avatarClass = r.eliminated ? "avatar elim" : "avatar";
+        let avatarClass = "avatar";
+        if (r.eliminated) avatarClass = "avatar elim";
+        if (r.isFinalRank && r.finalRankValue === 1) avatarClass = "avatar winner";
         
         const deltaClass  = r.deltaPlaces>0 ? "up" : r.deltaPlaces<0 ? "down" : "";
         const deltaSymbol = r.deltaPlaces>0 ? "▲" : r.deltaPlaces<0 ? "▼" : "•";
@@ -661,9 +702,12 @@
       dom.infoName.textContent  = eleve.nom;
       dom.infoPromo.textContent = "Promo " + eleve.promo;
 
-      const status = eleve.eliminatedAt != null 
-        ? `<span style="color:var(--danger); font-weight:600;">Éliminé·e au prime ${eleve.eliminatedAt}</span>` 
-        : "Encore en course";
+      let status = "Encore en course";
+      if (eleve.isFinalRank) {
+          status = `<span style="color:var(--gold); font-weight:600;">⭐ ${eleve.eliminatedAt.toUpperCase()} ⭐</span>`;
+      } else if (eleve.eliminatedAt != null) {
+          status = `<span style="color:var(--danger); font-weight:600;">Éliminé·e au prime ${eleve.eliminatedAt}</span>`;
+      }
         
       dom.infoExtra.innerHTML = `Rang actuel : <strong>${row ? row.rank : "—"}</strong> • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong> • ${status}`;
     }
