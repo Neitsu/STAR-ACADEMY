@@ -162,7 +162,7 @@
     #loading-msg { text-align:center; padding:40px; color:var(--accent-strong); font-weight:bold; }
 
     /* ===================================================================
-     * NOUVELLE SECTION : CENTRE D'ANALYSE, COMMENTAIRES & STATISTIQUES
+     * CENTRE D'ANALYSE, COMMENTAIRES & STATISTIQUES
      * =================================================================== */
     .analytics-section{
       margin-top:36px;
@@ -262,6 +262,13 @@
     .comment-item.down{ border-left-color:var(--down); }
     .comment-item.gold{ border-left-color:var(--gold); }
     .comment-item.cyan{ border-left-color:var(--accent-strong); }
+    .comment-item.danger{
+      border-left-color:var(--danger);
+      background:linear-gradient(90deg, rgba(239,68,68,.12), rgba(15,23,42,.8));
+    }
+    body[data-theme="light"] .comment-item.danger{
+      background:linear-gradient(90deg, rgba(239,68,68,.08), #ffffff);
+    }
     .comment-item strong{ color:#fff; }
     body[data-theme="light"] .comment-item strong{ color:#111827; }
     .comment-tag{
@@ -272,6 +279,12 @@
       letter-spacing:.1em;
       margin-bottom:4px;
       color:var(--muted);
+    }
+    .comment-item.danger .comment-tag{
+      color:#fca5a5;
+    }
+    body[data-theme="light"] .comment-item.danger .comment-tag{
+      color:var(--danger);
     }
 
     .student-focus-box{
@@ -511,8 +524,8 @@
           <div class="card">
             <header>
               <div>
-                <div class="card-title">🎙️ Le Débrief' Automatique du Prime</div>
-                <div class="card-subtitle">Tendances, progressions, chutes et divergences entre classements.</div>
+                <div class="card-title">🎙️ Le Débrief' Automatique (Évolutions & Éliminations)</div>
+                <div class="card-subtitle">Tendances, progressions, chutes, éliminations et divergences entre classements.</div>
               </div>
             </header>
             <div class="comments-list" id="autoCommentsList"></div>
@@ -568,6 +581,9 @@
   (() => {
     "use strict";
 
+    // =======================================================================
+    // LIENS GOOGLE SHEETS (2026, 2025 et 2024)
+    // =======================================================================
     const SHEET_URLS = {
       "2026": {
         perso: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=1138979907&single=true&output=csv",
@@ -580,9 +596,9 @@
         popu:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=2078233342&single=true&output=csv"
       },
       "2024": {
-        perso: "",
-        profs: "",
-        popu:  ""
+        perso: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=1498379239&single=true&output=csv",
+        profs: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=179699580&single=true&output=csv",
+        popu:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=448587971&single=true&output=csv"
       }
     };
 
@@ -591,6 +607,13 @@
       "Anouk": 6, "Théo P.": 7, "Melissa": 8, "Jeanne": 9, "Leo": 10,
       "Lily": 11, "Théo L.": 12, "Léane": 13, "Ema": 14, "Noah": 15,
       "Lenny": 16, "Mehdi": 17
+    };
+
+    const OFFICIAL_RANKS_2024 = {
+      "Marine": 1, "Ebony": 2, "Franck": 3, "Charles": 4, "Ulysse": 5,
+      "Marguerite": 6, "Maïa": 7, "Maia": 7, "Maureen": 8, "Julie": 9,
+      "Masseo": 10, "Masséo": 10, "Emma": 11, "Noah": 12, "Thomas": 13,
+      "Paul": 14, "Maylis": 15
     };
 
     const VIEW_NAMES = {
@@ -738,7 +761,6 @@
     };
     const getLabelList = () => Array.from({ length: MAX_PRIME + 1 }, (_, i) => "Prime " + i);
 
-    // Correction cruciale : calcule le dernier prime disponible UNIQUEMENT sur la promo et la vue actives !
     function maxAvailablePrime(list, view) {
       const targetList = (list && list.length) ? list : eleves;
       let max = 0;
@@ -760,7 +782,6 @@
         }
       });
 
-      // Si l'onglet actif n'a encore aucune note, on regarde sur l'ensemble de la promo active
       if (!foundInView) {
         targetList.forEach(e => {
           for (let p = 0; p <= MAX_PRIME; p++) {
@@ -782,7 +803,6 @@
       return n;
     }
 
-    // Trouve le prime précédent qui possède réellement des données dans cette vue (ex: P0)
     function findPreviousPrimeWithData(list, view, pNow) {
       for (let p = pNow - 1; p >= 0; p--) {
         const key = "p" + p;
@@ -851,7 +871,6 @@
       return mean(vals);
     }
 
-    // Correction : ne cherche le dernier rang connu QUE jusqu'à primeNum !
     function lastKnownRankUpTo(row, primeNum) {
       for (let p = primeNum; p >= 0; p--) {
         const key = "p" + p;
@@ -871,6 +890,8 @@
           row.officialRank = 999; 
           if (row.promo === "2025" && OFFICIAL_RANKS_2025[row.nom] != null) {
              row.officialRank = OFFICIAL_RANKS_2025[row.nom];
+          } else if (row.promo === "2024" && OFFICIAL_RANKS_2024[row.nom] != null) {
+             row.officialRank = OFFICIAL_RANKS_2024[row.nom];
           }
           return row;
         })
@@ -904,7 +925,6 @@
       if (pPrev != null) {
         const rowsPrev = computeRows(list, view, pPrev);
         rowsPrev.forEach(r => {
-          // On enregistre le rang précédent uniquement si l'élève avait déjà une note
           if (r.moy != null) rankPrevMap.set(r.id, r.rank);
         });
       }
@@ -914,7 +934,6 @@
         const hasPrev = (prevRank != null && r.moy != null);
         const deltaPlaces = hasPrev ? (prevRank - r.rank) : 0;
         
-        // Calcul de l'évolution directe entre la note du prime précédent et celle du prime actuel
         const valNow = r["p" + pNow];
         const valPrev = pPrev != null ? r["p" + pPrev] : null;
         const primeDelta = (valNow != null && valPrev != null) ? (valPrev - valNow) : null;
@@ -1154,9 +1173,12 @@
     }
 
     /*****************************************************************
-     * CALCULS STATISTIQUES AVANCÉS & COMMENTAIRES AUTOMATIQUES
+     * CALCULS STATISTIQUES AVANCÉS & COMMENTAIRES D'ÉLIMINATION
      *****************************************************************/
-    function computeDetailedStats(rows, primeNum, view) {
+    function computeDetailedStats(rows, primeNum, view, allRowsForComparison) {
+      const refAll = allRowsForComparison || rows;
+      const activeSurvivors = refAll.filter(x => !x.eliminated && x.moy != null);
+
       return rows.map(r => {
         const valsUpToNow = [];
         for (let p = 0; p <= primeNum; p++) {
@@ -1180,16 +1202,23 @@
           ? (firstEntry.val - lastEntry.val)
           : null;
 
-        // Moyennes dans chaque source jusqu'à primeNum
         const moyPerso  = averageUpTo(r.perso, primeNum);
         const moyProfs  = averageUpTo(r.profs, primeNum);
         const moyPop    = averageUpTo(r.pop, primeNum);
         const moyFusion = fusionMeanUpTo(r, primeNum);
 
-        // Diagnostic / Profil automatique
+        // Nombre de survivants que cet élève bat à la moyenne
+        const beatenSurvivorsCount = (r.moy != null)
+          ? activeSurvivors.filter(s => s.id !== r.id && s.moy > r.moy).length
+          : 0;
+
         let profileBadge = "En observation";
         if (numericVals.length >= 1) {
-          if (r.moy != null && r.moy <= 3.2) {
+          if (r.eliminated && beatenSurvivorsCount >= 3) {
+            profileBadge = `💔 Sorti(e) trop tôt (P${r.eliminatedAt})`;
+          } else if (r.eliminated) {
+            profileBadge = `🚪 Éliminé(e) au P${r.eliminatedAt}`;
+          } else if (r.moy != null && r.moy <= 3.2) {
             profileBadge = "👑 Favori / Tête d'affiche";
           } else if (moyPerso != null && moyProfs != null && (moyProfs - moyPerso) >= 3.5) {
             profileBadge = "💖 Ton protégé perso";
@@ -1227,16 +1256,18 @@
           moyProfs,
           moyPop,
           moyFusion,
+          beatenSurvivorsCount,
           profileBadge
         };
       });
     }
 
-    function renderAnalytics(rows, primeNum, view) {
-      const statsRows = computeDetailedStats(rows, primeNum, view);
+    function renderAnalytics(rows, allRows, primeNum, view) {
+      const statsRows = computeDetailedStats(rows, primeNum, view, allRows);
+      const allStatsRows = computeDetailedStats(allRows, primeNum, view, allRows);
       const promoLabel = appState.promo === "all" ? "Toutes promos" : `Promo ${appState.promo}`;
       const viewLabel = VIEW_NAMES[view] || view;
-      const pPrev = rows[0]?.pPrevUsed;
+      const pPrev = rows[0]?.pPrevUsed ?? allRows[0]?.pPrevUsed;
 
       if (dom.analyticsSubtitle) {
         dom.analyticsSubtitle.textContent = `${promoLabel} • Analyse arrêtée au Prime ${primeNum} • Source active : ${viewLabel}`;
@@ -1329,6 +1360,7 @@
       const comments = [];
       const validRanked = statsRows.filter(r => r.moy != null);
 
+      // A. LUTTE EN TÊTE
       if (validRanked.length >= 2) {
         const first = validRanked[0];
         const second = validRanked[1];
@@ -1340,6 +1372,83 @@
         });
       }
 
+      // B. FOCUS ÉLIMINATION DU PRIME ACTIF (utilise allStatsRows pour fonctionner même si "Masquer éliminés" est coché)
+      const elimOnThisPrime = allStatsRows.filter(r => r.customStatus == null && r.eliminatedAt === primeNum);
+      const allElimUpToNow  = allStatsRows.filter(r => r.customStatus == null && r.eliminatedAt != null && r.eliminatedAt <= primeNum);
+      const survivorsNow    = allStatsRows.filter(r => !r.eliminated && r.moy != null);
+
+      if (elimOnThisPrime.length > 0) {
+        elimOnThisPrime.forEach(el => {
+          const beatenSurvivors = survivorsNow.filter(s => el.moy != null && s.moy > el.moy);
+          let elimTxt = "";
+          let elimTag = `🚪 Verdict du Prime ${primeNum} : Départ de ${el.nom}`;
+
+          if (beatenSurvivors.length >= 3) {
+            elimTag = `💔 Choc d'Élimination au Prime ${primeNum} (${el.nom})`;
+            elimTxt = `Coup de tonnerre sur ce Prime ${primeNum} : <strong>${el.nom}</strong> quitte l'aventure malgré une solide moyenne de <strong>${fmt(el.moy)}</strong> (#${el.rank} au général toutes promos/élèves confondus, Peak à #${fmt(el.peak)}). Au moment de son départ, il/elle devance pourtant <strong>${beatenSurvivors.length} élèves encore en course</strong> (comme ${beatenSurvivors.slice(-2).map(s => `<strong>${s.nom}</strong>`).join(" ou ")}) !`;
+          } else if (beatenSurvivors.length >= 1) {
+            elimTxt = `Fin de l'aventure au Prime ${primeNum} pour <strong>${el.nom}</strong> qui s'en va avec une moyenne de <strong>${fmt(el.moy)}</strong> (meilleur rang : #${fmt(el.peak)}). Une sortie disputée puisqu'il/elle laisse derrière lui/elle <strong>${beatenSurvivors.length} survivant(s)</strong> moins bien classé(s) (${beatenSurvivors.map(s => `<strong>${s.nom}</strong>`).join(", ")}).`;
+          } else {
+            elimTxt = `Verdict logique mathématiquement sur ce Prime ${primeNum} : <strong>${el.nom}</strong> quitte le château alors qu'il/elle fermait la marche des candidats actifs en vue <strong>${viewLabel}</strong> (moyenne : <strong>${fmt(el.moy)}</strong>, plus bas : #${fmt(el.low)}).`;
+          }
+
+          // Analyse Perso vs Profs vs Popu sur l'éliminé du jour
+          if (el.moyPerso != null && el.moyProfs != null && (el.moyProfs - el.moyPerso) >= 2.5) {
+            elimTxt += ` À noter que tu le/la soutenais bien plus que le corps professoral (<strong>${fmt(el.moyPerso)}</strong> de moyenne Perso contre <strong>${fmt(el.moyProfs)}</strong> chez les Profs) !`;
+          } else if (el.moyProfs != null && el.moyPop != null && (el.moyPop - el.moyProfs) >= 2.5) {
+            elimTxt += ` Les Profs avaient pourtant essayé de le/la maintenir à flot (moyenne Profs de <strong>${fmt(el.moyProfs)}</strong>), mais le manque de soutien du public (<strong>${fmt(el.moyPop)}</strong> en Popu) lui a été fatal.`;
+          } else if (el.moyPop != null && el.moyProfs != null && (el.moyProfs - el.moyPop) >= 2.5) {
+            elimTxt += ` Malgré une belle cote auprès du public (<strong>${fmt(el.moyPop)}</strong> en Popu), ses classements plus fragiles chez les Profs (<strong>${fmt(el.moyProfs)}</strong>) l'ont mis(e) en danger.`;
+          }
+
+          comments.push({
+            type: "danger",
+            tag: elimTag,
+            html: elimTxt
+          });
+        });
+      }
+
+      // C. BILAN GLOBAL DES ÉLIMINÉS & "ROBBED QUEEN/KING" + ZONE ROUGE
+      if (allElimUpToNow.length > 0) {
+        const bestElim = allElimUpToNow
+          .filter(r => r.moy != null)
+          .sort((a,b) => a.moy - b.moy)[0];
+
+        let bilanElimTxt = `À l'issue du Prime ${primeNum}, <strong>${allElimUpToNow.length} académicien(s)</strong> ont quitté l'aventure (${allElimUpToNow.slice().sort((a,b) => a.eliminatedAt - b.eliminatedAt).map(e => `${e.nom} [P${e.eliminatedAt}]`).join(", ")}) et <strong>${ allStatsRows.length - allElimUpToNow.length } élèves</strong> sont encore en lice.`;
+
+        if (bestElim) {
+          const worseSurvivors = survivorsNow.filter(s => s.moy > bestElim.moy);
+          if (worseSurvivors.length >= 1) {
+            bilanElimTxt += ` Le plus grand regret statistique ("Robbed") en vue <strong>${viewLabel}</strong> est <strong>${bestElim.nom}</strong> (sorti·e au P${bestElim.eliminatedAt} avec <strong>${fmt(bestElim.moy)}</strong> de moyenne), qui surclasse encore <strong>${worseSurvivors.length} candidat(s) toujours en course</strong> !`;
+          } else {
+            bilanElimTxt += ` Parmi les sortants, c'est <strong>${bestElim.nom}</strong> (P${bestElim.eliminatedAt}) qui conserve la meilleure moyenne finale (<strong>${fmt(bestElim.moy)}</strong>).`;
+          }
+        }
+
+        comments.push({
+          type: "danger",
+          tag: "👻 Bilan des Éliminations & Regret Statistique",
+          html: bilanElimTxt
+        });
+      }
+
+      // Zone Rouge : Qui sont les survivants les plus en danger pour la suite ?
+      if (survivorsNow.length > 4) {
+        const inDanger = survivorsNow
+          .slice()
+          .sort((a,b) => b.moy - a.moy)
+          .slice(0, 3);
+        if (inDanger.length >= 2) {
+          comments.push({
+            type: "down",
+            tag: "🚨 Zone Rouge (Sur la sellette)",
+            html: `Parmi les académiciens <strong>encore en course</strong> au Prime ${primeNum}, les plus menacés statistiquement en vue ${viewLabel} sont <strong>${inDanger.map(s => `${s.nom} (moy.${fmt(s.moy)})`).join(", ")}</strong> qui ferment la marche des survivants.`
+          });
+        }
+      }
+
+      // D. HAUSSES & BAISSES DE LA SEMAINE
       if (pPrev != null && withDelta.length) {
         const risers = withDelta.filter(r => r.deltaPlaces > 0).sort((a,b) => b.deltaPlaces - a.deltaPlaces);
         const fallers = withDelta.filter(r => r.deltaPlaces < 0).sort((a,b) => a.deltaPlaces - b.deltaPlaces);
@@ -1386,7 +1495,6 @@
         });
       }
 
-      // Records personnels sur le prime actif
       if (primeNum >= 1) {
         const newPeaks = statsRows.filter(r => r.valsUpToNow.length >= 2 && r["p" + primeNum] != null && r["p" + primeNum] === r.peak && r["p" + primeNum] < (r["p" + (primeNum - 1)] ?? 99));
         if (newPeaks.length) {
@@ -1398,7 +1506,6 @@
         }
       }
 
-      // Choc des visions : Perso vs Profs vs Popu
       const withAllThree = statsRows.filter(r => r.moyPerso != null && r.moyProfs != null && r.moyPop != null);
       if (withAllThree.length >= 3) {
         const chouchouPerso = withAllThree.slice().sort((a,b) => (b.moyProfs - b.moyPerso) - (a.moyProfs - a.moyPerso))[0];
@@ -1463,8 +1570,8 @@
       }).join("");
     }
 
-    function renderStudentFocus(eleveId, rows, primeNum, view) {
-      const statsRows = computeDetailedStats(rows, primeNum, view);
+    function renderStudentFocus(eleveId, rows, allRows, primeNum, view) {
+      const statsRows = computeDetailedStats(rows, primeNum, view, allRows);
       const st = statsRows.find(r => r.id === eleveId) || statsRows[0];
       if (!st) {
         dom.studentFocusBox.innerHTML = `<div class="card-subtitle">Sélectionne un élève pour afficher son bilan.</div>`;
@@ -1475,7 +1582,6 @@
         dom.focusCardTitle.textContent = `🔍 Scouting Report : ${st.nom}`;
       }
 
-      // Texte biographique automatique sur l'élève
       let bioParts = [];
       if (st.moy != null) {
         bioParts.push(`Actuellement <strong>#${st.rank}</strong> en vue <strong>${VIEW_NAMES[view]}</strong> avec une moyenne de <strong>${fmt(st.moy)}</strong>.`);
@@ -1483,13 +1589,54 @@
       if (st.firstEntry && st.lastEntry && st.valsUpToNow.length >= 2) {
         const diff = st.firstEntry.val - st.lastEntry.val;
         const trendWord = diff > 0 ? `en progression de <strong>+${fmt(diff)} place(s)</strong>` : diff < 0 ? `en recul de <strong>${fmt(diff)} place(s)</strong>` : `parfaitement stable`;
-        bioParts.push(`Lancé(e) au rang <strong>#${fmt(st.firstEntry.val)}</strong> lors du Prime ${st.firstEntry.p}, ${st.nom} est aujourd'hui <strong>#${fmt(st.lastEntry.val)}</strong> sur le Prime ${st.lastEntry.p} (${trendWord}).`);
+        bioParts.push(`Lancé(e) au rang <strong>#${fmt(st.firstEntry.val)}</strong> lors du Prime ${st.firstEntry.p}, ${st.nom} affiche <strong>#${fmt(st.lastEntry.val)}</strong> sur son dernier prime actif (P${st.lastEntry.p}, ${trendWord}).`);
       }
       if (st.peak != null && st.low != null && st.valsUpToNow.length >= 2) {
         bioParts.push(`Son record (Peak) est <strong>#${fmt(st.peak)}</strong> et son plus bas est <strong>#${fmt(st.low)}</strong> (amplitude de ${fmt(st.amplitude)} places).`);
       }
 
-      const maxScale = Math.max(rows.length, 17);
+      // Bloc spécial d'analyse d'élimination si l'élève a été éliminé
+      let elimFocusHTML = "";
+      if (st.customStatus == null && st.eliminatedAt != null) {
+        const isAlreadyOut = primeNum >= st.eliminatedAt;
+        let causeTxt = "";
+        const availSources = [
+          { name: "Perso", val: st.moyPerso },
+          { name: "Profs", val: st.moyProfs },
+          { name: "Popularité", val: st.moyPop }
+        ].filter(x => x.val != null);
+
+        if (availSources.length >= 2) {
+          const worstSrc = availSources.slice().sort((a,b) => b.val - a.val)[0];
+          const bestSrc  = availSources.slice().sort((a,b) => a.val - b.val)[0];
+          if ((worstSrc.val - bestSrc.val) >= 1.5) {
+            causeTxt = `Son point fort était le classement <strong>${bestSrc.name}</strong> (moy. ${fmt(bestSrc.val)}), tandis que le pôle <strong>${worstSrc.name}</strong> (moy. ${fmt(worstSrc.val)}) l'a davantage fragilisé(e).`;
+          }
+        }
+
+        const beatenTxt = st.beatenSurvivorsCount > 0
+          ? `Malgré son élimination, il/elle conserve une meilleure moyenne que <strong>${st.beatenSurvivorsCount} élève(s) encore en course</strong> au Prime ${primeNum} !`
+          : `Sa moyenne se situait dans le bas du classement face aux candidats encore en lice.`;
+
+        elimFocusHTML = `
+          <div class="comment-item danger">
+            <div class="comment-tag">🚪 Diagnostic d'Élimination (Sortie au Prime ${st.eliminatedAt})</div>
+            <div>
+              ${isAlreadyOut ? `<strong>${st.nom}</strong> a quitté le château lors du <strong>Prime ${st.eliminatedAt}</strong>.` : `Attention : <strong>${st.nom}</strong> sera éliminé(e) plus tard dans la saison (au <strong>Prime ${st.eliminatedAt}</strong>).`}
+              ${beatenTxt} ${causeTxt}
+            </div>
+          </div>
+        `;
+      } else if (st.customStatus != null) {
+        elimFocusHTML = `
+          <div class="comment-item gold">
+            <div class="comment-tag">⭐ Statut Final Officiel</div>
+            <div><strong>${st.nom}</strong> a terminé la saison avec le statut : <strong>${st.customStatus.toUpperCase()}</strong>.</div>
+          </div>
+        `;
+      }
+
+      const maxScale = Math.max(allRows.length, 17);
       const barWidth = (val) => {
         if (val == null || isNaN(val)) return 0;
         return Math.max(8, Math.min(100, Math.round(((maxScale + 1 - val) / maxScale) * 100)));
@@ -1507,6 +1654,8 @@
           <div class="comment-tag">${st.profileBadge}</div>
           <div>${bioParts.join(" ") || "Aucune note enregistrée pour le moment sur cette période."}</div>
         </div>
+
+        ${elimFocusHTML}
 
         <div class="mini-stats-grid">
           <div class="mini-stat-box">
@@ -1539,11 +1688,11 @@
       `;
     }
 
-    function selectRowById(id, rows, primeNum) {
+    function selectRowById(id, rows, allRows, primeNum) {
       dom.tbody.querySelectorAll("tr").forEach(tr => tr.classList.toggle("selected", tr.dataset.id === id));
       updateProfile(eleves.find(e => e.id === id), rows.find(r => r.id === id), primeNum);
       highlightDataset(id);
-      renderStudentFocus(id, rows, primeNum, appState.view);
+      renderStudentFocus(id, rows, allRows, primeNum, appState.view);
     }
 
     function apply() {
@@ -1556,16 +1705,17 @@
       const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
       const baseList = filterEliminated(baseListAll, primeNum);
       const rows = compute(baseList, primeNum, appState.view);
+      const allRows = compute(baseListAll, primeNum, appState.view);
 
       renderTable(rows, primeNum);
       buildGlobalChart(baseList, appState.view);
-      renderAnalytics(rows, primeNum, appState.view);
+      renderAnalytics(rows, allRows, primeNum, appState.view);
       writeParamsToURL(appState);
 
       if (rows.length) {
         let idToSelect = selectedId;
         if (idToSelect == null || !rows.some(r => r.id === idToSelect)) idToSelect = rows[0].id;
-        selectRowById(idToSelect, rows, primeNum);
+        selectRowById(idToSelect, rows, allRows, primeNum);
       } else {
         selectedId = null;
         highlightDataset(null);
@@ -1615,7 +1765,8 @@
         const baseListAll = getFilteredBaseList();
         const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
         const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
-        selectRowById(tr.dataset.id, rows, primeNum);
+        const allRows = compute(baseListAll, primeNum, appState.view);
+        selectRowById(tr.dataset.id, rows, allRows, primeNum);
       });
 
       dom.advancedStatsBody.addEventListener("click", e => {
@@ -1624,7 +1775,8 @@
         const baseListAll = getFilteredBaseList();
         const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
         const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
-        selectRowById(tr.dataset.id, rows, primeNum);
+        const allRows = compute(baseListAll, primeNum, appState.view);
+        selectRowById(tr.dataset.id, rows, allRows, primeNum);
       });
 
       if (dom.themeToggle){
