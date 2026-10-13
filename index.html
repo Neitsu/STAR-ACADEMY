@@ -620,7 +620,7 @@
                fetch(url)
                  .then(res => res.ok ? res.text() : "")
                  .then(text => parseCSV(text, promo, source, elevesMap))
-                 .catch(e => console.warn(`Erreur de chargement pour ${promo}${source}`, e))
+                 .catch(e => console.warn(`Erreur de chargement pour ${promo} ${source}`, e))
              );
           }
         }
@@ -1134,7 +1134,7 @@
         options:{
           responsive:true, maintainAspectRatio:false,
           scales:{ y:{ reverse:true, suggestedMin:1, ticks:{ precision:0, callback:v=>v }, title:{ display:true, text:"Rang" } } },
-          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(ctx)=>`${ctx.dataset.label} : rang${ctx.parsed.y}` } } }
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(ctx)=>`${ctx.dataset.label} : rang ${ctx.parsed.y}` } } }
         }
       });
       if (selectedId != null) highlightDataset(selectedId);
@@ -1294,14 +1294,14 @@
         {
           label: "🎯 Le Métronome",
           item: mostRegular,
-          valTxt: mostRegular ? `${mostRegular.nom} (σ =${mostRegular.sigma.toFixed(1)})` : "Minimum 2 primes",
+          valTxt: mostRegular ? `${mostRegular.nom} (σ = ${mostRegular.sigma.toFixed(1)})` : "Minimum 2 primes",
           subTxt: mostRegular ? `Oscille entre #${fmt(mostRegular.peak)} et #${fmt(mostRegular.low)}` : "Calculé dès le Prime 1",
           color: "var(--accent-strong)"
         },
         {
           label: "🎢 Montagnes Russes",
           item: mostVolatile,
-          valTxt: mostVolatile ? `${mostVolatile.nom} (σ =${mostVolatile.sigma.toFixed(1)})` : "Minimum 2 primes",
+          valTxt: mostVolatile ? `${mostVolatile.nom} (σ = ${mostVolatile.sigma.toFixed(1)})` : "Minimum 2 primes",
           subTxt: mostVolatile ? `Amplitude de ${fmt(mostVolatile.amplitude)} places (#${fmt(mostVolatile.peak)} à #${fmt(mostVolatile.low)})` : "Calculé dès le Prime 1",
           color: "#a855f7"
         },
@@ -1336,7 +1336,7 @@
         comments.push({
           type: "gold",
           tag: "🏆 Lutte au sommet",
-          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine actuellement le classement général avec une moyenne de <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}).${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
+          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine actuellement le classement général avec une moyenne de <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}). ${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
         });
       }
 
@@ -1348,7 +1348,7 @@
         if (risers.length) {
           const topRiser = risers[0];
           const secondRiser = risers[1];
-          let txt = `Entre le Prime ${pPrev} et le Prime${primeNum}, la plus belle remontée au classement général est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.rank}).`;
+          let txt = `Entre le Prime ${pPrev} et le Prime ${primeNum}, la plus belle remontée au classement général est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.rank}).`;
           if (secondRiser && secondRiser.deltaPlaces >= 2) {
             txt += ` Belle dynamique aussi pour <strong>${secondRiser.nom}</strong> (+${secondRiser.deltaPlaces} places).`;
           }
@@ -1453,4 +1453,219 @@
             <td class="num">${fmt(r.moyPop)}</td>
             <td class="num"><strong>${fmt(r.moyFusion)}</strong></td>
             <td class="num" style="color:var(--up);font-weight:600;">${r.peak != null ? '#' + fmt(r.peak) : '—'}</td>
-            <td class="num" style="color:var(--down);">${r.
+            <td class="num" style="color:var(--down);">${r.low != null ? '#' + fmt(r.low) : '—'}</td>
+            <td class="num">${r.top1Count}x #1 • ${r.top3Count}x Top 3</td>
+            <td class="num">${r.sigma != null ? r.sigma.toFixed(2) : '—'}</td>
+            <td class="num">${evolBadge}</td>
+            <td><span class="profile-tag">${r.profileBadge}</span></td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderStudentFocus(eleveId, rows, primeNum, view) {
+      const statsRows = computeDetailedStats(rows, primeNum, view);
+      const st = statsRows.find(r => r.id === eleveId) || statsRows[0];
+      if (!st) {
+        dom.studentFocusBox.innerHTML = `<div class="card-subtitle">Sélectionne un élève pour afficher son bilan.</div>`;
+        return;
+      }
+
+      if (dom.focusCardTitle) {
+        dom.focusCardTitle.textContent = `🔍 Scouting Report : ${st.nom}`;
+      }
+
+      // Texte biographique automatique sur l'élève
+      let bioParts = [];
+      if (st.moy != null) {
+        bioParts.push(`Actuellement <strong>#${st.rank}</strong> en vue <strong>${VIEW_NAMES[view]}</strong> avec une moyenne de <strong>${fmt(st.moy)}</strong>.`);
+      }
+      if (st.firstEntry && st.lastEntry && st.valsUpToNow.length >= 2) {
+        const diff = st.firstEntry.val - st.lastEntry.val;
+        const trendWord = diff > 0 ? `en progression de <strong>+${fmt(diff)} place(s)</strong>` : diff < 0 ? `en recul de <strong>${fmt(diff)} place(s)</strong>` : `parfaitement stable`;
+        bioParts.push(`Lancé(e) au rang <strong>#${fmt(st.firstEntry.val)}</strong> lors du Prime ${st.firstEntry.p}, ${st.nom} est aujourd'hui <strong>#${fmt(st.lastEntry.val)}</strong> sur le Prime ${st.lastEntry.p} (${trendWord}).`);
+      }
+      if (st.peak != null && st.low != null && st.valsUpToNow.length >= 2) {
+        bioParts.push(`Son record (Peak) est <strong>#${fmt(st.peak)}</strong> et son plus bas est <strong>#${fmt(st.low)}</strong> (amplitude de ${fmt(st.amplitude)} places).`);
+      }
+
+      const maxScale = Math.max(rows.length, 17);
+      const barWidth = (val) => {
+        if (val == null || isNaN(val)) return 0;
+        return Math.max(8, Math.min(100, Math.round(((maxScale + 1 - val) / maxScale) * 100)));
+      };
+
+      const sourcesComparison = [
+        { label: "Moyenne Perso", val: st.moyPerso },
+        { label: "Moyenne Profs", val: st.moyProfs },
+        { label: "Moyenne Popularité", val: st.moyPop },
+        { label: "Moyenne Fusion", val: st.moyFusion }
+      ];
+
+      dom.studentFocusBox.innerHTML = `
+        <div class="comment-item cyan">
+          <div class="comment-tag">${st.profileBadge}</div>
+          <div>${bioParts.join(" ") || "Aucune note enregistrée pour le moment sur cette période."}</div>
+        </div>
+
+        <div class="mini-stats-grid">
+          <div class="mini-stat-box">
+            <div class="lbl">Meilleur (Peak)</div>
+            <div class="val" style="color:var(--up);">${st.peak != null ? '#' + fmt(st.peak) : '—'}</div>
+          </div>
+          <div class="mini-stat-box">
+            <div class="lbl">Pire (Low)</div>
+            <div class="val" style="color:var(--down);">${st.low != null ? '#' + fmt(st.low) : '—'}</div>
+          </div>
+          <div class="mini-stat-box">
+            <div class="lbl">Podiums (Top 3)</div>
+            <div class="val" style="color:var(--gold);">${st.top3Count} (${st.top1Count}x #1)</div>
+          </div>
+        </div>
+
+        <div class="source-bars">
+          ${sourcesComparison.map(s => `
+            <div class="source-bar-row">
+              <div class="source-bar-top">
+                <span>${s.label}</span>
+                <strong>${fmt(s.val)}</strong>
+              </div>
+              <div class="source-bar-track">
+                <div class="source-bar-fill" style="width:${barWidth(s.val)}%;"></div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function selectRowById(id, rows, primeNum) {
+      dom.tbody.querySelectorAll("tr").forEach(tr => tr.classList.toggle("selected", tr.dataset.id === id));
+      updateProfile(eleves.find(e => e.id === id), rows.find(r => r.id === id), primeNum);
+      highlightDataset(id);
+      renderStudentFocus(id, rows, primeNum, appState.view);
+    }
+
+    function apply() {
+      const baseListAll = getFilteredBaseList();
+      const autoMax = maxAvailablePrime(baseListAll, appState.view);
+      if (dom.autoPrimeOpt) {
+        dom.autoPrimeOpt.textContent = `Auto (Prime ${autoMax})`;
+      }
+
+      const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
+      const baseList = filterEliminated(baseListAll, primeNum);
+      const rows = compute(baseList, primeNum, appState.view);
+
+      renderTable(rows, primeNum);
+      buildGlobalChart(baseList, appState.view);
+      renderAnalytics(rows, primeNum, appState.view);
+      writeParamsToURL(appState);
+
+      if (rows.length) {
+        let idToSelect = selectedId;
+        if (idToSelect == null || !rows.some(r => r.id === idToSelect)) idToSelect = rows[0].id;
+        selectRowById(idToSelect, rows, primeNum);
+      } else {
+        selectedId = null;
+        highlightDataset(null);
+        updateProfile(null, null, primeNum);
+      }
+    }
+
+    function bindEvents() {
+      dom.inputSearch.addEventListener("input", e => { appState.q = e.target.value; apply(); });
+      dom.promoSelect.addEventListener("change", e => { appState.promo = e.target.value; apply(); });
+      dom.primeSelect.addEventListener("change", e => { appState.prime = e.target.value; apply(); });
+      
+      dom.sortBtn.addEventListener("click", () => { 
+          if (appState.sort === "avg") appState.sort = "off";
+          else if (appState.sort === "off") appState.sort = "name";
+          else appState.sort = "avg";
+          
+          updateSortUI();
+          apply(); 
+      });
+
+      if (dom.toggleElimBtn) {
+        dom.toggleElimBtn.addEventListener("click", () => {
+          appState.hideElim = !appState.hideElim;
+          updateHideElimUI();
+          try{ localStorage.setItem("staracHideElim", appState.hideElim ? "1" : "0"); }catch(e){}
+          apply();
+        });
+      }
+
+      dom.shareBtn.addEventListener("click", async () => {
+        const url = location.href;
+        try { await navigator.clipboard.writeText(url); alert("Lien copié !"); } catch { prompt("Copie le lien :", url); }
+      });
+      
+      dom.tabs.forEach(btn => {
+        btn.addEventListener("click", () => {
+          appState.view = btn.dataset.view;
+          setActiveTab(appState.view);
+          apply();
+        });
+      });
+      
+      dom.tbody.addEventListener("click", e => {
+        const tr = e.target.closest("tr");
+        if (!tr) return;
+        const baseListAll = getFilteredBaseList();
+        const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
+        const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
+        selectRowById(tr.dataset.id, rows, primeNum);
+      });
+
+      dom.advancedStatsBody.addEventListener("click", e => {
+        const tr = e.target.closest("tr");
+        if (!tr || !tr.dataset.id) return;
+        const baseListAll = getFilteredBaseList();
+        const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
+        const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
+        selectRowById(tr.dataset.id, rows, primeNum);
+      });
+
+      if (dom.themeToggle){
+        dom.themeToggle.addEventListener("click", () => {
+          const next = (document.body.dataset.theme || "dark") === "dark" ? "light" : "dark";
+          applyTheme(next);
+        });
+      }
+    }
+
+    function initApp() {
+      urlState = readParamsFromURL();
+      appState = {
+        ...urlState,
+        hideElim: (urlState.hideElim == null ? false : !!urlState.hideElim),
+        sort: (urlState.sort || "avg")
+      };
+
+      try{ applyTheme(localStorage.getItem("staracTheme") || "dark"); }catch(e){}
+      if (urlState.hideElim == null) {
+        try{ appState.hideElim = (localStorage.getItem("staracHideElim") === "1"); }catch(e){}
+      }
+      
+      updateHideElimUI();
+      updateSortUI();
+
+      if (appState.promo === "all" && !new URLSearchParams(location.search).has("promo")) {
+          if(eleves.some(e => e.promo === "2026")) appState.promo = "2026";
+      }
+
+      initPromosSelect();
+      dom.inputSearch.value = appState.q;
+      dom.primeSelect.value = appState.prime;
+      setActiveTab(appState.view);
+
+      bindEvents();
+      apply();
+    }
+
+    fetchAllData();
+  })();
+  </script>
+</body>
+</html>
