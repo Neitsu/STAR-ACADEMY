@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Star Academy — Classements & Statistiques</title>
+  <title>Star Academy — Ultimate Data Center</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     *{box-sizing:border-box}
@@ -14,24 +14,27 @@
       --text:#e5e7eb;
       --muted:#9ca3af;
       --accent:#ff007a;
-      --accent-soft:rgba(255,0,122,.12);
+      --accent-soft:rgba(255,0,122,.14);
       --accent-strong:#00d2ff;
       --danger:#ef4444;
       --gold:#facc15;
+      --silver:#cbd5e1;
+      --bronze:#fb923c;
       --up:#22c55e;
       --down:#f97316;
       --eq:#64748b;
       --card-radius:20px;
-      --shadow-soft:0 18px 40px rgba(15,23,42,.7)
+      --shadow-soft:0 18px 40px rgba(15,23,42,.75)
     }
 
     body[data-theme="light"]{
       --bg:#f3f4f6; --bg-soft:#ffffff; --bg-softer:#e5e7eb; --border:#d1d5db; --text:#111827; --muted:#6b7280;
-      --accent:#d6006b; --accent-soft:rgba(214,0,107,.1); --accent-strong:#009ca6;
-      --danger:#b91c1c; --gold:#ca8a04; --up:#16a34a; --down:#ea580c; --eq:#94a3b8;
+      --accent:#d6006b; --accent-soft:rgba(214,0,107,.1); --accent-strong:#008496;
+      --danger:#b91c1c; --gold:#ca8a04; --silver:#64748b; --bronze:#c2410c;
+      --up:#16a34a; --down:#ea580c; --eq:#94a3b8;
       background:radial-gradient(circle at top,#e5e7eb 0,#f9fafb 55%,#e5e7eb 100%); color:var(--text);
     }
-    body[data-theme="light"] .card{ background:linear-gradient(180deg,#ffffff,#f3f4f6); border-color:var(--border); box-shadow:0 12px 25px rgba(148,163,184,.4); }
+    body[data-theme="light"] .card{ background:linear-gradient(180deg,#ffffff,#f3f4f6); border-color:var(--border); box-shadow:0 12px 25px rgba(148,163,184,.35); }
     body[data-theme="light"] .table-wrapper{ background:#ffffff; border-color:var(--border); }
     body[data-theme="light"] thead{ background:linear-gradient(90deg,#e5e7eb,#f3f4f6); }
     body[data-theme="light"] tbody tr{ background:#ffffff; }
@@ -42,120 +45,246 @@
     body[data-theme="light"] .kpi-card,
     body[data-theme="light"] .comment-item,
     body[data-theme="light"] .mini-stat-box,
-    body[data-theme="light"] .source-bar-row {
+    body[data-theme="light"] .source-bar-row,
+    body[data-theme="light"] .podium-spot,
+    body[data-theme="light"] .duel-box {
       background:#ffffff;
       border-color:#d1d5db;
     }
 
-    body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif; background:radial-gradient(circle at top,#1d2537 0,#020617 55%,#000 100%); color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased }
-    main{padding:24px 16px 60px}
-    .container{max-width:1400px;margin:0 auto;padding:20px}
-    .logo{ font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:.9rem; color:var(--muted); display:flex; align-items:center; gap:10px }
-    .logo span{ display:inline-flex; padding:4px 10px; border-radius:999px; background:linear-gradient(120deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff); color:#fff; font-size:.75rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow:0 12px 30px rgba(255,0,122,.5) }
-    h1{ margin:.4rem 0 0; font-size:1.9rem; letter-spacing:.04em; text-transform:uppercase }
-    .subtitle{ margin-top:.4rem; font-size:.9rem; color:var(--muted) }
-    .grid{ display:grid; grid-template-columns:2.4fr 1.8fr; gap:24px; margin-top:24px }
-    @media(max-width:900px){ .grid{grid-template-columns:1fr} }
-    .card{ background:radial-gradient(circle at top left,#1f2937 0,rgba(15,23,42,.9) 55%,#020617 100%); border-radius:var(--card-radius); border:1px solid rgba(148,163,184,.35); box-shadow:var(--shadow-soft); padding:18px 18px 16px; position:relative; overflow:hidden }
-    .card::before{ content:""; position:absolute; inset:-40%; background:radial-gradient(circle at 0 0,rgba(255,0,122,.08),transparent 55%); opacity:.7; pointer-events:none }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,0,122,.14) 0%, transparent 40%),
+        radial-gradient(circle at 85% 5%, rgba(0,210,255,.12) 0%, transparent 40%),
+        radial-gradient(circle at top,#1d2537 0,#020617 55%,#000 100%);
+      color:var(--text);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased
+    }
+    main{padding:20px 16px 60px}
+    .container{max-width:1440px;margin:0 auto;padding:14px 20px}
+    
+    /* HEADER */
+    .top-header{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+    }
+    .logo{ font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:.85rem; color:var(--muted); display:flex; align-items:center; gap:10px }
+    .logo span{ display:inline-flex; padding:4px 12px; border-radius:999px; background:linear-gradient(120deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff); color:#fff; font-size:.75rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow:0 8px 25px rgba(255,0,122,.5) }
+    h1{ margin:.35rem 0 0; font-size:2rem; letter-spacing:.04em; text-transform:uppercase; background:linear-gradient(90deg, #fff, #cbd5e1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    body[data-theme="light"] h1{ background:linear-gradient(90deg, #111827, #4b5563); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    
+    .grid{ display:grid; grid-template-columns:2.35fr 1.65fr; gap:24px; margin-top:16px }
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
+    
+    .card{ background:radial-gradient(circle at top left,#1f2937 0,rgba(15,23,42,.92) 55%,#020617 100%); border-radius:var(--card-radius); border:1px solid rgba(148,163,184,.3); box-shadow:var(--shadow-soft); padding:18px; position:relative; overflow:hidden }
+    .card::before{ content:""; position:absolute; inset:-40%; background:radial-gradient(circle at 0 0,rgba(255,0,122,.07),transparent 55%); opacity:.7; pointer-events:none }
     .card>div,.card>header{position:relative;z-index:1}
-    .card header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:12px }
-    .card-title{ font-size:.95rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#e5e7eb }
+    .card header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:12px; flex-wrap:wrap }
+    .card-title{ font-size:.95rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#e5e7eb }
     body[data-theme="light"] .card-title{color:#111827;}
-    .card-subtitle{ font-size:.8rem; color:var(--muted) }
-    .pill{ font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; padding:4px 8px; border-radius:999px; background:rgba(15,23,42,.85); border:1px solid rgba(148,163,184,.5); display:inline-flex; align-items:center; gap:4px; color:#e5e7eb }
+    .card-subtitle{ font-size:.78rem; color:var(--muted); margin-top:2px }
+    
+    .pill{ font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; padding:4px 10px; border-radius:999px; background:rgba(15,23,42,.85); border:1px solid rgba(148,163,184,.4); display:inline-flex; align-items:center; gap:6px; color:#e5e7eb }
     body[data-theme="light"] .pill{ background:#e5e7eb; color:#111827; border-color:#cbd5f5; }
-    .pill span.dot{ width:7px; height:7px; border-radius:999px; background:radial-gradient(circle at 30% 30%,#22c55e 0,#16a34a 40%,#0f766e 100%); box-shadow:0 0 10px rgba(34,197,94,.7) }
-    .toolbar{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:8px }
-    .toolbar-left{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-    .toolbar-right{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
-    .field{ position:relative; display:flex; align-items:center; border-radius:999px; background:rgba(15,23,42,.9); border:1px solid rgba(55,65,81,.9); padding:0 10px; min-height:32px; font-size:.8rem; color:var(--muted); gap:6px }
-    body[data-theme="light"] .field{ background:#f9fafb; border-color:#d1d5db; color:#6b7280; }
-    .field input,.field select{ background:transparent; border:none; outline:none; color:inherit; font:inherit }
-    .btn{ border-radius:999px; border:1px solid rgba(148,163,184,.7); background:rgba(15,23,42,.9); color:#e5e7eb; padding:6px 12px; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.12em; display:inline-flex; align-items:center; gap:6px; cursor:pointer; transition:background .15s ease,border-color .15s ease,transform .1s ease }
+    .pill span.dot{ width:7px; height:7px; border-radius:999px; background:#22c55e; box-shadow:0 0 10px #22c55e }
+
+    /* ===================================================================
+     * PODIUM TOP 3 (STYLE PRODUCE CAMP / SURVIVAL)
+     * =================================================================== */
+    .podium-banner{
+      display:grid;
+      grid-template-columns:1fr 1.15fr 1fr;
+      gap:12px;
+      margin-bottom:16px;
+      align-items:flex-end;
+    }
+    @media(max-width:640px){ .podium-banner{ grid-template-columns:1fr; } }
+    .podium-spot{
+      background:rgba(15,23,42,.75);
+      border:1px solid rgba(148,163,184,.25);
+      border-radius:16px;
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease;
+      position:relative;
+    }
+    .podium-spot:hover{ transform:translateY(-2px); border-color:var(--accent); }
+    .podium-spot.spot-1{
+      background:linear-gradient(135deg, rgba(250,204,21,.16), rgba(255,0,122,.12), rgba(15,23,42,.9));
+      border-color:rgba(250,204,21,.6);
+      padding:13px 14px;
+      box-shadow:0 10px 25px rgba(250,204,21,.12);
+    }
+    .podium-spot.spot-2{ border-color:rgba(203,213,225,.45); }
+    .podium-spot.spot-3{ border-color:rgba(251,146,60,.45); }
+    .podium-avatar-wrap{ position:relative; flex-shrink:0; }
+    .podium-avatar{
+      width:44px; height:44px; border-radius:999px; object-fit:cover;
+      border:2px solid var(--muted);
+    }
+    .spot-1 .podium-avatar{ width:52px; height:52px; border-color:var(--gold); box-shadow:0 0 14px rgba(250,204,21,.45); }
+    .spot-2 .podium-avatar{ border-color:var(--silver); }
+    .spot-3 .podium-avatar{ border-color:var(--bronze); }
+    .podium-rank-badge{
+      position:absolute; bottom:-4px; right:-4px;
+      width:20px; height:20px; border-radius:999px;
+      font-size:.68rem; font-weight:800;
+      display:flex; align-items:center; justify-content:center;
+      background:#0f172a; color:#fff; border:1px solid rgba(255,255,255,.3);
+    }
+    .spot-1 .podium-rank-badge{ background:var(--gold); color:#000; }
+    .spot-2 .podium-rank-badge{ background:var(--silver); color:#000; }
+    .spot-3 .podium-rank-badge{ background:var(--bronze); color:#000; }
+    .podium-info{ min-width:0; flex:1; }
+    .podium-name{ font-weight:700; font-size:.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .spot-1 .podium-name{ font-size:.96rem; color:var(--gold); }
+    body[data-theme="light"] .spot-1 .podium-name{ color:#b45309; }
+    .podium-meta{ font-size:.72rem; color:var(--muted); margin-top:2px; display:flex; align-items:center; gap:6px; }
+
+    /* TOOLBAR */
+    .toolbar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px }
+    .toolbar-left{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .toolbar-right{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+    .field{ position:relative; display:flex; align-items:center; border-radius:999px; background:rgba(15,23,42,.9); border:1px solid rgba(55,65,81,.9); padding:0 12px; min-height:32px; font-size:.78rem; color:var(--text); gap:6px }
+    body[data-theme="light"] .field{ background:#f9fafb; border-color:#d1d5db; color:#111827; }
+    .field input,.field select{ background:transparent; border:none; outline:none; color:inherit; font:inherit; cursor:pointer }
+    .field input{ cursor:text; }
+    .field select option{ background:#0f172a; color:#e5e7eb; }
+    body[data-theme="light"] .field select option{ background:#ffffff; color:#111827; }
+
+    .btn{ border-radius:999px; border:1px solid rgba(148,163,184,.5); background:rgba(15,23,42,.9); color:#e5e7eb; padding:5px 11px; font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.09em; display:inline-flex; align-items:center; gap:5px; cursor:pointer; transition:all .15s ease }
     .btn-ghost{background:transparent;border-color:rgba(51,65,85,.9);color:var(--muted)}
-    .btn-primary{ background:linear-gradient(135deg, #ff007a, #ff8a00); border-color:rgba(255,138,0,.9); color:#fff; box-shadow:0 10px 25px rgba(255,0,122,.4) }
-    .btn:hover{transform:translateY(-1px);border-color:#e5e7eb}
-    .btn-primary:hover{background:linear-gradient(135deg, #ff3399, #ff9900)}
+    .btn-ghost.active-toggle{ background:rgba(0,210,255,.15); border-color:var(--accent-strong); color:#fff; }
+    body[data-theme="light"] .btn-ghost.active-toggle{ background:#e0f2fe; border-color:#0284c7; color:#0369a1; }
+    .btn-primary{ background:linear-gradient(135deg, #ff007a, #ff8a00); border-color:rgba(255,138,0,.9); color:#fff; box-shadow:0 8px 20px rgba(255,0,122,.35) }
+    .btn:hover{transform:translateY(-1px);border-color:#e5e7eb;color:#fff}
     body[data-theme="light"] .btn-ghost{ border-color:#d1d5db; color:#4b5563; }
-    body[data-theme="light"] .btn-primary{ background:linear-gradient(135deg, #d6006b, #e65c00); color:#f9fafb; }
+    body[data-theme="light"] .btn-ghost:hover{ border-color:#111827; color:#111827; }
+
     .seg{ display:inline-flex; background:rgba(15,23,42,.9); border-radius:999px; border:1px solid rgba(55,65,81,.9); padding:2px }
-    .seg button{ border:none; background:transparent; color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.12em; padding:4px 9px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; min-width:0 }
-    .seg button.active{ background:var(--accent-soft); color:#e5e7eb; border: 1px solid rgba(255,0,122,0.3); }
+    .seg button{ border:none; background:transparent; color:var(--muted); font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.09em; padding:4px 9px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all .12s ease }
+    .seg button.active{ background:var(--accent-soft); color:#fff; border: 1px solid rgba(255,0,122,0.45); box-shadow:0 0 12px rgba(255,0,122,.25); }
     body[data-theme="light"] .seg{ background:#f3f4f6; border-color:#d1d5db; }
-    body[data-theme="light"] .seg button.active{ background:#e5e7eb; color:#111827; border-color:#d1d5db; }
-    .table-wrapper{ margin-top:10px; border-radius:16px; border:1px solid rgba(31,41,55,.95); background:radial-gradient(circle at top,#020617 0,#020617 50%,#000 100%); overflow-x:auto; overflow-y:hidden; }
-    table{ width:100%; border-collapse:collapse; font-size:.8rem; min-width:1800px; }
+    body[data-theme="light"] .seg button.active{ background:#ffffff; color:#d6006b; border-color:#f43f5e; }
+
+    /* TABLEAU PRINCIPAL */
+    .table-wrapper{ margin-top:8px; border-radius:16px; border:1px solid rgba(31,41,55,.95); background:radial-gradient(circle at top,#020617 0,#020617 50%,#000 100%); overflow-x:auto; overflow-y:hidden; }
+    table{ width:100%; border-collapse:collapse; font-size:.8rem; min-width:1750px; }
     
     thead{ position:relative; background: #0b1220; }
-    thead th{ text-align:left; font-weight:500; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,.95); color:var(--muted); text-transform:uppercase; letter-spacing:.12em; font-size:.68rem; white-space:nowrap }
+    thead th{ text-align:left; font-weight:600; padding:9px 10px; border-bottom:1px solid rgba(55,65,81,.95); color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-size:.68rem; white-space:nowrap; user-select:none; }
     thead th.num{ text-align:center; }
+    thead th.sortable{ cursor:pointer; transition:color .15s ease; }
+    thead th.sortable:hover{ color:#fff; }
+    body[data-theme="light"] thead th.sortable:hover{ color:#000; }
     
-    th.sticky-col, td.name.sticky-col { width:220px; min-width:220px; max-width:220px; }
+    th.sticky-col, td.name.sticky-col { width:235px; min-width:235px; max-width:235px; }
     th.sticky-rank, th.sticky-col { position:sticky; z-index:5; background: #0b1220; }
-    th.sticky-rank { left:0; }
-    th.sticky-col { left:50px; }
+    th.sticky-rank { left:0; width:52px; min-width:52px; text-align:center; }
+    th.sticky-col { left:52px; }
     body[data-theme="light"] th.sticky-rank, body[data-theme="light"] th.sticky-col { background: #e5e7eb; }
 
-    tbody tr{ border-bottom:1px solid rgba(31,41,55,.85); background: #0f172a; cursor:pointer; transition:background .12s ease,transform .06s ease }
+    tbody tr{ border-bottom:1px solid rgba(31,41,55,.85); background: #0f172a; cursor:pointer; transition:background .12s ease }
     tbody tr:nth-child(2n){ background: #111827; }
     tbody tr:hover{ background: #1e1b4b; }
-    tbody tr.selected{ background: linear-gradient(90deg, rgba(255,0,122,.2), rgba(0,210,255,.15)), #0f172a; transform:translateY(-1px) }
-    tbody tr.row-elim{ opacity:0.75; }
+    tbody tr.selected{ background: linear-gradient(90deg, rgba(255,0,122,.22), rgba(0,210,255,.16)), #0f172a; }
+    tbody tr.duel-selected{ background: linear-gradient(90deg, rgba(0,210,255,.22), rgba(15,23,42,.9)), #0f172a; }
+    tbody tr.row-elim{ opacity:0.72; }
     tbody td{ padding:7px 10px; vertical-align:middle }
     
-    td.rank.sticky-rank{ position:sticky; left:0; z-index:4; }
-    td.name.sticky-col{ position:sticky; left:50px; z-index:4; box-shadow:8px 0 12px rgba(15,23,42,.9); }
+    td.rank.sticky-rank{ position:sticky; left:0; z-index:4; width:52px; min-width:52px; }
+    td.name.sticky-col{ position:sticky; left:52px; z-index:4; box-shadow:8px 0 12px rgba(2,6,23,.85); }
     body[data-theme="light"] td.name.sticky-col{ box-shadow:8px 0 12px rgba(209,213,219,.9); }
     
     tbody tr td.rank.sticky-rank, tbody tr td.name.sticky-col { background: #0f172a; }
     tbody tr:nth-child(2n) td.rank.sticky-rank, tbody tr:nth-child(2n) td.name.sticky-col { background: #111827; }
     tbody tr:hover td.rank.sticky-rank, tbody tr:hover td.name.sticky-col { background: #1e1b4b; }
     tbody tr.selected td.rank.sticky-rank, tbody tr.selected td.name.sticky-col { background: #2d1b4e; }
+    tbody tr.duel-selected td.rank.sticky-rank, tbody tr.duel-selected td.name.sticky-col { background: #0f2942; }
 
     body[data-theme="light"] tbody tr td.rank.sticky-rank, body[data-theme="light"] tbody tr td.name.sticky-col { background: #ffffff; }
     body[data-theme="light"] tbody tr:nth-child(2n) td.rank.sticky-rank, body[data-theme="light"] tbody tr:nth-child(2n) td.name.sticky-col { background: #f9fafb; }
     body[data-theme="light"] tbody tr:hover td.rank.sticky-rank, body[data-theme="light"] tbody tr:hover td.name.sticky-col { background: #fce7f3; }
     body[data-theme="light"] tbody tr.selected td.rank.sticky-rank, body[data-theme="light"] tbody tr.selected td.name.sticky-col { background: #ffe4e6; }
     
-    td.rank{ width:50px; font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums; text-align:center; }
-    td.num{ text-align:center; font-variant-numeric:tabular-nums; }
-    td.name{ display:flex; align-items:center; gap:8px; font-weight:500; white-space:nowrap; overflow:hidden; }
+    td.rank{ font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; text-align:center; }
+    td.num{ text-align:center; font-variant-numeric:tabular-nums; border-radius:6px; }
+    td.name{ display:flex; align-items:center; gap:8px; font-weight:600; white-space:nowrap; overflow:hidden; }
     .student-name-txt{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     
-    .avatar{ width:26px; height:26px; flex-shrink:0; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 6px 16px rgba(15,23,42,.8); transition: filter 0.3s ease; }
-    .avatar.elim { filter: grayscale(100%); border-color: rgba(248,113,113,.5); opacity: 0.8; }
-    .avatar.winner { border-color: var(--gold); box-shadow:0 0 15px rgba(250,204,21,.5); }
+    .avatar{ width:27px; height:27px; flex-shrink:0; border-radius:999px; object-fit:cover; border:1px solid rgba(148,163,184,.75); box-shadow:0 4px 12px rgba(0,0,0,.6); transition: filter 0.3s ease; }
+    .avatar.elim { filter: grayscale(100%); border-color: rgba(248,113,113,.5); opacity: 0.75; }
+    .avatar.winner { border: 2px solid var(--gold); box-shadow:0 0 12px rgba(250,204,21,.6); }
     
     .delta{
       font-variant-numeric:tabular-nums;
       white-space:nowrap;
-      font-size:.72rem;
+      font-size:.68rem;
       font-weight:700;
       margin-left:auto;
       flex-shrink:0;
       padding:2px 6px;
       border-radius:999px;
-      background:rgba(255,255,255,.04);
+      background:rgba(255,255,255,.05);
     }
-    .delta.up{ color:var(--up); background:rgba(34,197,94,.12); }
-    .delta.down{ color:var(--down); background:rgba(249,115,22,.14); }
+    .delta.up{ color:var(--up); background:rgba(34,197,94,.14); }
+    .delta.down{ color:var(--down); background:rgba(249,115,22,.15); }
     .delta.eq{ color:var(--eq); }
+    .delta.off-badge{ color:var(--gold); background:rgba(250,204,21,.15); border:1px solid rgba(250,204,21,.35); }
 
-    .mini{ margin-top:14px; font-size:.75rem; color:var(--muted); line-height:1.4 }
+    /* HEATMAP CELLS */
+    table.heatmap-on td.hm-1{ background:rgba(250,204,21,.22); color:#fde047; font-weight:800; }
+    table.heatmap-on td.hm-top3{ background:rgba(0,210,255,.14); color:#67e8f9; font-weight:700; }
+    table.heatmap-on td.hm-top5{ background:rgba(168,85,247,.12); color:#d8b4fe; }
+    table.heatmap-on td.hm-low{ background:rgba(239,68,68,.13); color:#fca5a5; }
+    body[data-theme="light"] table.heatmap-on td.hm-1{ background:#fef08a; color:#854d0e; }
+    body[data-theme="light"] table.heatmap-on td.hm-top3{ background:#cffafe; color:#0e7490; }
+    body[data-theme="light"] table.heatmap-on td.hm-top5{ background:#f3e8ff; color:#6b21a8; }
+    body[data-theme="light"] table.heatmap-on td.hm-low{ background:#fee2e2; color:#991b1b; }
+
+    /* PROFIL & COURBE + DUEL */
     .profile{ display:flex; flex-direction:column; gap:12px }
-    .profile-main{ display:flex; gap:12px; align-items:center }
-    .profile-pic-wrap{ position:relative; width:88px; height:88px; flex-shrink:0; border-radius:24px; padding:2px; background:conic-gradient(from 210deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff, #ff007a); box-shadow:0 18px 45px rgba(15,23,42,.9) }
+    .profile-main{ display:flex; gap:14px; align-items:center }
+    .profile-pic-wrap{ position:relative; width:86px; height:86px; flex-shrink:0; border-radius:24px; padding:2px; background:conic-gradient(from 210deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff, #ff007a); box-shadow:0 14px 35px rgba(15,23,42,.9) }
     .profile-pic-inner{ position:relative; width:100%; height:100%; border-radius:inherit; overflow:hidden; background:radial-gradient(circle at top,#1f2937,#020617) }
     .profile-pic-inner img{ width:100%; height:100%; object-fit:cover }
-    .profile-text h2{ margin:0; font-size:1.1rem; letter-spacing:.04em; text-transform:uppercase }
+    .profile-text h2{ margin:0; font-size:1.15rem; letter-spacing:.04em; text-transform:uppercase }
     .profile-text p{ margin:2px 0 0; color:var(--muted); font-size:.8rem }
-    .badge-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px }
-    .badge{ font-size:.7rem; padding:3px 7px; border-radius:999px; border:1px solid rgba(55,65,81,.9); background:rgba(15,23,42,.9); color:var(--muted) }
+    .badge-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:5px }
+    .badge{ font-size:.68rem; padding:3px 8px; border-radius:999px; border:1px solid rgba(55,65,81,.9); background:rgba(15,23,42,.9); color:var(--muted); font-weight:600 }
     .badge.gold{ border-color:rgba(250,204,21,.7); color:var(--gold); background:rgba(23,37,84,.9) }
     body[data-theme="light"] .badge{ background:#f3f4f6; border-color:#d1d5db; color:#4b5563; }
     body[data-theme="light"] .badge.gold{ background:#fef3c7; border-color:#fbbf24; color:#92400e; }
-    .chart-wrap{ margin-top:6px; border-radius:16px; border:1px solid rgba(31,41,55,.9); background:radial-gradient(circle at top,#020617,#000); padding:10px; height:260px; position:relative }
+    
+    .chart-controls{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-top:2px;
+    }
+    .duel-box{
+      background:rgba(15,23,42,.75);
+      border:1px solid rgba(0,210,255,.35);
+      border-radius:12px;
+      padding:8px 12px;
+      font-size:.78rem;
+      display:none;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .chart-wrap{ border-radius:16px; border:1px solid rgba(31,41,55,.9); background:radial-gradient(circle at top,#020617,#000); padding:10px; height:265px; position:relative }
     .chart-wrap::before{ content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 0,rgba(255,0,122,.15),transparent 55%); opacity:.7; pointer-events:none }
     .chart-wrap>canvas{position:relative;z-index:1}
     .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
@@ -165,10 +294,10 @@
      * CENTRE D'ANALYSE, COMMENTAIRES & STATISTIQUES
      * =================================================================== */
     .analytics-section{
-      margin-top:36px;
+      margin-top:32px;
       display:flex;
       flex-direction:column;
-      gap:24px;
+      gap:22px;
     }
     .section-banner{
       display:flex;
@@ -180,7 +309,7 @@
     }
     .section-banner h2{
       margin:0;
-      font-size:1.35rem;
+      font-size:1.3rem;
       letter-spacing:.06em;
       text-transform:uppercase;
       display:flex;
@@ -190,7 +319,7 @@
     .kpi-grid{
       display:grid;
       grid-template-columns:repeat(6, 1fr);
-      gap:14px;
+      gap:12px;
     }
     @media(max-width:1200px){ .kpi-grid{ grid-template-columns:repeat(3, 1fr); } }
     @media(max-width:700px){ .kpi-grid{ grid-template-columns:repeat(2, 1fr); } }
@@ -199,7 +328,7 @@
       background:rgba(15,23,42,.85);
       border:1px solid rgba(148,163,184,.28);
       border-radius:16px;
-      padding:14px;
+      padding:13px;
       display:flex;
       flex-direction:column;
       gap:8px;
@@ -207,11 +336,11 @@
       overflow:hidden;
     }
     .kpi-label{
-      font-size:.68rem;
+      font-size:.66rem;
       text-transform:uppercase;
       letter-spacing:.1em;
       color:var(--muted);
-      font-weight:600;
+      font-weight:700;
     }
     .kpi-main{
       display:flex;
@@ -227,12 +356,12 @@
       flex-shrink:0;
     }
     .kpi-val{
-      font-size:1rem;
+      font-size:.95rem;
       font-weight:700;
       line-height:1.2;
     }
     .kpi-sub{
-      font-size:.74rem;
+      font-size:.72rem;
       color:var(--muted);
       line-height:1.3;
     }
@@ -247,15 +376,15 @@
     .comments-list{
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:11px;
     }
     .comment-item{
       background:rgba(15,23,42,.75);
       border:1px solid rgba(148,163,184,.22);
       border-left:4px solid var(--accent);
       border-radius:14px;
-      padding:12px 14px;
-      font-size:.84rem;
+      padding:11px 14px;
+      font-size:.83rem;
       line-height:1.5;
     }
     .comment-item.up{ border-left-color:var(--up); }
@@ -273,24 +402,20 @@
     body[data-theme="light"] .comment-item strong{ color:#111827; }
     .comment-tag{
       display:inline-block;
-      font-size:.66rem;
+      font-size:.65rem;
       font-weight:700;
       text-transform:uppercase;
       letter-spacing:.1em;
       margin-bottom:4px;
       color:var(--muted);
     }
-    .comment-item.danger .comment-tag{
-      color:#fca5a5;
-    }
-    body[data-theme="light"] .comment-item.danger .comment-tag{
-      color:var(--danger);
-    }
+    .comment-item.danger .comment-tag{ color:#fca5a5; }
+    body[data-theme="light"] .comment-item.danger .comment-tag{ color:var(--danger); }
 
     .student-focus-box{
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:13px;
     }
     .mini-stats-grid{
       display:grid;
@@ -305,13 +430,13 @@
       text-align:center;
     }
     .mini-stat-box .lbl{
-      font-size:.66rem;
+      font-size:.65rem;
       text-transform:uppercase;
       letter-spacing:.08em;
       color:var(--muted);
     }
     .mini-stat-box .val{
-      font-size:1.05rem;
+      font-size:1rem;
       font-weight:700;
       margin-top:4px;
     }
@@ -332,7 +457,7 @@
     .source-bar-top{
       display:flex;
       justify-content:space-between;
-      font-size:.76rem;
+      font-size:.75rem;
       font-weight:600;
     }
     .source-bar-track{
@@ -351,7 +476,7 @@
 
     /* Tableau stats avancées */
     .stats-table{
-      min-width:1050px;
+      min-width:1100px;
       width:100%;
       border-collapse:collapse;
       font-size:.8rem;
@@ -370,59 +495,79 @@
 </head>
 <body data-theme="dark">
   <main>
-    <header class="container">
-      <div class="logo">
-        <span>Star Academy</span>
-        Dashboard primes
+    <header class="container top-header">
+      <div>
+        <div class="logo">
+          <span>Star Academy</span>
+          Ultimate Data Center
+        </div>
+        <h1>Classements & Statistiques</h1>
       </div>
-      <h1>Classements croisés</h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="refreshBtn" class="btn btn-ghost" type="button" title="Forcer la relecture immédiate du Google Sheets">🔄 Sync Sheets</button>
+        <button id="heatmapBtn" class="btn btn-ghost active-toggle" type="button">🎨 Heatmap</button>
+        <button id="toggleElimBtn" class="btn btn-ghost" type="button">Masquer éliminés</button>
+        <button id="share" class="btn btn-primary" type="button">🔗 Copier le lien</button>
+        <button id="themeToggle" class="btn btn-ghost" type="button">☀️ Mode clair</button>
+      </div>
     </header>
 
     <div class="container">
       <div class="grid">
+        <!-- COLONNE GAUCHE : PODIUM + TABLEAU -->
         <div class="card">
           <header>
             <div>
-              <div class="card-title">Top élèves</div>
-              <div class="card-subtitle">Filtre par prime, source et promo. Données en direct via Google Sheets.</div>
+              <div class="card-title">Pyramide & Top Élèves</div>
+              <div class="card-subtitle">Filtre par saison, prime, source et mode de classement.</div>
             </div>
             <div class="pill">
               <span class="dot"></span>
-              Live ranking
+              <span id="liveStatusText">Live Google Sheets</span>
             </div>
           </header>
 
+          <!-- PODIUM TOP 3 -->
+          <div class="podium-banner" id="podiumBanner"></div>
+
+          <!-- BARRE D'OUTILS -->
           <div class="toolbar">
             <div class="toolbar-left">
-              <div class="field" style="min-width:190px">
-                <input id="q" type="search" placeholder="Rechercher un·e élève…" />
+              <div class="field" style="min-width:165px">
+                <span>🔍</span>
+                <input id="q" type="search" placeholder="Élève…" />
               </div>
 
-              <label class="sr" for="promo">Promo</label>
-              <select id="promo" aria-label="Filtrer par promo"></select>
+              <div class="field">
+                <label class="sr" for="promo">Promo</label>
+                <select id="promo" aria-label="Filtrer par promo"></select>
+              </div>
 
-              <label class="sr" for="prime">Prime</label>
-              <select id="prime" aria-label="Prime active">
-                <option value="auto" id="autoPrimeOpt">Auto (dernière)</option>
-                <option value="0">Prime 0</option>
-                <option value="1">Prime 1</option>
-                <option value="2">Prime 2</option>
-                <option value="3">Prime 3</option>
-                <option value="4">Prime 4</option>
-                <option value="5">Prime 5</option>
-                <option value="6">Prime 6</option>
-                <option value="7">Prime 7</option>
-                <option value="8">Prime 8</option>
-                <option value="9">Prime 9</option>
-                <option value="10">Prime 10</option>
-                <option value="11">Prime 11</option>
-                <option value="12">Prime 12</option>
-                <option value="13">Prime 13</option>
-                <option value="14">Prime 14</option>
-                <option value="15">Prime 15</option>
-                <option value="16">Prime 16</option>
-              </select>
+              <div class="field">
+                <label class="sr" for="prime">Prime</label>
+                <select id="prime" aria-label="Prime active">
+                  <option value="auto" id="autoPrimeOpt">Auto (dernière)</option>
+                  <option value="0">Prime 0</option>
+                  <option value="1">Prime 1</option>
+                  <option value="2">Prime 2</option>
+                  <option value="3">Prime 3</option>
+                  <option value="4">Prime 4</option>
+                  <option value="5">Prime 5</option>
+                  <option value="6">Prime 6</option>
+                  <option value="7">Prime 7</option>
+                  <option value="8">Prime 8</option>
+                  <option value="9">Prime 9</option>
+                  <option value="10">Prime 10</option>
+                  <option value="11">Prime 11</option>
+                  <option value="12">Prime 12</option>
+                  <option value="13">Prime 13</option>
+                  <option value="14">Prime 14</option>
+                  <option value="15">Prime 15</option>
+                  <option value="16">Prime 16</option>
+                </select>
+              </div>
 
+              <!-- CHOIX DE LA SOURCE -->
               <div class="seg" role="tablist" aria-label="Source du classement">
                 <button type="button" data-view="perso" role="tab" aria-selected="true" class="active">Perso</button>
                 <button type="button" data-view="profs" role="tab" aria-selected="false">Profs</button>
@@ -431,17 +576,19 @@
               </div>
             </div>
 
+            <!-- CHOIX DU TRI DIRECT (MOYENNE / OFFICIEL / A-Z) -->
             <div class="toolbar-right">
-              <button id="sortBtn" class="btn btn-ghost" style="width:145px; justify-content:center;" type="button">Trier : Moyenne</button>
-              <button id="toggleElimBtn" class="btn btn-ghost" type="button">Masquer éliminés</button>
-              <button id="share" class="btn btn-primary" type="button">Copier le lien</button>
-              <button id="themeToggle" class="btn btn-ghost" type="button">Mode clair</button>
+              <div class="seg" role="tablist" aria-label="Mode de tri">
+                <button type="button" data-sort="avg" class="sort-tab active">📊 Moyenne</button>
+                <button type="button" data-sort="off" class="sort-tab">🏆 Officiel</button>
+                <button type="button" data-sort="name" class="sort-tab">🔤 A-Z</button>
+              </div>
             </div>
           </div>
 
           <div class="table-wrapper">
             <div id="loading-msg">Chargement des données depuis Google Sheets...</div>
-            <table id="top" style="display:none;">
+            <table id="top" class="heatmap-on" style="display:none;">
               <thead>
                 <tr>
                   <th class="sticky-rank">#</th>
@@ -471,11 +618,12 @@
           </div>
         </div>
 
+        <!-- COLONNE DROITE : FICHE ÉLÈVE, DUEL & COURBE -->
         <div class="card">
           <header>
             <div>
-              <div class="card-title">Fiche élève & courbe</div>
-              <div class="card-subtitle">Clique sur un·e élève pour voir sa trajectoire.</div>
+              <div class="card-title">Fiche Élève, Courbe & Duel 1v1</div>
+              <div class="card-subtitle">Clique sur un·e élève ou compare deux trajectoires.</div>
             </div>
           </header>
 
@@ -492,12 +640,32 @@
                 <div class="badge-row">
                   <span class="badge gold" id="activePrimeBadge">Prime active</span>
                   <span class="badge" id="activeViewBadge">Vue : Perso</span>
+                  <span class="badge" id="officialRankBadge" style="display:none;"></span>
                 </div>
-                <p id="infoExtra" style="margin-top:6px;font-size:.8rem;color:var(--muted);max-width:290px;">
-                  Rang, moyenne et statut d'élimination s'afficheront ici.
+                <p id="infoExtra" style="margin-top:6px;font-size:.8rem;color:var(--muted);max-width:320px;">
+                  Rang, moyenne et statut s'afficheront ici.
                 </p>
               </div>
             </div>
+
+            <!-- CONTRÔLES DU GRAPHIQUE & DUEL -->
+            <div class="chart-controls">
+              <div class="seg" aria-label="Mode du graphique">
+                <button type="button" data-chartmode="promo" class="chartmode-tab active">🌐 Vs Promo</button>
+                <button type="button" data-chartmode="multisource" class="chartmode-tab">🎯 Ses 4 Courbes</button>
+              </div>
+
+              <div class="field" id="duelFieldWrap">
+                <span>⚔️ Duel :</span>
+                <select id="duelSelect" aria-label="Comparer avec un autre élève">
+                  <option value="">Aucun adversaire</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- RÉSUMÉ DU DUEL 1V1 -->
+            <div class="duel-box" id="duelSummaryBox"></div>
+
             <div class="chart-wrap">
               <canvas id="chartLine"></canvas>
             </div>
@@ -534,7 +702,7 @@
           <div class="card">
             <header>
               <div>
-                <div class="card-title" id="focusCardTitle">🔍 Rapport Statistique Individuel</div>
+                <div class="card-title" id="focusCardTitle">🔍 Scouting Report Individuel</div>
                 <div class="card-subtitle">Analyse complète de l'élève sélectionné dans le tableau.</div>
               </div>
             </header>
@@ -542,29 +710,30 @@
           </div>
         </div>
 
-        <!-- TABLEAU PANORAMIQUE DES STATISTIQUES AVANCÉES -->
+        <!-- TABLEAU PANORAMIQUE DES STATISTIQUES AVANCÉES (TRIABLE) -->
         <div class="card">
           <header>
             <div>
-              <div class="card-title">📈 Bilan Statistique Complet & Profils des Académiciens</div>
-              <div class="card-subtitle">Comparaison croisée Perso / Profs / Popu, records, régularité (écart-type σ) et diagnostic automatique.</div>
+              <div class="card-title">📈 Bilan Statistique Complet & Profils (Clique sur une colonne pour trier)</div>
+              <div class="card-subtitle">Comparaison croisée Perso / Profs / Popu / Fusion, records, régularité (σ) et diagnostic automatique.</div>
             </div>
           </header>
           <div class="table-wrapper">
             <table class="stats-table">
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Élève</th>
-                  <th class="num">Moy. Perso</th>
-                  <th class="num">Moy. Profs</th>
-                  <th class="num">Moy. Popu</th>
-                  <th class="num">Moy. Fusion</th>
-                  <th class="num">Peak (Meilleur)</th>
-                  <th class="num">Low (Pire)</th>
-                  <th class="num">Top 1 / Top 3</th>
-                  <th class="num">Régularité (σ)</th>
-                  <th class="num">Évol. P0 ➔ Actuel</th>
+                <tr id="advTableHeadRow">
+                  <th class="sortable" data-advsort="rank">#</th>
+                  <th class="sortable" data-advsort="nom">Élève</th>
+                  <th class="num sortable" data-advsort="officialRank">Rang Officiel</th>
+                  <th class="num sortable" data-advsort="moyPerso">Moy. Perso</th>
+                  <th class="num sortable" data-advsort="moyProfs">Moy. Profs</th>
+                  <th class="num sortable" data-advsort="moyPop">Moy. Popu</th>
+                  <th class="num sortable" data-advsort="moyFusion">Moy. Fusion</th>
+                  <th class="num sortable" data-advsort="peak">Peak (Meilleur)</th>
+                  <th class="num sortable" data-advsort="low">Low (Pire)</th>
+                  <th class="num sortable" data-advsort="top3Count">Top 1 / Top 3</th>
+                  <th class="num sortable" data-advsort="sigma">Régularité (σ)</th>
+                  <th class="num sortable" data-advsort="netPrimeEvol">Évol. P0 ➔ Actuel</th>
                   <th>Profil & Diagnostic Auto</th>
                 </tr>
               </thead>
@@ -602,18 +771,28 @@
       }
     };
 
-    const OFFICIAL_RANKS_2025 = {
-      "Ambre": 1, "Lea": 2, "Victor": 3, "Sarah": 4, "Bastiaan": 5,
-      "Anouk": 6, "Théo P.": 7, "Melissa": 8, "Jeanne": 9, "Leo": 10,
-      "Lily": 11, "Théo L.": 12, "Léane": 13, "Ema": 14, "Noah": 15,
-      "Lenny": 16, "Mehdi": 17
-    };
+    // Normalisateur de prénom (ignore accents, espaces, points, majuscules)
+    function normKey(str) {
+      return String(str || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+    }
 
-    const OFFICIAL_RANKS_2024 = {
-      "Marine": 1, "Ebony": 2, "Franck": 3, "Charles": 4, "Ulysse": 5,
-      "Marguerite": 6, "Maïa": 7, "Maia": 7, "Maureen": 8, "Julie": 9,
-      "Masseo": 10, "Masséo": 10, "Emma": 11, "Noah": 12, "Thomas": 13,
-      "Paul": 14, "Maylis": 15
+    // Classements officiels normalisés (insensibles aux accents/points)
+    const OFFICIAL_RANKS_BY_PROMO = {
+      "2025": {
+        ambre: 1, lea: 2, victor: 3, sarah: 4, bastiaan: 5,
+        anouk: 6, theop: 7, melissa: 8, jeanne: 9, leo: 10,
+        lily: 11, theol: 12, leane: 13, ema: 14, noah: 15,
+        lenny: 16, mehdi: 17
+      },
+      "2024": {
+        marine: 1, ebony: 2, franck: 3, charles: 4, ulysse: 5,
+        marguerite: 6, maia: 7, maureen: 8, julie: 9, masseo: 10,
+        emma: 11, noah: 12, thomas: 13, paul: 14, maylis: 15
+      }
     };
 
     const VIEW_NAMES = {
@@ -628,10 +807,14 @@
     
     let eleves = [];
 
-    async function fetchAllData() {
+    async function fetchAllData(isManualRefresh = false) {
       const elevesMap = new Map();
       const fetchPromises = [];
       let hasConfiguredLinks = false;
+
+      if (isManualRefresh && dom.liveStatusText) {
+        dom.liveStatusText.textContent = "Synchronisation...";
+      }
 
       for (const promo in SHEET_URLS) {
         for (const source in SHEET_URLS[promo]) {
@@ -640,7 +823,7 @@
           if (url && url.includes("docs.google.com")) {
              hasConfiguredLinks = true;
              fetchPromises.push(
-               fetch(url)
+               fetch(url, { cache: "no-store" })
                  .then(res => res.ok ? res.text() : "")
                  .then(text => parseCSV(text, promo, source, elevesMap))
                  .catch(e => console.warn(`Erreur de chargement pour ${promo} ${source}`, e))
@@ -660,10 +843,21 @@
         document.getElementById("loading-msg").style.display = "none";
         document.getElementById("top").style.display = "table";
         document.getElementById("analyticsSection").style.display = "flex";
-        initApp();
+        if (dom.liveStatusText) {
+          dom.liveStatusText.textContent = isManualRefresh ? "Mis à jour ✓" : "Live Google Sheets";
+        }
+        if (!isManualRefresh) initApp();
+        else {
+          populateDuelSelect();
+          apply();
+        }
       } catch (err) {
         document.getElementById("loading-msg").innerHTML = `Erreur lors de la lecture des fichiers CSV.`;
       }
+    }
+
+    function cleanCell(str) {
+      return String(str || "").replace(/^"|"$/g, "").trim();
     }
 
     function parseCSV(text, promo, source, elevesMap) {
@@ -677,38 +871,56 @@
         const cols = lines[i].replace(/\r/g, '').split(new RegExp(`${sep}(?=(?:(?:[^"]*"){2})*[^"]*$)`));
         if (cols.length < 1) continue;
         
-        const nom = cols[0] ? cols[0].trim() : "";
-        if (!nom) continue;
+        const nom = cleanCell(cols[0]);
+        if (!nom || nom.toLowerCase() === "nan" || nom.toLowerCase().includes("legende")) continue;
 
-        const img      = cols[1] ? cols[1].trim() : "assets/placeholder.jpg";
-        const rawElim  = cols[2] ? cols[2].trim() : "";
+        const img     = cleanCell(cols[1]) || "assets/placeholder.jpg";
+        const rawElim = cleanCell(cols[2]);
         
         let elimAt = null;
         let customStatus = null;
         let isWinner = false;
+        let customFinalRank = null;
         
         if (rawElim !== "") {
             const lowerElim = rawElim.toLowerCase();
-            if (/^\d+$/.test(rawElim)) {
-                elimAt = parseInt(rawElim, 10);
+            // Cas 1 : Nombre pur (ex: "4") ou "P4" / "Prime 4" -> Prime d'élimination
+            const primeMatch = lowerElim.match(/^(?:p|prime\s*)?(\d+)$/);
+            if (primeMatch) {
+                elimAt = parseInt(primeMatch[1], 10);
             } else {
+                // Cas 2 : Statut texte (ex: "Winner", "Gagnante", "2ème", "Finaliste")
                 customStatus = rawElim;
-                if (lowerElim.includes("winner") || lowerElim.includes("gagnant") || lowerElim.includes("1er") || lowerElim.includes("1ère")) {
+                if (lowerElim.includes("winner") || lowerElim.includes("gagnant") || lowerElim.includes("vainqueur") || lowerElim === "1er" || lowerElim === "1ere" || lowerElim === "1ère") {
                     isWinner = true;
+                    customFinalRank = 1;
+                } else {
+                    const rankMatch = lowerElim.match(/(\d+)\s*(?:e|eme|ème|er|ere|ère)/);
+                    if (rankMatch) {
+                        customFinalRank = parseInt(rankMatch[1], 10);
+                    } else if (lowerElim.includes("finaliste") && !lowerElim.includes("demi")) {
+                        customFinalRank = 2;
+                    } else if (lowerElim.includes("demi")) {
+                        customFinalRank = 3;
+                    }
                 }
             }
         }
 
-        const id = `${promo}_${nom}`;
+        // Clé normalisée pour éviter les doublons si un accent diffère entre deux onglets
+        const nKey = normKey(nom);
+        const id = `${promo}_${nKey}`;
 
         if (!elevesMap.has(id)) {
           elevesMap.set(id, {
             id: id,
             nom: nom,
+            normNom: nKey,
             promo: promo,
             img: img || "assets/placeholder.jpg",
             eliminatedAt: elimAt,
             customStatus: customStatus,
+            customFinalRank: customFinalRank,
             isWinner: isWinner,
             perso: {},
             profs: {},
@@ -717,11 +929,15 @@
         }
         
         const currentEleve = elevesMap.get(id);
-        
+        // Privilégie l'orthographe avec accent si présente
+        if (nom.length >= currentEleve.nom.length && /[éèêëïîôùûüç]/i.test(nom)) {
+          currentEleve.nom = nom;
+        }
         if (elimAt !== null) currentEleve.eliminatedAt = elimAt;
         if (customStatus !== null) {
             currentEleve.customStatus = customStatus;
             if (isWinner) currentEleve.isWinner = true;
+            if (customFinalRank != null) currentEleve.customFinalRank = customFinalRank;
         }
         if (img && img !== "assets/placeholder.jpg") currentEleve.img = img;
 
@@ -730,8 +946,7 @@
         for (let p = 0; p <= MAX_PRIME; p++) {
           const colIndex = 3 + p;
           if (colIndex < cols.length) {
-              let val = cols[colIndex] ? cols[colIndex].trim() : "";
-              val = val.replace(/^"|"$/g, '');
+              const val = cleanCell(cols[colIndex]);
               const numVal = (val !== "") ? Number(val.replace(',', '.')) : null;
               currentEleve[sourceKey]["p" + p] = (numVal != null && !isNaN(numVal)) ? numVal : null;
           } else {
@@ -879,38 +1094,88 @@
       return Infinity;
     }
 
-    function computeRows(list, view, primeNum) {
-      return list
-        .map(eleve => {
-          const src = sourceForView(eleve, view);
-          const row = { ...eleve };
-          PRIMES_KEYS.forEach(key => { row[key] = src[key] ?? null; });
-          row.moy = (view === "fusion") ? fusionMeanUpTo(eleve, primeNum) : averageUpTo(src, primeNum);
-          
-          row.officialRank = 999; 
-          if (row.promo === "2025" && OFFICIAL_RANKS_2025[row.nom] != null) {
-             row.officialRank = OFFICIAL_RANKS_2025[row.nom];
-          } else if (row.promo === "2024" && OFFICIAL_RANKS_2024[row.nom] != null) {
-             row.officialRank = OFFICIAL_RANKS_2024[row.nom];
-          }
-          return row;
-        })
+    // Calcul infaillible du rang officiel (pour 2024, 2025 ET dynamique pour 2026)
+    function getOfficialRankInfo(eleve, moy) {
+      const promoMap = OFFICIAL_RANKS_BY_PROMO[eleve.promo];
+      const nKey = eleve.normNom || normKey(eleve.nom);
+
+      // 1. Dictionnaire officiel (2024, 2025)
+      if (promoMap && promoMap[nKey] != null) {
+        const r = promoMap[nKey];
+        if (r === 1) currentEleveSetWinner(eleve);
+        return { rank: r, label: formatOfficialLabel(r) };
+      }
+
+      // 2. Statut explicite dans le Google Sheet (Winner, 2ème, etc.)
+      if (eleve.customFinalRank != null) {
+        return { rank: eleve.customFinalRank, label: formatOfficialLabel(eleve.customFinalRank) };
+      }
+
+      // 3. Calcul dynamique pour saison en cours (ex: 2026)
+      // Les survivants sont classés devant, puis les éliminés dans l'ordre inverse de leur prime de sortie
+      if (eleve.eliminatedAt != null) {
+        const dynamicScore = 100 - eleve.eliminatedAt + ((moy ?? 20) * 0.01);
+        return { rank: dynamicScore, label: `Sorti(e) P${eleve.eliminatedAt}` };
+      }
+
+      return { rank: 10 + ((moy ?? 20) * 0.01), label: "En course" };
+    }
+
+    function currentEleveSetWinner(eleve) {
+      eleve.isWinner = true;
+    }
+
+    function formatOfficialLabel(r) {
+      if (r === 1) return "🏆 1er (Gagnant·e)";
+      if (r === 2) return "🥈 2ème (Finaliste)";
+      if (r === 3) return "🥉 3ème (Demi-fin.)";
+      if (r === 4) return "⭐ 4ème (Demi-fin.)";
+      return `#${r} Officiel`;
+    }
+
+    function computeRows(list, view, primeNum, forceSortMode = null) {
+      const sortMode = forceSortMode || appState.sort;
+
+      // D'abord on calcule le classement par moyenne pour connaître le "avgRank" de chacun
+      const withAvg = list.map(eleve => {
+        const src = sourceForView(eleve, view);
+        const row = { ...eleve };
+        PRIMES_KEYS.forEach(key => { row[key] = src[key] ?? null; });
+        row.moy = (view === "fusion") ? fusionMeanUpTo(eleve, primeNum) : averageUpTo(src, primeNum);
+        const offInfo = getOfficialRankInfo(row, row.moy);
+        row.officialRank = offInfo.rank;
+        row.officialLabel = offInfo.label;
+        return row;
+      });
+
+      // Calcul du rang à la moyenne
+      const sortedByAvg = withAvg.slice().sort((a,b) => {
+        const av = (a.moy == null ? Infinity : a.moy);
+        const bv = (b.moy == null ? Infinity : b.moy);
+        if (av !== bv) return av - bv;
+        const al = lastKnownRankUpTo(a, primeNum);
+        const bl = lastKnownRankUpTo(b, primeNum);
+        if (al !== bl) return al - bl;
+        return a.nom.localeCompare(b.nom);
+      });
+      const avgRankMap = new Map();
+      sortedByAvg.forEach((r, idx) => avgRankMap.set(r.id, idx + 1));
+
+      return withAvg
+        .map(row => ({ ...row, avgRank: avgRankMap.get(row.id) || 99 }))
         .sort((a,b) => {
-          if (appState.sort === "name") {
+          if (sortMode === "name") {
               return a.nom.localeCompare(b.nom);
           } 
-          else if (appState.sort === "off") {
+          else if (sortMode === "off") {
               if (a.officialRank !== b.officialRank) return a.officialRank - b.officialRank;
-              return a.nom.localeCompare(b.nom);
-          } 
-          else {
               const av = (a.moy == null ? Infinity : a.moy);
               const bv = (b.moy == null ? Infinity : b.moy);
               if (av !== bv) return av - bv;
-              const al = lastKnownRankUpTo(a, primeNum);
-              const bl = lastKnownRankUpTo(b, primeNum);
-              if (al !== bl) return al - bl;
               return a.nom.localeCompare(b.nom);
+          } 
+          else {
+              return a.avgRank - b.avgRank;
           }
         })
         .map((row,i) => ({ ...row, rank: i+1 }));
@@ -921,25 +1186,26 @@
       const pPrev = findPreviousPrimeWithData(list, view, pNow);
       const rowsNow = computeRows(list, view, pNow);
       
+      // Pour que les flèches d'évolution aient toujours du sens, on compare l'évolution du rang Moyenne si on est en mode Moyenne
       const rankPrevMap = new Map();
       if (pPrev != null) {
-        const rowsPrev = computeRows(list, view, pPrev);
+        const rowsPrev = computeRows(list, view, pPrev, "avg");
         rowsPrev.forEach(r => {
-          if (r.moy != null) rankPrevMap.set(r.id, r.rank);
+          if (r.moy != null) rankPrevMap.set(r.id, r.avgRank);
         });
       }
 
       return rowsNow.map(r => {
         const prevRank = rankPrevMap.get(r.id);
         const hasPrev = (prevRank != null && r.moy != null);
-        const deltaPlaces = hasPrev ? (prevRank - r.rank) : 0;
+        const deltaPlaces = hasPrev ? (prevRank - r.avgRank) : 0;
         
         const valNow = r["p" + pNow];
         const valPrev = pPrev != null ? r["p" + pPrev] : null;
         const primeDelta = (valNow != null && valPrev != null) ? (valPrev - valNow) : null;
 
         let isEliminated = false;
-        if (r.customStatus == null && r.eliminatedAt != null) {
+        if (r.customStatus == null && r.eliminatedAt != null && !r.isWinner) {
             isEliminated = pNow >= r.eliminatedAt;
         }
 
@@ -960,57 +1226,86 @@
       promoSelect: document.getElementById("promo"),
       primeSelect: document.getElementById("prime"),
       autoPrimeOpt:document.getElementById("autoPrimeOpt"),
-      sortBtn:     document.getElementById("sortBtn"),
+      sortTabs:    Array.from(document.querySelectorAll(".sort-tab")),
+      chartModeTabs: Array.from(document.querySelectorAll(".chartmode-tab")),
+      duelSelect:  document.getElementById("duelSelect"),
+      duelFieldWrap: document.getElementById("duelFieldWrap"),
+      duelSummaryBox: document.getElementById("duelSummaryBox"),
+      refreshBtn:  document.getElementById("refreshBtn"),
+      heatmapBtn:  document.getElementById("heatmapBtn"),
       toggleElimBtn:document.getElementById("toggleElimBtn"),
       shareBtn:    document.getElementById("share"),
       themeToggle: document.getElementById("themeToggle"),
       tabs:        Array.from(document.querySelectorAll(".seg [role='tab']")),
+      tableTop:    document.getElementById("top"),
       tbody:       document.getElementById("topBody"),
+      podiumBanner:document.getElementById("podiumBanner"),
       pic:         document.getElementById("pic"),
       infoName:    document.getElementById("infoName"),
       infoPromo:   document.getElementById("infoPromo"),
       infoExtra:   document.getElementById("infoExtra"),
       activePrimeBadge: document.getElementById("activePrimeBadge"),
       activeViewBadge:  document.getElementById("activeViewBadge"),
+      officialRankBadge:document.getElementById("officialRankBadge"),
+      liveStatusText:   document.getElementById("liveStatusText"),
       chartCanvas: document.getElementById("chartLine"),
       analyticsSubtitle: document.getElementById("analyticsSubtitle"),
       kpiGrid:     document.getElementById("kpiGrid"),
       autoCommentsList: document.getElementById("autoCommentsList"),
       focusCardTitle: document.getElementById("focusCardTitle"),
       studentFocusBox: document.getElementById("studentFocusBox"),
+      advTableHeadRow: document.getElementById("advTableHeadRow"),
       advancedStatsBody: document.getElementById("advancedStatsBody")
     };
 
     let urlState, appState;
     let chartLine = null;
     let selectedId = null;
+    let duelId = "";
+    let chartMode = "promo"; // "promo" ou "multisource"
+    let heatmapEnabled = true;
+    let advSortKey = "rank";
+    let advSortAsc = true;
 
     function applyTheme(theme){
       document.body.dataset.theme = theme;
-      if (dom.themeToggle) dom.themeToggle.textContent = theme === "dark" ? "Mode clair" : "Mode sombre";
+      if (dom.themeToggle) dom.themeToggle.textContent = theme === "dark" ? "☀️ Mode clair" : "🌙 Mode sombre";
       try{ localStorage.setItem("staracTheme", theme); }catch(e){}
     }
 
     function updateSortUI() {
-        if (!dom.sortBtn) return;
-        if (appState.sort === "avg") dom.sortBtn.textContent = "Trier : Moyenne";
-        else if (appState.sort === "off") dom.sortBtn.textContent = "Trier : Officiel";
-        else dom.sortBtn.textContent = "Trier : Nom";
+      dom.sortTabs.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.sort === appState.sort);
+      });
     }
 
     function updateHideElimUI(){
-      if (dom.toggleElimBtn) dom.toggleElimBtn.textContent = appState.hideElim ? "Afficher éliminés" : "Masquer éliminés";
+      if (dom.toggleElimBtn) dom.toggleElimBtn.textContent = appState.hideElim ? "👁️ Afficher éliminés" : "Masquer éliminés";
     }
 
     function filterEliminated(list, primeNum){
+      // Si l'utilisateur choisit le classement "Officiel", on montre toujours toute la saison de 1 à 17 !
+      if (appState.sort === "off") return list;
       if (!appState.hideElim) return list;
-      return list.filter(e => e.customStatus != null || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
+      return list.filter(e => e.customStatus != null || e.isWinner || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
     }
 
     function initPromosSelect() {
       const promos = ["all", ...uniq(eleves.map(e => e.promo)).sort().reverse()];
-      dom.promoSelect.innerHTML = promos.map(p => `<option value="${p}">${p === "all" ? "Toutes promos" : p}</option>`).join("");
+      dom.promoSelect.innerHTML = promos.map(p => `<option value="${p}">${p === "all" ? "Toutes promos" : "Saison " + p}</option>`).join("");
       dom.promoSelect.value = appState.promo;
+    }
+
+    function populateDuelSelect() {
+      const list = getFilteredBaseList().slice().sort((a,b) => a.nom.localeCompare(b.nom));
+      dom.duelSelect.innerHTML = `<option value="">Aucun adversaire</option>` +
+        list.map(e => `<option value="${e.id}">${e.nom} (${e.promo})</option>`).join("");
+      if (duelId && list.some(e => e.id === duelId)) {
+        dom.duelSelect.value = duelId;
+      } else {
+        duelId = "";
+        dom.duelSelect.value = "";
+      }
     }
 
     function setActiveTab(view) {
@@ -1031,22 +1326,85 @@
       return list;
     }
 
+    // Rendu de la Pyramide / Podium Top 3
+    function renderPodium(rows) {
+      if (!dom.podiumBanner) return;
+      const top3 = rows.slice(0, 3);
+      if (top3.length < 3) {
+        dom.podiumBanner.style.display = "none";
+        return;
+      }
+      dom.podiumBanner.style.display = "grid";
+      // Ordre visuel : #2 à gauche, #1 au milieu, #3 à droite
+      const ordered = [
+        { item: top3[1], rank: 2, cls: "spot-2", icon: "🥈" },
+        { item: top3[0], rank: 1, cls: "spot-1", icon: "👑" },
+        { item: top3[2], rank: 3, cls: "spot-3", icon: "🥉" }
+      ];
+
+      dom.podiumBanner.innerHTML = ordered.map(o => {
+        const r = o.item;
+        let dTxt = "";
+        if (r.hasPrev) {
+          if (r.deltaPlaces > 0) dTxt = `<span style="color:var(--up);font-weight:700;">▲ +${r.deltaPlaces}</span>`;
+          else if (r.deltaPlaces < 0) dTxt = `<span style="color:var(--down);font-weight:700;">▼ -${Math.abs(r.deltaPlaces)}</span>`;
+          else dTxt = `<span style="color:var(--muted);">=</span>`;
+        }
+        return `
+          <div class="podium-spot ${o.cls}" data-id="${r.id}">
+            <div class="podium-avatar-wrap">
+              <img class="podium-avatar" src="${r.img}" alt="${r.nom}" onerror="this.src='assets/placeholder.jpg'"/>
+              <span class="podium-rank-badge">${o.rank}</span>
+            </div>
+            <div class="podium-info">
+              <div class="podium-name">${o.icon} ${r.nom}</div>
+              <div class="podium-meta">
+                <span>Moy : <strong>${fmt(r.moy)}</strong></span>
+                ${dTxt}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function getHeatmapClass(val, totalStudents) {
+      if (val == null || isNaN(val)) return "";
+      const v = Number(val);
+      if (v <= 1.49) return "hm-1";
+      if (v <= 3.49) return "hm-top3";
+      if (v <= 5.49) return "hm-top5";
+      if (v >= Math.max(12, totalStudents - 3)) return "hm-low";
+      return "";
+    }
+
     function renderTable(rows, primeNum) {
       dom.tbody.innerHTML = "";
+      const totalCount = rows.length || 17;
+
       rows.forEach(r => {
         const tr = document.createElement("tr");
         tr.dataset.id = r.id;
         if (r.eliminated) tr.classList.add("row-elim");
+        if (duelId && r.id === duelId) tr.classList.add("duel-selected");
 
         let avatarClass = "avatar";
         if (r.eliminated) avatarClass = "avatar elim";
-        if (r.isWinner) avatarClass = "avatar winner";
+        if (r.isWinner || r.officialRank === 1) avatarClass = "avatar winner";
         
         let deltaClass = "eq";
         let deltaLabel = "=";
         let deltaTitle = "Classement stable";
 
-        if (!r.hasPrev) {
+        if (appState.sort === "off" && r.officialRank <= 20) {
+          // En mode Officiel, affiche le badge officiel et l'écart avec le rang à la moyenne
+          deltaClass = "off-badge";
+          if (r.officialRank === 1) deltaLabel = "🏆 1er";
+          else if (r.officialRank === 2) deltaLabel = "🥈 2e";
+          else if (r.officialRank === 3) deltaLabel = "🥉 3e";
+          else deltaLabel = `#${r.officialRank} Off.`;
+          deltaTitle = `Rang à la moyenne : #${r.avgRank}`;
+        } else if (!r.hasPrev) {
           deltaClass = "eq";
           deltaLabel = "•";
           deltaTitle = "Premier prime classé";
@@ -1061,7 +1419,7 @@
         } else {
           deltaClass = "eq";
           deltaLabel = "= 0";
-          deltaTitle = `Stable (#${r.rank})`;
+          deltaTitle = `Stable (#${r.avgRank})`;
         }
 
         const tdRank = document.createElement("td");
@@ -1080,7 +1438,8 @@
 
         PRIMES_KEYS.forEach(key => {
           const td = document.createElement("td");
-          td.className = "num";
+          const hmCls = getHeatmapClass(r[key], totalCount);
+          td.className = "num" + (hmCls ? " " + hmCls : "");
           td.textContent = fmt(r[key]);
           tr.appendChild(td);
         });
@@ -1110,15 +1469,26 @@
       dom.pic.onerror = () => { dom.pic.src = "assets/placeholder.jpg"; };
 
       dom.infoName.textContent  = eleve.nom;
-      dom.infoPromo.textContent = "Promo " + eleve.promo;
+      dom.infoPromo.textContent = "Promotion " + eleve.promo;
       if (dom.activePrimeBadge) dom.activePrimeBadge.textContent = `Prime ${primeNum}`;
       if (dom.activeViewBadge)  dom.activeViewBadge.textContent  = `Vue : ${VIEW_NAMES[appState.view] || appState.view}`;
 
-      let status = "Encore en course";
-      if (eleve.customStatus != null) {
+      if (dom.officialRankBadge) {
+        if (row && row.officialRank <= 20) {
+          dom.officialRankBadge.style.display = "inline-flex";
+          dom.officialRankBadge.textContent = row.officialLabel;
+        } else {
+          dom.officialRankBadge.style.display = "none";
+        }
+      }
+
+      let status = `<span style="color:var(--up); font-weight:600;">🟢 Encore en course</span>`;
+      if (row && row.officialRank === 1) {
+          status = `<span style="color:var(--gold); font-weight:700;">🏆 GAGNANT·E DE LA SAISON 🏆</span>`;
+      } else if (eleve.customStatus != null) {
           status = `<span style="color:var(--gold); font-weight:600;">⭐ ${eleve.customStatus.toUpperCase()} ⭐</span>`;
       } else if (eleve.eliminatedAt != null) {
-          status = `<span style="color:var(--danger); font-weight:600;">Éliminé·e au prime ${eleve.eliminatedAt}</span>`;
+          status = `<span style="color:var(--danger); font-weight:600;">🚪 Éliminé·e au prime ${eleve.eliminatedAt}</span>`;
       }
 
       let evolTxt = "";
@@ -1128,45 +1498,181 @@
         else evolTxt = ` • <span style="color:var(--muted);font-weight:600;">= Stable</span>`;
       }
         
-      dom.infoExtra.innerHTML = `Rang : <strong>#${row ? row.rank : "—"}</strong>${evolTxt} • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong><br/><br/>${status}`;
+      dom.infoExtra.innerHTML = `Rang Moyenne : <strong>#${row ? row.avgRank : "—"}</strong>${evolTxt} • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong><br/><div style="margin-top:6px;">${status}</div>`;
     }
 
-    function buildGlobalChart(baseList, view) {
-      const labels = getLabelList();
-      const sorted = [...baseList].sort((a,b)=>a.nom.localeCompare(b.nom));
+    function updateDuelSummary(mainEleve, rivalEleve, view, primeNum) {
+      if (!dom.duelSummaryBox) return;
+      if (!mainEleve || !rivalEleve || mainEleve.id === rivalEleve.id || chartMode === "multisource") {
+        dom.duelSummaryBox.style.display = "none";
+        return;
+      }
 
+      const srcA = sourceForView(mainEleve, view);
+      const srcB = sourceForView(rivalEleve, view);
+      let winsA = 0, winsB = 0, ties = 0;
+
+      for (let p = 0; p <= primeNum; p++) {
+        const va = srcA["p" + p];
+        const vb = srcB["p" + p];
+        if (va != null && vb != null) {
+          if (va < vb) winsA++;
+          else if (vb < va) winsB++;
+          else ties++;
+        }
+      }
+
+      const moyA = (view === "fusion") ? fusionMeanUpTo(mainEleve, primeNum) : averageUpTo(srcA, primeNum);
+      const moyB = (view === "fusion") ? fusionMeanUpTo(rivalEleve, primeNum) : averageUpTo(srcB, primeNum);
+
+      dom.duelSummaryBox.style.display = "flex";
+      dom.duelSummaryBox.innerHTML = `
+        <div>
+          <strong style="color:#ff007a;">🟣 ${mainEleve.nom}</strong> (Moy. ${fmt(moyA)})
+          ⚡
+          <strong style="color:#00d2ff;">🔵 ${rivalEleve.nom}</strong> (Moy. ${fmt(moyB)})
+        </div>
+        <div>
+          Score sur les Primes : <strong>${winsA}</strong> - <strong>${winsB}</strong> ${ties ? `(${ties} égal.)` : ""}
+        </div>
+      `;
+    }
+
+    function buildGlobalChart(baseList, view, primeNum) {
+      const labels = getLabelList();
+      if (chartLine) chartLine.destroy();
+
+      const mainEleve = eleves.find(e => e.id === selectedId) || baseList[0];
+      const rivalEleve = duelId ? eleves.find(e => e.id === duelId) : null;
+
+      updateDuelSummary(mainEleve, rivalEleve, view, primeNum);
+
+      // MODE 2 : LES 4 COURBES DE L'ÉLÈVE SÉLECTIONNÉ (Perso, Profs, Popu, Fusion)
+      if (chartMode === "multisource" && mainEleve) {
+        const fusionSrc = sourceForView(mainEleve, "fusion");
+        const datasets = [
+          {
+            label: `${mainEleve.nom} — Perso`,
+            data: PRIMES_KEYS.map(k => mainEleve.perso[k] ?? null),
+            borderColor: "#ff007a",
+            backgroundColor: "#ff007a",
+            borderWidth: 3,
+            pointRadius: 4,
+            tension: 0.3,
+            spanGaps: true
+          },
+          {
+            label: `${mainEleve.nom} — Profs`,
+            data: PRIMES_KEYS.map(k => mainEleve.profs[k] ?? null),
+            borderColor: "#facc15",
+            backgroundColor: "#facc15",
+            borderWidth: 2.5,
+            pointRadius: 4,
+            tension: 0.3,
+            spanGaps: true
+          },
+          {
+            label: `${mainEleve.nom} — Popu`,
+            data: PRIMES_KEYS.map(k => mainEleve.pop[k] ?? null),
+            borderColor: "#00d2ff",
+            backgroundColor: "#00d2ff",
+            borderWidth: 2.5,
+            pointRadius: 4,
+            tension: 0.3,
+            spanGaps: true
+          },
+          {
+            label: `${mainEleve.nom} — Fusion`,
+            data: PRIMES_KEYS.map(k => fusionSrc[k] ?? null),
+            borderColor: "#ffffff",
+            backgroundColor: "#ffffff",
+            borderDash: [5, 5],
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.3,
+            spanGaps: true
+          }
+        ];
+
+        chartLine = new Chart(dom.chartCanvas.getContext("2d"), {
+          type: "line",
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { reverse: true, suggestedMin: 1, ticks: { precision: 0 }, title: { display: true, text: "Rang" } }
+            },
+            plugins: {
+              legend: { display: true, labels: { color: "#9ca3af", boxWidth: 12, font: { size: 11 } } }
+            }
+          }
+        });
+        return;
+      }
+
+      // MODE 1 : COURBE DE LA PROMO + DUEL 1V1
+      const sorted = [...baseList].sort((a,b)=>a.nom.localeCompare(b.nom));
       const datasets = sorted.map((e,idx) => {
         const src = sourceForView(e, view);
         const data = PRIMES_KEYS.map(key => src[key] == null ? null : Number(src[key]));
         const hue = (idx*37)%360;
-        const strong = `hsl(${hue} 80% 60%)`;
-        const faint  = `hsla(${hue},80%,60%,0.18)`;
+        const strong = `hsl(${hue} 85% 60%)`;
+        const faint  = `hsla(${hue},70%,55%,0.14)`;
         return {
-          label:e.nom, data, tension:0.3, spanGaps:true, pointRadius:2, pointHitRadius:6,
-          borderWidth:1, borderColor:faint, backgroundColor:faint, _id:e.id, _strongColor:strong, _faintColor:faint
+          label: e.nom,
+          data,
+          tension: 0.3,
+          spanGaps: true,
+          pointRadius: 2,
+          pointHitRadius: 6,
+          borderWidth: 1,
+          borderColor: faint,
+          backgroundColor: faint,
+          _id: e.id,
+          _strongColor: strong,
+          _faintColor: faint
         };
       });
 
-      if (chartLine) chartLine.destroy();
       chartLine = new Chart(dom.chartCanvas.getContext("2d"), {
-        type:"line", data:{ labels, datasets },
+        type:"line",
+        data:{ labels, datasets },
         options:{
-          responsive:true, maintainAspectRatio:false,
-          scales:{ y:{ reverse:true, suggestedMin:1, ticks:{ precision:0, callback:v=>v }, title:{ display:true, text:"Rang" } } },
-          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(ctx)=>`${ctx.dataset.label} : rang ${ctx.parsed.y}` } } }
+          responsive:true,
+          maintainAspectRatio:false,
+          scales:{
+            y:{ reverse:true, suggestedMin:1, ticks:{ precision:0, callback:v=>v }, title:{ display:true, text:"Rang" } }
+          },
+          plugins:{
+            legend:{ display:false },
+            tooltip:{ callbacks:{ label:(ctx)=>`${ctx.dataset.label} : rang ${fmt(ctx.parsed.y)}` } }
+          }
         }
       });
+
       if (selectedId != null) highlightDataset(selectedId);
     }
 
     function highlightDataset(id) {
-      if (!chartLine) return;
       selectedId = id;
+      if (!chartLine || chartMode === "multisource") return;
       chartLine.data.datasets.forEach(ds => {
-        if (id == null || ds._id !== id) {
-          ds.borderColor = ds._faintColor; ds.backgroundColor = ds._faintColor; ds.borderWidth = 1; ds.pointRadius = 2;
+        if (ds._id === id) {
+          ds.borderColor = duelId ? "#ff007a" : ds._strongColor;
+          ds.backgroundColor = duelId ? "#ff007a" : ds._strongColor;
+          ds.borderWidth = 3.5;
+          ds.pointRadius = 5;
+        } else if (duelId && ds._id === duelId) {
+          ds.borderColor = "#00d2ff";
+          ds.backgroundColor = "#00d2ff";
+          ds.borderWidth = 3.5;
+          ds.pointRadius = 5;
         } else {
-          ds.borderColor = ds._strongColor; ds.backgroundColor = ds._strongColor; ds.borderWidth = 3; ds.pointRadius = 5;
+          ds.borderColor = ds._faintColor;
+          ds.backgroundColor = ds._faintColor;
+          ds.borderWidth = 1;
+          ds.pointRadius = 2;
         }
       });
       chartLine.update("none");
@@ -1207,14 +1713,15 @@
         const moyPop    = averageUpTo(r.pop, primeNum);
         const moyFusion = fusionMeanUpTo(r, primeNum);
 
-        // Nombre de survivants que cet élève bat à la moyenne
         const beatenSurvivorsCount = (r.moy != null)
           ? activeSurvivors.filter(s => s.id !== r.id && s.moy > r.moy).length
           : 0;
 
         let profileBadge = "En observation";
         if (numericVals.length >= 1) {
-          if (r.eliminated && beatenSurvivorsCount >= 3) {
+          if (r.officialRank === 1) {
+            profileBadge = "🏆 Vainqueur Officiel";
+          } else if (r.eliminated && beatenSurvivorsCount >= 3) {
             profileBadge = `💔 Sorti(e) trop tôt (P${r.eliminatedAt})`;
           } else if (r.eliminated) {
             profileBadge = `🚪 Éliminé(e) au P${r.eliminatedAt}`;
@@ -1319,7 +1826,7 @@
           label: `👑 #1 du Prime ${primeNum}`,
           item: primeLeader,
           valTxt: primeLeader ? `${primeLeader.nom} (${fmt(primeLeader["p" + primeNum])})` : "Non renseigné",
-          subTxt: primeLeader ? `Moyenne générale : ${fmt(primeLeader.moy)} (#${primeLeader.rank})` : "Remplis la colonne P" + primeNum,
+          subTxt: primeLeader ? `Moyenne générale : ${fmt(primeLeader.moy)} (#${primeLeader.avgRank})` : "Remplis la colonne P" + primeNum,
           color: "var(--gold)"
         },
         {
@@ -1358,7 +1865,7 @@
 
       // 2. Génération des commentaires automatiques ("Le Débrief' Auto")
       const comments = [];
-      const validRanked = statsRows.filter(r => r.moy != null);
+      const validRanked = statsRows.filter(r => r.moy != null).sort((a,b) => a.avgRank - b.avgRank);
 
       // A. LUTTE EN TÊTE
       if (validRanked.length >= 2) {
@@ -1368,13 +1875,13 @@
         comments.push({
           type: "gold",
           tag: "🏆 Lutte au sommet",
-          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine actuellement le classement général avec une moyenne de <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}). ${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
+          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine actuellement le classement à la moyenne avec <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}). ${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
         });
       }
 
-      // B. FOCUS ÉLIMINATION DU PRIME ACTIF (utilise allStatsRows pour fonctionner même si "Masquer éliminés" est coché)
-      const elimOnThisPrime = allStatsRows.filter(r => r.customStatus == null && r.eliminatedAt === primeNum);
-      const allElimUpToNow  = allStatsRows.filter(r => r.customStatus == null && r.eliminatedAt != null && r.eliminatedAt <= primeNum);
+      // B. FOCUS ÉLIMINATION DU PRIME ACTIF
+      const elimOnThisPrime = allStatsRows.filter(r => r.customStatus == null && !r.isWinner && r.eliminatedAt === primeNum);
+      const allElimUpToNow  = allStatsRows.filter(r => r.customStatus == null && !r.isWinner && r.eliminatedAt != null && r.eliminatedAt <= primeNum);
       const survivorsNow    = allStatsRows.filter(r => !r.eliminated && r.moy != null);
 
       if (elimOnThisPrime.length > 0) {
@@ -1385,14 +1892,13 @@
 
           if (beatenSurvivors.length >= 3) {
             elimTag = `💔 Choc d'Élimination au Prime ${primeNum} (${el.nom})`;
-            elimTxt = `Coup de tonnerre sur ce Prime ${primeNum} : <strong>${el.nom}</strong> quitte l'aventure malgré une solide moyenne de <strong>${fmt(el.moy)}</strong> (#${el.rank} au général toutes promos/élèves confondus, Peak à #${fmt(el.peak)}). Au moment de son départ, il/elle devance pourtant <strong>${beatenSurvivors.length} élèves encore en course</strong> (comme ${beatenSurvivors.slice(-2).map(s => `<strong>${s.nom}</strong>`).join(" ou ")}) !`;
+            elimTxt = `Coup de tonnerre sur ce Prime ${primeNum} : <strong>${el.nom}</strong> quitte l'aventure malgré une solide moyenne de <strong>${fmt(el.moy)}</strong> (#${el.avgRank} à la moyenne, Peak à #${fmt(el.peak)}). Au moment de son départ, il/elle devance pourtant <strong>${beatenSurvivors.length} élèves encore en course</strong> (comme ${beatenSurvivors.slice(-2).map(s => `<strong>${s.nom}</strong>`).join(" ou ")}) !`;
           } else if (beatenSurvivors.length >= 1) {
             elimTxt = `Fin de l'aventure au Prime ${primeNum} pour <strong>${el.nom}</strong> qui s'en va avec une moyenne de <strong>${fmt(el.moy)}</strong> (meilleur rang : #${fmt(el.peak)}). Une sortie disputée puisqu'il/elle laisse derrière lui/elle <strong>${beatenSurvivors.length} survivant(s)</strong> moins bien classé(s) (${beatenSurvivors.map(s => `<strong>${s.nom}</strong>`).join(", ")}).`;
           } else {
             elimTxt = `Verdict logique mathématiquement sur ce Prime ${primeNum} : <strong>${el.nom}</strong> quitte le château alors qu'il/elle fermait la marche des candidats actifs en vue <strong>${viewLabel}</strong> (moyenne : <strong>${fmt(el.moy)}</strong>, plus bas : #${fmt(el.low)}).`;
           }
 
-          // Analyse Perso vs Profs vs Popu sur l'éliminé du jour
           if (el.moyPerso != null && el.moyProfs != null && (el.moyProfs - el.moyPerso) >= 2.5) {
             elimTxt += ` À noter que tu le/la soutenais bien plus que le corps professoral (<strong>${fmt(el.moyPerso)}</strong> de moyenne Perso contre <strong>${fmt(el.moyProfs)}</strong> chez les Profs) !`;
           } else if (el.moyProfs != null && el.moyPop != null && (el.moyPop - el.moyProfs) >= 2.5) {
@@ -1409,7 +1915,7 @@
         });
       }
 
-      // C. BILAN GLOBAL DES ÉLIMINÉS & "ROBBED QUEEN/KING" + ZONE ROUGE
+      // C. BILAN GLOBAL DES ÉLIMINÉS & "ROBBED QUEEN/KING"
       if (allElimUpToNow.length > 0) {
         const bestElim = allElimUpToNow
           .filter(r => r.moy != null)
@@ -1452,12 +1958,11 @@
       if (pPrev != null && withDelta.length) {
         const risers = withDelta.filter(r => r.deltaPlaces > 0).sort((a,b) => b.deltaPlaces - a.deltaPlaces);
         const fallers = withDelta.filter(r => r.deltaPlaces < 0).sort((a,b) => a.deltaPlaces - b.deltaPlaces);
-        const stables = withDelta.filter(r => r.deltaPlaces === 0);
 
         if (risers.length) {
           const topRiser = risers[0];
           const secondRiser = risers[1];
-          let txt = `Entre le Prime ${pPrev} et le Prime ${primeNum}, la plus belle remontée au classement général est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.rank}).`;
+          let txt = `Entre le Prime ${pPrev} et le Prime ${primeNum}, la plus belle remontée au classement général est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.avgRank}).`;
           if (secondRiser && secondRiser.deltaPlaces >= 2) {
             txt += ` Belle dynamique aussi pour <strong>${secondRiser.nom}</strong> (+${secondRiser.deltaPlaces} places).`;
           }
@@ -1470,7 +1975,7 @@
         if (fallers.length) {
           const topFaller = fallers[0];
           const secondFaller = fallers[1];
-          let txt = `Coup dur cette semaine pour <strong>${topFaller.nom}</strong> qui accuse la plus forte baisse au classement général avec <strong>${topFaller.deltaPlaces} place(s)</strong> (glisse de #${topFaller.prevRank} à #${topFaller.rank}).`;
+          let txt = `Coup dur cette semaine pour <strong>${topFaller.nom}</strong> qui accuse la plus forte baisse au classement général avec <strong>${topFaller.deltaPlaces} place(s)</strong> (glisse de #${topFaller.prevRank} à #${topFaller.avgRank}).`;
           if (secondFaller && secondFaller.deltaPlaces <= -2) {
             txt += ` <strong>${secondFaller.nom}</strong> recule également de ${Math.abs(secondFaller.deltaPlaces)} places.`;
           }
@@ -1478,31 +1983,6 @@
             txt += ` Sur le Prime ${primeNum} uniquement, la chute la plus brutale est pour <strong>${worstPrimeDrop.nom}</strong> (${fmt(worstPrimeDrop["p" + pPrev])} ➔ ${fmt(worstPrimeDrop["p" + primeNum])}, soit ${fmt(worstPrimeDrop.primeDelta)} places).`;
           }
           comments.push({ type: "down", tag: "📉 Alerte & Chute au classement", html: txt });
-        }
-
-        if (stables.length) {
-          comments.push({
-            type: "cyan",
-            tag: "⚖️ Stabilité",
-            html: `<strong>${stables.length} académicien(s)</strong> conservent exactement leur position au classement général sur ce prime (${stables.slice(0, 5).map(s => `<strong>${s.nom}</strong> #${s.rank}`).join(", ")}${stables.length > 5 ? "…" : ""}).`
-          });
-        }
-      } else {
-        comments.push({
-          type: "cyan",
-          tag: "🏁 Lancement de saison",
-          html: `Nous sommes sur le premier point de repère (Prime ${primeNum}). Dès que le prime suivant est rempli, les flèches d'évolution et les analyses de hausse/baisse s'activeront automatiquement !`
-        });
-      }
-
-      if (primeNum >= 1) {
-        const newPeaks = statsRows.filter(r => r.valsUpToNow.length >= 2 && r["p" + primeNum] != null && r["p" + primeNum] === r.peak && r["p" + primeNum] < (r["p" + (primeNum - 1)] ?? 99));
-        if (newPeaks.length) {
-          comments.push({
-            type: "up",
-            tag: "🔥 Record personnel battu",
-            html: `Sur ce Prime ${primeNum}, <strong>${newPeaks.map(r => `${r.nom} (#${fmt(r.peak)})`).join(", ")}</strong> réalise(nt) sa/leur meilleure performance depuis le début de la saison !`
-          });
         }
       }
 
@@ -1538,8 +2018,18 @@
         </div>
       `).join("");
 
-      // 3. Tableau Panoramique des Statistiques Avancées
-      dom.advancedStatsBody.innerHTML = statsRows.map(r => {
+      // 3. Tableau Panoramique des Statistiques Avancées (avec tri par colonne)
+      const sortedAdv = statsRows.slice().sort((a, b) => {
+        if (advSortKey === "nom") {
+          return advSortAsc ? a.nom.localeCompare(b.nom) : b.nom.localeCompare(a.nom);
+        }
+        const va = a[advSortKey] == null ? (advSortAsc ? Infinity : -Infinity) : Number(a[advSortKey]);
+        const vb = b[advSortKey] == null ? (advSortAsc ? Infinity : -Infinity) : Number(b[advSortKey]);
+        if (va !== vb) return advSortAsc ? (va - vb) : (vb - va);
+        return a.nom.localeCompare(b.nom);
+      });
+
+      dom.advancedStatsBody.innerHTML = sortedAdv.map(r => {
         let evolBadge = "—";
         if (r.netPrimeEvol != null) {
           if (r.netPrimeEvol > 0) evolBadge = `<span style="color:var(--up);font-weight:700;">▲ +${fmt(r.netPrimeEvol)}</span>`;
@@ -1548,13 +2038,14 @@
         }
         return `
           <tr data-id="${r.id}">
-            <td class="num"><strong>#${r.rank}</strong></td>
+            <td class="num"><strong>#${r.avgRank}</strong></td>
             <td>
               <div style="display:flex;align-items:center;gap:8px;">
                 <img class="avatar ${r.eliminated ? 'elim' : ''}" src="${r.img}" alt="${r.nom}" onerror="this.src='assets/placeholder.jpg'"/>
                 <strong>${r.nom}</strong>
               </div>
             </td>
+            <td class="num"><span class="profile-tag" style="color:var(--gold);">${r.officialLabel}</span></td>
             <td class="num">${fmt(r.moyPerso)}</td>
             <td class="num">${fmt(r.moyProfs)}</td>
             <td class="num">${fmt(r.moyPop)}</td>
@@ -1584,20 +2075,21 @@
 
       let bioParts = [];
       if (st.moy != null) {
-        bioParts.push(`Actuellement <strong>#${st.rank}</strong> en vue <strong>${VIEW_NAMES[view]}</strong> avec une moyenne de <strong>${fmt(st.moy)}</strong>.`);
+        bioParts.push(`Classé(e) <strong>#${st.avgRank}</strong> à la moyenne en vue <strong>${VIEW_NAMES[view]}</strong> (moy. <strong>${fmt(st.moy)}</strong>).`);
+      }
+      if (st.officialRank <= 20) {
+        const diffOff = st.avgRank - st.officialRank;
+        if (diffOff > 0) bioParts.push(`Son classement officiel (<strong>${st.officialLabel}</strong>) est <strong>+${diffOff} place(s) au-dessus</strong> de son rang à la moyenne.`);
+        else if (diffOff < 0) bioParts.push(`Son classement officiel (<strong>${st.officialLabel}</strong>) est <strong>${Math.abs(diffOff)} place(s) en-dessous</strong> de son rang à la moyenne.`);
       }
       if (st.firstEntry && st.lastEntry && st.valsUpToNow.length >= 2) {
         const diff = st.firstEntry.val - st.lastEntry.val;
         const trendWord = diff > 0 ? `en progression de <strong>+${fmt(diff)} place(s)</strong>` : diff < 0 ? `en recul de <strong>${fmt(diff)} place(s)</strong>` : `parfaitement stable`;
         bioParts.push(`Lancé(e) au rang <strong>#${fmt(st.firstEntry.val)}</strong> lors du Prime ${st.firstEntry.p}, ${st.nom} affiche <strong>#${fmt(st.lastEntry.val)}</strong> sur son dernier prime actif (P${st.lastEntry.p}, ${trendWord}).`);
       }
-      if (st.peak != null && st.low != null && st.valsUpToNow.length >= 2) {
-        bioParts.push(`Son record (Peak) est <strong>#${fmt(st.peak)}</strong> et son plus bas est <strong>#${fmt(st.low)}</strong> (amplitude de ${fmt(st.amplitude)} places).`);
-      }
 
-      // Bloc spécial d'analyse d'élimination si l'élève a été éliminé
       let elimFocusHTML = "";
-      if (st.customStatus == null && st.eliminatedAt != null) {
+      if (st.customStatus == null && !st.isWinner && st.eliminatedAt != null) {
         const isAlreadyOut = primeNum >= st.eliminatedAt;
         let causeTxt = "";
         const availSources = [
@@ -1627,11 +2119,11 @@
             </div>
           </div>
         `;
-      } else if (st.customStatus != null) {
+      } else if (st.officialRank <= 4) {
         elimFocusHTML = `
           <div class="comment-item gold">
-            <div class="comment-tag">⭐ Statut Final Officiel</div>
-            <div><strong>${st.nom}</strong> a terminé la saison avec le statut : <strong>${st.customStatus.toUpperCase()}</strong>.</div>
+            <div class="comment-tag">⭐ Palmarès Officiel</div>
+            <div><strong>${st.nom}</strong> fait partie du carré final de sa saison : <strong>${st.officialLabel}</strong> !</div>
           </div>
         `;
       }
@@ -1689,9 +2181,17 @@
     }
 
     function selectRowById(id, rows, allRows, primeNum) {
+      selectedId = id;
       dom.tbody.querySelectorAll("tr").forEach(tr => tr.classList.toggle("selected", tr.dataset.id === id));
-      updateProfile(eleves.find(e => e.id === id), rows.find(r => r.id === id), primeNum);
-      highlightDataset(id);
+      updateProfile(eleves.find(e => e.id === id), rows.find(r => r.id === id) || allRows.find(r => r.id === id), primeNum);
+      if (chartMode === "multisource") {
+        buildGlobalChart(rows, appState.view, primeNum);
+      } else {
+        highlightDataset(id);
+        const mainEleve = eleves.find(e => e.id === id);
+        const rivalEleve = duelId ? eleves.find(e => e.id === duelId) : null;
+        updateDuelSummary(mainEleve, rivalEleve, appState.view, primeNum);
+      }
       renderStudentFocus(id, rows, allRows, primeNum, appState.view);
     }
 
@@ -1707,8 +2207,9 @@
       const rows = compute(baseList, primeNum, appState.view);
       const allRows = compute(baseListAll, primeNum, appState.view);
 
+      renderPodium(rows);
       renderTable(rows, primeNum);
-      buildGlobalChart(baseList, appState.view);
+      buildGlobalChart(baseList, appState.view, primeNum);
       renderAnalytics(rows, allRows, primeNum, appState.view);
       writeParamsToURL(appState);
 
@@ -1725,17 +2226,48 @@
 
     function bindEvents() {
       dom.inputSearch.addEventListener("input", e => { appState.q = e.target.value; apply(); });
-      dom.promoSelect.addEventListener("change", e => { appState.promo = e.target.value; apply(); });
+      dom.promoSelect.addEventListener("change", e => {
+        appState.promo = e.target.value;
+        populateDuelSelect();
+        apply();
+      });
       dom.primeSelect.addEventListener("change", e => { appState.prime = e.target.value; apply(); });
       
-      dom.sortBtn.addEventListener("click", () => { 
-          if (appState.sort === "avg") appState.sort = "off";
-          else if (appState.sort === "off") appState.sort = "name";
-          else appState.sort = "avg";
-          
+      dom.sortTabs.forEach(btn => {
+        btn.addEventListener("click", () => {
+          appState.sort = btn.dataset.sort;
           updateSortUI();
-          apply(); 
+          apply();
+        });
       });
+
+      dom.chartModeTabs.forEach(btn => {
+        btn.addEventListener("click", () => {
+          chartMode = btn.dataset.chartmode;
+          dom.chartModeTabs.forEach(b => b.classList.toggle("active", b.dataset.chartmode === chartMode));
+          if (dom.duelFieldWrap) dom.duelFieldWrap.style.display = chartMode === "promo" ? "flex" : "none";
+          apply();
+        });
+      });
+
+      if (dom.duelSelect) {
+        dom.duelSelect.addEventListener("change", e => {
+          duelId = e.target.value;
+          apply();
+        });
+      }
+
+      if (dom.refreshBtn) {
+        dom.refreshBtn.addEventListener("click", () => fetchAllData(true));
+      }
+
+      if (dom.heatmapBtn) {
+        dom.heatmapBtn.addEventListener("click", () => {
+          heatmapEnabled = !heatmapEnabled;
+          dom.tableTop.classList.toggle("heatmap-on", heatmapEnabled);
+          dom.heatmapBtn.classList.toggle("active-toggle", heatmapEnabled);
+        });
+      }
 
       if (dom.toggleElimBtn) {
         dom.toggleElimBtn.addEventListener("click", () => {
@@ -1759,25 +2291,33 @@
         });
       });
       
-      dom.tbody.addEventListener("click", e => {
-        const tr = e.target.closest("tr");
-        if (!tr) return;
+      const onStudentRowClick = (e) => {
+        const target = e.target.closest("[data-id]");
+        if (!target) return;
         const baseListAll = getFilteredBaseList();
         const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
         const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
         const allRows = compute(baseListAll, primeNum, appState.view);
-        selectRowById(tr.dataset.id, rows, allRows, primeNum);
-      });
+        selectRowById(target.dataset.id, rows, allRows, primeNum);
+      };
 
-      dom.advancedStatsBody.addEventListener("click", e => {
-        const tr = e.target.closest("tr");
-        if (!tr || !tr.dataset.id) return;
-        const baseListAll = getFilteredBaseList();
-        const primeNum = primeToNum(appState.prime, baseListAll, appState.view);
-        const rows = compute(filterEliminated(baseListAll, primeNum), primeNum, appState.view);
-        const allRows = compute(baseListAll, primeNum, appState.view);
-        selectRowById(tr.dataset.id, rows, allRows, primeNum);
-      });
+      dom.tbody.addEventListener("click", onStudentRowClick);
+      dom.podiumBanner.addEventListener("click", onStudentRowClick);
+      dom.advancedStatsBody.addEventListener("click", onStudentRowClick);
+
+      if (dom.advTableHeadRow) {
+        dom.advTableHeadRow.addEventListener("click", e => {
+          const th = e.target.closest("[data-advsort]");
+          if (!th) return;
+          const key = th.dataset.advsort;
+          if (advSortKey === key) advSortAsc = !advSortAsc;
+          else {
+            advSortKey = key;
+            advSortAsc = (key === "top3Count" || key === "netPrimeEvol") ? false : true;
+          }
+          apply();
+        });
+      }
 
       if (dom.themeToggle){
         dom.themeToggle.addEventListener("click", () => {
@@ -1808,6 +2348,7 @@
       }
 
       initPromosSelect();
+      populateDuelSelect();
       dom.inputSearch.value = appState.q;
       dom.primeSelect.value = appState.prime;
       setActiveTab(appState.view);
