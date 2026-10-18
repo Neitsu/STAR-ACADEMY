@@ -47,7 +47,9 @@
     body[data-theme="light"] .mini-stat-box,
     body[data-theme="light"] .source-bar-row,
     body[data-theme="light"] .podium-spot,
-    body[data-theme="light"] .duel-box {
+    body[data-theme="light"] .duel-box,
+    body[data-theme="light"] .timeline-bar,
+    body[data-theme="light"] . idol-card {
       background:#ffffff;
       border-color:#d1d5db;
     }
@@ -56,7 +58,7 @@
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
       background:
-        radial-gradient(circle at 15% 0%, rgba(255,0,122,.14) 0%, transparent 40%),
+        radial-gradient(circle at 15% 0%, rgba(255,0,122,.15) 0%, transparent 40%),
         radial-gradient(circle at 85% 5%, rgba(0,210,255,.12) 0%, transparent 40%),
         radial-gradient(circle at top,#1d2537 0,#020617 55%,#000 100%);
       color:var(--text);
@@ -64,7 +66,7 @@
       -webkit-font-smoothing:antialiased
     }
     main{padding:20px 16px 60px}
-    .container{max-width:1440px;margin:0 auto;padding:14px 20px}
+    .container{max-width:1440px;margin:0 auto;padding:12px 20px}
     
     /* HEADER */
     .top-header{
@@ -78,8 +80,80 @@
     .logo span{ display:inline-flex; padding:4px 12px; border-radius:999px; background:linear-gradient(120deg, #ff007a, #ff8a00, #ffdd00, #00d2ff, #9d00ff); color:#fff; font-size:.75rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow:0 8px 25px rgba(255,0,122,.5) }
     h1{ margin:.35rem 0 0; font-size:2rem; letter-spacing:.04em; text-transform:uppercase; background:linear-gradient(90deg, #fff, #cbd5e1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
     body[data-theme="light"] h1{ background:linear-gradient(90deg, #111827, #4b5563); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    
-    .grid{ display:grid; grid-template-columns:2.35fr 1.65fr; gap:24px; margin-top:16px }
+
+    /* ===================================================================
+     * TIMELINE INTERACTIVE DES PRIMES + BOUTON TIMELAPSE
+     * =================================================================== */
+    .timeline-bar{
+      margin-top:16px;
+      background:rgba(15,23,42,.82);
+      border:1px solid rgba(148,163,184,.28);
+      border-radius:16px;
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      overflow-x:auto;
+      box-shadow:0 10px 25px rgba(2,6,23,.5);
+    }
+    .timelapse-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,0,122,.6);
+      background:linear-gradient(135deg, rgba(255,0,122,.25), rgba(255,138,0,.2));
+      color:#fff;
+      padding:6px 13px;
+      font-size:.73rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      flex-shrink:0;
+      transition:all .15s ease;
+    }
+    .timelapse-btn:hover{ transform:translateY(-1px); box-shadow:0 0 15px rgba(255,0,122,.4); }
+    .timelapse-btn.playing{ background:linear-gradient(135deg, #ef4444, #f97316); border-color:#fca5a5; }
+    body[data-theme="light"] .timelapse-btn{ color:#111827; }
+    .timeline-pills{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex:1;
+    }
+    .tl-pill{
+      border:1px solid rgba(148,163,184,.2);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      border-radius:999px;
+      padding:5px 10px;
+      font-size:.72rem;
+      font-weight:600;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      white-space:nowrap;
+      transition:all .12s ease;
+    }
+    .tl-pill:hover{ border-color:var(--text); color:var(--text); }
+    .tl-pill.has-data{ color:var(--text); border-color:rgba(148,163,184,.45); }
+    .tl-pill.has-data::after{
+      content:"";
+      width:5px; height:5px; border-radius:999px;
+      background:var(--accent-strong);
+      box-shadow:0 0 6px var(--accent-strong);
+    }
+    .tl-pill.active{
+      background:linear-gradient(135deg, #ff007a, #ff8a00);
+      color:#fff !important;
+      border-color:transparent;
+      box-shadow:0 4px 14px rgba(255,0,122,.45);
+    }
+    .tl-pill.active::after{ background:#fff; box-shadow:none; }
+
+    .grid{ display:grid; grid-template-columns:2.35fr 1.65fr; gap:24px; margin-top:18px }
     @media(max-width:980px){ .grid{grid-template-columns:1fr} }
     
     .card{ background:radial-gradient(circle at top left,#1f2937 0,rgba(15,23,42,.92) 55%,#020617 100%); border-radius:var(--card-radius); border:1px solid rgba(148,163,184,.3); box-shadow:var(--shadow-soft); padding:18px; position:relative; overflow:hidden }
@@ -148,7 +222,7 @@
     .podium-name{ font-weight:700; font-size:.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .spot-1 .podium-name{ font-size:.96rem; color:var(--gold); }
     body[data-theme="light"] .spot-1 .podium-name{ color:#b45309; }
-    .podium-meta{ font-size:.72rem; color:var(--muted); margin-top:2px; display:flex; align-items:center; gap:6px; }
+    .podium-meta{ font-size:.72rem; color:var(--muted); margin-top:2px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
 
     /* TOOLBAR */
     .toolbar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px }
@@ -217,6 +291,14 @@
     body[data-theme="light"] tbody tr.selected td.rank.sticky-rank, body[data-theme="light"] tbody tr.selected td.name.sticky-col { background: #ffe4e6; }
     
     td.rank{ font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; text-align:center; }
+    .rank-medal{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:24px; height:24px; border-radius:999px; font-weight:800; font-size:.74rem;
+    }
+    .rank-medal.m-1{ background:linear-gradient(135deg, #fde047, #eab308); color:#000; box-shadow:0 0 10px rgba(250,204,21,.5); }
+    .rank-medal.m-2{ background:linear-gradient(135deg, #f1f5f9, #94a3b8); color:#000; }
+    .rank-medal.m-3{ background:linear-gradient(135deg, #fdba74, #ea580c); color:#000; }
+
     td.num{ text-align:center; font-variant-numeric:tabular-nums; border-radius:6px; }
     td.name{ display:flex; align-items:center; gap:8px; font-weight:600; white-space:nowrap; overflow:hidden; }
     .student-name-txt{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -239,7 +321,16 @@
     .delta.up{ color:var(--up); background:rgba(34,197,94,.14); }
     .delta.down{ color:var(--down); background:rgba(249,115,22,.15); }
     .delta.eq{ color:var(--eq); }
-    .delta.off-badge{ color:var(--gold); background:rgba(250,204,21,.15); border:1px solid rgba(250,204,21,.35); }
+
+    .moy-cell-wrap{
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+    }
+    .moy-mini-bar{
+      width:44px; height:4px; background:rgba(148,163,184,.18); border-radius:999px; overflow:hidden;
+    }
+    .moy-mini-fill{
+      height:100%; border-radius:999px; background:linear-gradient(90deg, #ff007a, #00d2ff);
+    }
 
     /* HEATMAP CELLS */
     table.heatmap-on td.hm-1{ background:rgba(250,204,21,.22); color:#fde047; font-weight:800; }
@@ -283,12 +374,75 @@
       align-items:center;
       justify-content:space-between;
       gap:8px;
+      flex-wrap:wrap;
     }
-    .chart-wrap{ border-radius:16px; border:1px solid rgba(31,41,55,.9); background:radial-gradient(circle at top,#020617,#000); padding:10px; height:265px; position:relative }
+    .chart-wrap{ border-radius:16px; border:1px solid rgba(31,41,55,.9); background:radial-gradient(circle at top,#020617,#000); padding:10px; height:270px; position:relative }
     .chart-wrap::before{ content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 0,rgba(255,0,122,.15),transparent 55%); opacity:.7; pointer-events:none }
     .chart-wrap>canvas{position:relative;z-index:1}
     .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
     #loading-msg { text-align:center; padding:40px; color:var(--accent-strong); font-weight:bold; }
+
+    /* ===================================================================
+     * GALERIE CARTES SURVIVAL & SPARKLINES
+     * =================================================================== */
+    .cards-gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+      gap:14px;
+    }
+    .idol-card{
+      background:rgba(15,23,42,.82);
+      border:1px solid rgba(148,163,184,.25);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .idol-card:hover{
+      transform:translateY(-3px);
+      border-color:var(--accent);
+      box-shadow:0 12px 25px rgba(255,0,122,.18);
+    }
+    .idol-card.elim-card{ opacity:0.68; }
+    .idol-card-top{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .idol-card-avatar{
+      width:46px; height:46px; border-radius:14px; object-fit:cover;
+      border:2px solid rgba(255,255,255,.2);
+      flex-shrink:0;
+    }
+    .idol-card.elim-card .idol-card-avatar{ filter:grayscale(100%); }
+    .idol-card-title{ min-width:0; flex:1; }
+    .idol-card-name{ font-weight:700; font-size:.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .idol-card-sub{ font-size:.72rem; color:var(--muted); display:flex; align-items:center; gap:6px; margin-top:2px; }
+    .idol-sparkline{
+      width:100%; height:34px;
+      background:rgba(255,255,255,.02);
+      border-radius:8px;
+      padding:3px;
+    }
+    .idol-Tri-pills{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:4px;
+      font-size:.66rem;
+      text-align:center;
+    }
+    .idol-Tri-pills > div{
+      background:rgba(255,255,255,.04);
+      border-radius:6px;
+      padding:3px 2px;
+      color:var(--muted);
+    }
+    .idol-Tri-pills strong{ display:block; color:var(--text); font-size:.74rem; }
 
     /* ===================================================================
      * CENTRE D'ANALYSE, COMMENTAIRES & STATISTIQUES
@@ -513,13 +667,19 @@
     </header>
 
     <div class="container">
+      <!-- BARRE TIMELINE INTERACTIVE DES PRIMES + BOUTON TIMELAPSE -->
+      <div class="timeline-bar" id="timelineBar" style="display:none;">
+        <button type="button" class="timelapse-btn" id="timelapseBtn">▶️ Timelapse</button>
+        <div class="timeline-pills" id="timelinePills"></div>
+      </div>
+
       <div class="grid">
         <!-- COLONNE GAUCHE : PODIUM + TABLEAU -->
         <div class="card">
           <header>
             <div>
               <div class="card-title">Pyramide & Top Élèves</div>
-              <div class="card-subtitle">Filtre par saison, prime, source et mode de classement.</div>
+              <div class="card-subtitle">Triable par Ranking du Prime en cours, Moyenne générale ou A-Z.</div>
             </div>
             <div class="pill">
               <span class="dot"></span>
@@ -533,7 +693,7 @@
           <!-- BARRE D'OUTILS -->
           <div class="toolbar">
             <div class="toolbar-left">
-              <div class="field" style="min-width:165px">
+              <div class="field" style="min-width:155px">
                 <span>🔍</span>
                 <input id="q" type="search" placeholder="Élève…" />
               </div>
@@ -576,11 +736,11 @@
               </div>
             </div>
 
-            <!-- CHOIX DU TRI DIRECT (MOYENNE / OFFICIEL / A-Z) -->
+            <!-- CHOIX DU TRI DIRECT (EN COURS / MOYENNE / A-Z) -->
             <div class="toolbar-right">
               <div class="seg" role="tablist" aria-label="Mode de tri">
-                <button type="button" data-sort="avg" class="sort-tab active">📊 Moyenne</button>
-                <button type="button" data-sort="off" class="sort-tab">🏆 Officiel</button>
+                <button type="button" data-sort="off" class="sort-tab active" title="Trie par le dernier ranking en cours (Prime actif + ordre de survie)">⚡ En cours (Prime)</button>
+                <button type="button" data-sort="avg" class="sort-tab" title="Trie par la moyenne cumulée depuis le Prime 0">📊 Moyenne</button>
                 <button type="button" data-sort="name" class="sort-tab">🔤 A-Z</button>
               </div>
             </div>
@@ -618,12 +778,12 @@
           </div>
         </div>
 
-        <!-- COLONNE DROITE : FICHE ÉLÈVE, DUEL & COURBE -->
+        <!-- COLONNE DROITE : FICHE ÉLÈVE, DUEL, COURBE & RADAR -->
         <div class="card">
           <header>
             <div>
-              <div class="card-title">Fiche Élève, Courbe & Duel 1v1</div>
-              <div class="card-subtitle">Clique sur un·e élève ou compare deux trajectoires.</div>
+              <div class="card-title">Fiche Élève, Courbe, Radar & Duel</div>
+              <div class="card-subtitle">Clique sur un·e élève ou compare deux profils en 1v1.</div>
             </div>
           </header>
 
@@ -640,9 +800,9 @@
                 <div class="badge-row">
                   <span class="badge gold" id="activePrimeBadge">Prime active</span>
                   <span class="badge" id="activeViewBadge">Vue : Perso</span>
-                  <span class="badge" id="officialRankBadge" style="display:none;"></span>
+                  <span class="badge" id="currentPrimeRankBadge"></span>
                 </div>
-                <p id="infoExtra" style="margin-top:6px;font-size:.8rem;color:var(--muted);max-width:320px;">
+                <p id="infoExtra" style="margin-top:6px;font-size:.8rem;color:var(--muted);max-width:340px;">
                   Rang, moyenne et statut s'afficheront ici.
                 </p>
               </div>
@@ -653,6 +813,7 @@
               <div class="seg" aria-label="Mode du graphique">
                 <button type="button" data-chartmode="promo" class="chartmode-tab active">🌐 Vs Promo</button>
                 <button type="button" data-chartmode="multisource" class="chartmode-tab">🎯 Ses 4 Courbes</button>
+                <button type="button" data-chartmode="radar" class="chartmode-tab">🕸️ Radar Stats</button>
               </div>
 
               <div class="field" id="duelFieldWrap">
@@ -674,9 +835,20 @@
       </div>
 
       <!-- ===============================================================
-           CENTRE D'ANALYSE, COMMENTAIRES AUTOMATIQUES & STATISTIQUES
+           CENTRE D'ANALYSE, CARTES VISUELLES & STATISTIQUES
            =============================================================== -->
       <section class="analytics-section" id="analyticsSection" style="display:none;">
+        <!-- GALERIE DE CARTES SURVIVAL AVEC SPARKLINES -->
+        <div class="card">
+          <header>
+            <div>
+              <div class="card-title">🃏 Galerie des Académiciens & Mini-Trajectoires</div>
+              <div class="card-subtitle">Aperçu visuel de la promotion au Prime actif avec courbe miniature et notes Perso / Profs / Popu.</div>
+            </div>
+          </header>
+          <div class="cards-gallery-grid" id="cardsGalleryGrid"></div>
+        </div>
+
         <div class="section-banner">
           <div>
             <h2><span>📊</span> Centre d'Analyse & Commentaires Automatiques</h2>
@@ -722,9 +894,10 @@
             <table class="stats-table">
               <thead>
                 <tr id="advTableHeadRow">
-                  <th class="sortable" data-advsort="rank">#</th>
+                  <th class="sortable" data-advsort="primeOrderRank"># En cours</th>
+                  <th class="sortable" data-advsort="avgRank"># Moy.</th>
                   <th class="sortable" data-advsort="nom">Élève</th>
-                  <th class="num sortable" data-advsort="officialRank">Rang Officiel</th>
+                  <th class="num sortable" data-advsort="activePrimeVal">Rang Prime Actif</th>
                   <th class="num sortable" data-advsort="moyPerso">Moy. Perso</th>
                   <th class="num sortable" data-advsort="moyProfs">Moy. Profs</th>
                   <th class="num sortable" data-advsort="moyPop">Moy. Popu</th>
@@ -771,30 +944,6 @@
       }
     };
 
-    // Normalisateur de prénom (ignore accents, espaces, points, majuscules)
-    function normKey(str) {
-      return String(str || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "");
-    }
-
-    // Classements officiels normalisés (insensibles aux accents/points)
-    const OFFICIAL_RANKS_BY_PROMO = {
-      "2025": {
-        ambre: 1, lea: 2, victor: 3, sarah: 4, bastiaan: 5,
-        anouk: 6, theop: 7, melissa: 8, jeanne: 9, leo: 10,
-        lily: 11, theol: 12, leane: 13, ema: 14, noah: 15,
-        lenny: 16, mehdi: 17
-      },
-      "2024": {
-        marine: 1, ebony: 2, franck: 3, charles: 4, ulysse: 5,
-        marguerite: 6, maia: 7, maureen: 8, julie: 9, masseo: 10,
-        emma: 11, noah: 12, thomas: 13, paul: 14, maylis: 15
-      }
-    };
-
     const VIEW_NAMES = {
       perso: "Perso",
       profs: "Profs",
@@ -806,6 +955,18 @@
     const PRIMES_KEYS = Array.from({ length: MAX_PRIME + 1 }, (_, i) => "p" + i);
     
     let eleves = [];
+
+    function normKey(str) {
+      return String(str || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+    }
+
+    function cleanCell(str) {
+      return String(str || "").replace(/^"|"$/g, "").trim();
+    }
 
     async function fetchAllData(isManualRefresh = false) {
       const elevesMap = new Map();
@@ -842,6 +1003,7 @@
         eleves = Array.from(elevesMap.values());
         document.getElementById("loading-msg").style.display = "none";
         document.getElementById("top").style.display = "table";
+        document.getElementById("timelineBar").style.display = "flex";
         document.getElementById("analyticsSection").style.display = "flex";
         if (dom.liveStatusText) {
           dom.liveStatusText.textContent = isManualRefresh ? "Mis à jour ✓" : "Live Google Sheets";
@@ -854,10 +1016,6 @@
       } catch (err) {
         document.getElementById("loading-msg").innerHTML = `Erreur lors de la lecture des fichiers CSV.`;
       }
-    }
-
-    function cleanCell(str) {
-      return String(str || "").replace(/^"|"$/g, "").trim();
     }
 
     function parseCSV(text, promo, source, elevesMap) {
@@ -880,34 +1038,20 @@
         let elimAt = null;
         let customStatus = null;
         let isWinner = false;
-        let customFinalRank = null;
         
         if (rawElim !== "") {
             const lowerElim = rawElim.toLowerCase();
-            // Cas 1 : Nombre pur (ex: "4") ou "P4" / "Prime 4" -> Prime d'élimination
             const primeMatch = lowerElim.match(/^(?:p|prime\s*)?(\d+)$/);
             if (primeMatch) {
                 elimAt = parseInt(primeMatch[1], 10);
             } else {
-                // Cas 2 : Statut texte (ex: "Winner", "Gagnante", "2ème", "Finaliste")
                 customStatus = rawElim;
                 if (lowerElim.includes("winner") || lowerElim.includes("gagnant") || lowerElim.includes("vainqueur") || lowerElim === "1er" || lowerElim === "1ere" || lowerElim === "1ère") {
                     isWinner = true;
-                    customFinalRank = 1;
-                } else {
-                    const rankMatch = lowerElim.match(/(\d+)\s*(?:e|eme|ème|er|ere|ère)/);
-                    if (rankMatch) {
-                        customFinalRank = parseInt(rankMatch[1], 10);
-                    } else if (lowerElim.includes("finaliste") && !lowerElim.includes("demi")) {
-                        customFinalRank = 2;
-                    } else if (lowerElim.includes("demi")) {
-                        customFinalRank = 3;
-                    }
                 }
             }
         }
 
-        // Clé normalisée pour éviter les doublons si un accent diffère entre deux onglets
         const nKey = normKey(nom);
         const id = `${promo}_${nKey}`;
 
@@ -920,7 +1064,6 @@
             img: img || "assets/placeholder.jpg",
             eliminatedAt: elimAt,
             customStatus: customStatus,
-            customFinalRank: customFinalRank,
             isWinner: isWinner,
             perso: {},
             profs: {},
@@ -929,7 +1072,6 @@
         }
         
         const currentEleve = elevesMap.get(id);
-        // Privilégie l'orthographe avec accent si présente
         if (nom.length >= currentEleve.nom.length && /[éèêëïîôùûüç]/i.test(nom)) {
           currentEleve.nom = nom;
         }
@@ -937,7 +1079,6 @@
         if (customStatus !== null) {
             currentEleve.customStatus = customStatus;
             if (isWinner) currentEleve.isWinner = true;
-            if (customFinalRank != null) currentEleve.customFinalRank = customFinalRank;
         }
         if (img && img !== "assets/placeholder.jpg") currentEleve.img = img;
 
@@ -976,36 +1117,32 @@
     };
     const getLabelList = () => Array.from({ length: MAX_PRIME + 1 }, (_, i) => "Prime " + i);
 
+    function hasDataForPrime(list, view, p) {
+      const key = "p" + p;
+      return list.some(e => {
+        if (view === "perso") return e.perso[key] != null;
+        if (view === "profs") return e.profs[key] != null;
+        if (view === "pop")   return e.pop[key] != null;
+        return (e.perso[key] != null || e.profs[key] != null || e.pop[key] != null);
+      });
+    }
+
     function maxAvailablePrime(list, view) {
       const targetList = (list && list.length) ? list : eleves;
       let max = 0;
       let foundInView = false;
 
-      targetList.forEach(e => {
-        for (let p = 0; p <= MAX_PRIME; p++) {
-          const key = "p" + p;
-          let hasVal = false;
-          if (view === "perso") hasVal = e.perso[key] != null;
-          else if (view === "profs") hasVal = e.profs[key] != null;
-          else if (view === "pop") hasVal = e.pop[key] != null;
-          else hasVal = (e.perso[key] != null || e.profs[key] != null || e.pop[key] != null);
-
-          if (hasVal) {
-            foundInView = true;
-            if (p > max) max = p;
-          }
+      for (let p = 0; p <= MAX_PRIME; p++) {
+        if (hasDataForPrime(targetList, view, p)) {
+          foundInView = true;
+          max = p;
         }
-      });
+      }
 
       if (!foundInView) {
-        targetList.forEach(e => {
-          for (let p = 0; p <= MAX_PRIME; p++) {
-            const key = "p" + p;
-            if ((e.perso[key] != null || e.profs[key] != null || e.pop[key] != null) && p > max) {
-              max = p;
-            }
-          }
-        });
+        for (let p = 0; p <= MAX_PRIME; p++) {
+          if (hasDataForPrime(targetList, "fusion", p)) max = p;
+        }
       }
       return max;
     }
@@ -1020,14 +1157,7 @@
 
     function findPreviousPrimeWithData(list, view, pNow) {
       for (let p = pNow - 1; p >= 0; p--) {
-        const key = "p" + p;
-        const hasAny = list.some(e => {
-          if (view === "perso") return e.perso[key] != null;
-          if (view === "profs") return e.profs[key] != null;
-          if (view === "pop")   return e.pop[key] != null;
-          return (e.perso[key] != null || e.profs[key] != null || e.pop[key] != null);
-        });
-        if (hasAny) return p;
+        if (hasDataForPrime(list, view, p)) return p;
       }
       return null;
     }
@@ -1040,7 +1170,7 @@
         q:        p.get("q")     || "",
         promo:    p.get("promo") || "all",
         prime:    p.get("prime") || "auto",
-        sort:     p.get("sort")  || "avg",
+        sort:     p.get("sort")  || "off", // Par défaut : "off" = Dernier Ranking en cours !
         hideElim: hasHideElim ? (p.get("hideElim") === "1" || p.get("hideElim") === "true") : null
       };
     }
@@ -1051,7 +1181,7 @@
       if (state.q)                                     p.set("q",     state.q);
       if (state.promo && state.promo !== "all")       p.set("promo", state.promo);
       if (state.prime && state.prime !== "auto")      p.set("prime", state.prime);
-      if (state.sort  && state.sort  !== "avg")       p.set("sort",  state.sort);
+      if (state.sort  && state.sort  !== "off")       p.set("sort",  state.sort);
       if (state.hideElim)                              p.set("hideElim", "1");
       const qs = p.toString();
       const url = location.pathname + (qs ? ("?" + qs) : "");
@@ -1094,62 +1224,44 @@
       return Infinity;
     }
 
-    // Calcul infaillible du rang officiel (pour 2024, 2025 ET dynamique pour 2026)
-    function getOfficialRankInfo(eleve, moy) {
-      const promoMap = OFFICIAL_RANKS_BY_PROMO[eleve.promo];
-      const nKey = eleve.normNom || normKey(eleve.nom);
-
-      // 1. Dictionnaire officiel (2024, 2025)
-      if (promoMap && promoMap[nKey] != null) {
-        const r = promoMap[nKey];
-        if (r === 1) currentEleveSetWinner(eleve);
-        return { rank: r, label: formatOfficialLabel(r) };
+    // Détermine jusqu'à quel prime un élève est actif (toutes sources confondues)
+    function getLastActivePrimeUpTo(eleve, primeNum) {
+      let lastP = -1;
+      for (let p = 0; p <= primeNum; p++) {
+        const k = "p" + p;
+        if (eleve.perso[k] != null || eleve.profs[k] != null || eleve.pop[k] != null) {
+          lastP = p;
+        }
       }
-
-      // 2. Statut explicite dans le Google Sheet (Winner, 2ème, etc.)
-      if (eleve.customFinalRank != null) {
-        return { rank: eleve.customFinalRank, label: formatOfficialLabel(eleve.customFinalRank) };
+      if (eleve.eliminatedAt != null && !eleve.isWinner && eleve.customStatus == null) {
+        if (primeNum > eleve.eliminatedAt) {
+          lastP = Math.min(lastP === -1 ? eleve.eliminatedAt : lastP, eleve.eliminatedAt);
+        }
       }
-
-      // 3. Calcul dynamique pour saison en cours (ex: 2026)
-      // Les survivants sont classés devant, puis les éliminés dans l'ordre inverse de leur prime de sortie
-      if (eleve.eliminatedAt != null) {
-        const dynamicScore = 100 - eleve.eliminatedAt + ((moy ?? 20) * 0.01);
-        return { rank: dynamicScore, label: `Sorti(e) P${eleve.eliminatedAt}` };
-      }
-
-      return { rank: 10 + ((moy ?? 20) * 0.01), label: "En course" };
-    }
-
-    function currentEleveSetWinner(eleve) {
-      eleve.isWinner = true;
-    }
-
-    function formatOfficialLabel(r) {
-      if (r === 1) return "🏆 1er (Gagnant·e)";
-      if (r === 2) return "🥈 2ème (Finaliste)";
-      if (r === 3) return "🥉 3ème (Demi-fin.)";
-      if (r === 4) return "⭐ 4ème (Demi-fin.)";
-      return `#${r} Officiel`;
+      return lastP;
     }
 
     function computeRows(list, view, primeNum, forceSortMode = null) {
       const sortMode = forceSortMode || appState.sort;
 
-      // D'abord on calcule le classement par moyenne pour connaître le "avgRank" de chacun
-      const withAvg = list.map(eleve => {
+      const withData = list.map(eleve => {
         const src = sourceForView(eleve, view);
         const row = { ...eleve };
         PRIMES_KEYS.forEach(key => { row[key] = src[key] ?? null; });
         row.moy = (view === "fusion") ? fusionMeanUpTo(eleve, primeNum) : averageUpTo(src, primeNum);
-        const offInfo = getOfficialRankInfo(row, row.moy);
-        row.officialRank = offInfo.rank;
-        row.officialLabel = offInfo.label;
+        
+        // Dernier prime actif de l'élève jusqu'à primeNum
+        row.lastActiveP = getLastActivePrimeUpTo(eleve, primeNum);
+        // Sa note sur le prime actif (ou sa dernière note connue s'il était immunisé sur ce prime)
+        row.activePrimeVal = row["p" + primeNum] != null
+          ? row["p" + primeNum]
+          : (row.lastActiveP >= 0 ? lastKnownRankUpTo(row, row.lastActiveP) : Infinity);
+
         return row;
       });
 
-      // Calcul du rang à la moyenne
-      const sortedByAvg = withAvg.slice().sort((a,b) => {
+      // 1. Calcul du rang selon la Moyenne (avgRank)
+      const sortedByAvg = withData.slice().sort((a,b) => {
         const av = (a.moy == null ? Infinity : a.moy);
         const bv = (b.moy == null ? Infinity : b.moy);
         if (av !== bv) return av - bv;
@@ -1161,18 +1273,39 @@
       const avgRankMap = new Map();
       sortedByAvg.forEach((r, idx) => avgRankMap.set(r.id, idx + 1));
 
-      return withAvg
-        .map(row => ({ ...row, avgRank: avgRankMap.get(row.id) || 99 }))
+      // 2. Calcul du rang selon le "Dernier Ranking en cours" (primeOrderRank)
+      const sortedByPrimeOrder = withData.slice().sort((a,b) => {
+        // Ceux qui sont allés le plus loin (ou sont actifs sur primeNum) passent devant ceux éliminés avant
+        if (a.lastActiveP !== b.lastActiveP) return b.lastActiveP - a.lastActiveP;
+        // À même prime actif, si l'un vient d'être éliminé sur ce prime et pas l'autre :
+        const aElimNow = (a.eliminatedAt != null && !a.isWinner && a.customStatus == null && a.eliminatedAt <= primeNum);
+        const bElimNow = (b.eliminatedAt != null && !b.isWinner && b.customStatus == null && b.eliminatedAt <= primeNum);
+        // Tri direct par la note du prime en cours !
+        const av = (a.activePrimeVal == null ? Infinity : a.activePrimeVal);
+        const bv = (b.activePrimeVal == null ? Infinity : b.activePrimeVal);
+        if (av !== bv) return av - bv;
+        if (aElimNow !== bElimNow) return aElimNow ? 1 : -1;
+        // En cas d'égalité sur le prime, départage par la moyenne
+        const am = (a.moy == null ? Infinity : a.moy);
+        const bm = (b.moy == null ? Infinity : b.moy);
+        if (am !== bm) return am - bm;
+        return a.nom.localeCompare(b.nom);
+      });
+      const primeOrderRankMap = new Map();
+      sortedByPrimeOrder.forEach((r, idx) => primeOrderRankMap.set(r.id, idx + 1));
+
+      return withData
+        .map(row => ({
+          ...row,
+          avgRank: avgRankMap.get(row.id) || 99,
+          primeOrderRank: primeOrderRankMap.get(row.id) || 99
+        }))
         .sort((a,b) => {
           if (sortMode === "name") {
               return a.nom.localeCompare(b.nom);
           } 
           else if (sortMode === "off") {
-              if (a.officialRank !== b.officialRank) return a.officialRank - b.officialRank;
-              const av = (a.moy == null ? Infinity : a.moy);
-              const bv = (b.moy == null ? Infinity : b.moy);
-              if (av !== bv) return av - bv;
-              return a.nom.localeCompare(b.nom);
+              return a.primeOrderRank - b.primeOrderRank;
           } 
           else {
               return a.avgRank - b.avgRank;
@@ -1186,19 +1319,23 @@
       const pPrev = findPreviousPrimeWithData(list, view, pNow);
       const rowsNow = computeRows(list, view, pNow);
       
-      // Pour que les flèches d'évolution aient toujours du sens, on compare l'évolution du rang Moyenne si on est en mode Moyenne
       const rankPrevMap = new Map();
       if (pPrev != null) {
-        const rowsPrev = computeRows(list, view, pPrev, "avg");
+        // Compare le rang avec le même mode de tri (En cours vs En cours, ou Moyenne vs Moyenne)
+        const modeForDelta = (appState.sort === "off") ? "off" : "avg";
+        const rowsPrev = computeRows(list, view, pPrev, modeForDelta);
         rowsPrev.forEach(r => {
-          if (r.moy != null) rankPrevMap.set(r.id, r.avgRank);
+          if (r.moy != null) {
+            rankPrevMap.set(r.id, modeForDelta === "off" ? r.primeOrderRank : r.avgRank);
+          }
         });
       }
 
       return rowsNow.map(r => {
+        const currentRefRank = (appState.sort === "off") ? r.primeOrderRank : r.avgRank;
         const prevRank = rankPrevMap.get(r.id);
         const hasPrev = (prevRank != null && r.moy != null);
-        const deltaPlaces = hasPrev ? (prevRank - r.avgRank) : 0;
+        const deltaPlaces = hasPrev ? (prevRank - currentRefRank) : 0;
         
         const valNow = r["p" + pNow];
         const valPrev = pPrev != null ? r["p" + pPrev] : null;
@@ -1226,6 +1363,9 @@
       promoSelect: document.getElementById("promo"),
       primeSelect: document.getElementById("prime"),
       autoPrimeOpt:document.getElementById("autoPrimeOpt"),
+      timelineBar: document.getElementById("timelineBar"),
+      timelinePills:document.getElementById("timelinePills"),
+      timelapseBtn:document.getElementById("timelapseBtn"),
       sortTabs:    Array.from(document.querySelectorAll(".sort-tab")),
       chartModeTabs: Array.from(document.querySelectorAll(".chartmode-tab")),
       duelSelect:  document.getElementById("duelSelect"),
@@ -1246,9 +1386,10 @@
       infoExtra:   document.getElementById("infoExtra"),
       activePrimeBadge: document.getElementById("activePrimeBadge"),
       activeViewBadge:  document.getElementById("activeViewBadge"),
-      officialRankBadge:document.getElementById("officialRankBadge"),
+      currentPrimeRankBadge: document.getElementById("currentPrimeRankBadge"),
       liveStatusText:   document.getElementById("liveStatusText"),
       chartCanvas: document.getElementById("chartLine"),
+      cardsGalleryGrid: document.getElementById("cardsGalleryGrid"),
       analyticsSubtitle: document.getElementById("analyticsSubtitle"),
       kpiGrid:     document.getElementById("kpiGrid"),
       autoCommentsList: document.getElementById("autoCommentsList"),
@@ -1262,10 +1403,11 @@
     let chartLine = null;
     let selectedId = null;
     let duelId = "";
-    let chartMode = "promo"; // "promo" ou "multisource"
+    let chartMode = "promo"; // "promo", "multisource", "radar"
     let heatmapEnabled = true;
-    let advSortKey = "rank";
+    let advSortKey = "primeOrderRank";
     let advSortAsc = true;
+    let timelapseTimer = null;
 
     function applyTheme(theme){
       document.body.dataset.theme = theme;
@@ -1284,8 +1426,6 @@
     }
 
     function filterEliminated(list, primeNum){
-      // Si l'utilisateur choisit le classement "Officiel", on montre toujours toute la saison de 1 à 17 !
-      if (appState.sort === "off") return list;
       if (!appState.hideElim) return list;
       return list.filter(e => e.customStatus != null || e.isWinner || !(e.eliminatedAt != null && primeNum >= e.eliminatedAt));
     }
@@ -1326,8 +1466,20 @@
       return list;
     }
 
+    // Rendu de la barre Timeline des Primes
+    function renderTimeline(baseListAll, activePrimeNum, autoMax) {
+      if (!dom.timelinePills) return;
+      let html = `<button type="button" class="tl-pill ${appState.prime === 'auto' ? 'active' : ''} has-data" data-tlprime="auto">⚡ Auto (P${autoMax})</button>`;
+      for (let p = 0; p <= MAX_PRIME; p++) {
+        const hasD = hasDataForPrime(baseListAll, appState.view, p);
+        const isAct = (appState.prime !== "auto" && Number(appState.prime) === p);
+        html += `<button type="button" class="tl-pill ${hasD ? 'has-data' : ''} ${isAct ? 'active' : ''}" data-tlprime="${p}">P${p}</button>`;
+      }
+      dom.timelinePills.innerHTML = html;
+    }
+
     // Rendu de la Pyramide / Podium Top 3
-    function renderPodium(rows) {
+    function renderPodium(rows, primeNum) {
       if (!dom.podiumBanner) return;
       const top3 = rows.slice(0, 3);
       if (top3.length < 3) {
@@ -1335,7 +1487,6 @@
         return;
       }
       dom.podiumBanner.style.display = "grid";
-      // Ordre visuel : #2 à gauche, #1 au milieu, #3 à droite
       const ordered = [
         { item: top3[1], rank: 2, cls: "spot-2", icon: "🥈" },
         { item: top3[0], rank: 1, cls: "spot-1", icon: "👑" },
@@ -1350,6 +1501,7 @@
           else if (r.deltaPlaces < 0) dTxt = `<span style="color:var(--down);font-weight:700;">▼ -${Math.abs(r.deltaPlaces)}</span>`;
           else dTxt = `<span style="color:var(--muted);">=</span>`;
         }
+        const pScore = r["p" + primeNum] != null ? `P${primeNum}: <strong>#${fmt(r["p" + primeNum])}</strong>` : `Moy: <strong>${fmt(r.moy)}</strong>`;
         return `
           <div class="podium-spot ${o.cls}" data-id="${r.id}">
             <div class="podium-avatar-wrap">
@@ -1359,7 +1511,8 @@
             <div class="podium-info">
               <div class="podium-name">${o.icon} ${r.nom}</div>
               <div class="podium-meta">
-                <span>Moy : <strong>${fmt(r.moy)}</strong></span>
+                <span>${pScore}</span>
+                <span>• Moy: <strong>${fmt(r.moy)}</strong></span>
                 ${dTxt}
               </div>
             </div>
@@ -1390,41 +1543,37 @@
 
         let avatarClass = "avatar";
         if (r.eliminated) avatarClass = "avatar elim";
-        if (r.isWinner || r.officialRank === 1) avatarClass = "avatar winner";
+        if (r.isWinner || r.rank === 1) avatarClass = "avatar winner";
         
         let deltaClass = "eq";
         let deltaLabel = "=";
         let deltaTitle = "Classement stable";
 
-        if (appState.sort === "off" && r.officialRank <= 20) {
-          // En mode Officiel, affiche le badge officiel et l'écart avec le rang à la moyenne
-          deltaClass = "off-badge";
-          if (r.officialRank === 1) deltaLabel = "🏆 1er";
-          else if (r.officialRank === 2) deltaLabel = "🥈 2e";
-          else if (r.officialRank === 3) deltaLabel = "🥉 3e";
-          else deltaLabel = `#${r.officialRank} Off.`;
-          deltaTitle = `Rang à la moyenne : #${r.avgRank}`;
-        } else if (!r.hasPrev) {
+        if (!r.hasPrev) {
           deltaClass = "eq";
           deltaLabel = "•";
           deltaTitle = "Premier prime classé";
         } else if (r.deltaPlaces > 0) {
           deltaClass = "up";
           deltaLabel = `▲ +${r.deltaPlaces}`;
-          deltaTitle = `+${r.deltaPlaces} place(s) au général (était #${r.prevRank})`;
+          deltaTitle = `+${r.deltaPlaces} place(s) (était #${r.prevRank})`;
         } else if (r.deltaPlaces < 0) {
           deltaClass = "down";
           deltaLabel = `▼ -${Math.abs(r.deltaPlaces)}`;
-          deltaTitle = `-${Math.abs(r.deltaPlaces)} place(s) au général (était #${r.prevRank})`;
+          deltaTitle = `-${Math.abs(r.deltaPlaces)} place(s) (était #${r.prevRank})`;
         } else {
           deltaClass = "eq";
           deltaLabel = "= 0";
-          deltaTitle = `Stable (#${r.avgRank})`;
+          deltaTitle = `Stable (#${r.rank})`;
         }
 
         const tdRank = document.createElement("td");
         tdRank.className = "rank sticky-rank";
-        tdRank.textContent = r.rank;
+        if (r.rank <= 3) {
+          tdRank.innerHTML = `<span class="rank-medal m-${r.rank}">${r.rank}</span>`;
+        } else {
+          tdRank.textContent = r.rank;
+        }
         tr.appendChild(tdRank);
 
         const tdName = document.createElement("td");
@@ -1444,9 +1593,15 @@
           tr.appendChild(td);
         });
 
+        const gaugePct = r.moy != null ? Math.max(8, Math.min(100, Math.round(((totalCount + 1 - r.moy) / totalCount) * 100))) : 0;
         const tdMoy = document.createElement("td");
         tdMoy.className = "num";
-        tdMoy.innerHTML = `<strong>${fmt(r.moy)}</strong>`;
+        tdMoy.innerHTML = `
+          <div class="moy-cell-wrap">
+            <strong>${fmt(r.moy)}</strong>
+            <div class="moy-mini-bar"><div class="moy-mini-fill" style="width:${gaugePct}%;"></div></div>
+          </div>
+        `;
         tr.appendChild(tdMoy);
 
         dom.tbody.appendChild(tr);
@@ -1455,6 +1610,72 @@
       document.querySelectorAll("#top thead th").forEach(th => th.style.color = "var(--muted)");
       const thPrime = document.querySelector(`#top thead th[data-prime="${primeNum}"]`);
       if (thPrime) thPrime.style.color = "var(--gold)";
+    }
+
+    // Génère un mini graphique SVG Sparkline pour chaque carte élève
+    function buildSparklineSVG(row, primeNum, maxStudents) {
+      const pts = [];
+      for (let p = 0; p <= primeNum; p++) {
+        const v = row["p" + p];
+        if (v != null && !isNaN(v)) pts.push({ p, v: Number(v) });
+      }
+      if (pts.length < 2) {
+        return `<svg class="idol-sparkline" viewBox="0 0 120 30"><text x="60" y="19" text-anchor="middle" fill="#64748b" font-size="9">1 seul prime noté</text></svg>`;
+      }
+      const maxP = Math.max(1, primeNum);
+      const maxR = Math.max(17, maxStudents);
+      const coords = pts.map(pt => {
+        const x = 6 + (pt.p / maxP) * 108;
+        const y = 4 + ((pt.v - 1) / (maxR - 1)) * 22;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(" ");
+
+      const strokeCol = row.eliminated ? "#94a3b8" : (row.deltaPlaces > 0 ? "#22c55e" : row.deltaPlaces < 0 ? "#f97316" : "#00d2ff");
+      return `
+        <svg class="idol-sparkline" viewBox="0 0 120 30">
+          <polyline fill="none" stroke="${strokeCol}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="${coords}" />
+        </svg>
+      `;
+    }
+
+    function renderCardsGallery(rows, primeNum) {
+      if (!dom.cardsGalleryGrid) return;
+      const total = rows.length || 17;
+      dom.cardsGalleryGrid.innerHTML = rows.map(r => {
+        const pPerso = r.perso["p" + primeNum] ?? averageUpTo(r.perso, primeNum);
+        const pProfs = r.profs["p" + primeNum] ?? averageUpTo(r.profs, primeNum);
+        const pPop   = r.pop["p" + primeNum]   ?? averageUpTo(r.pop, primeNum);
+
+        let dBadge = `<span class="delta eq">=</span>`;
+        if (r.hasPrev) {
+          if (r.deltaPlaces > 0) dBadge = `<span class="delta up">▲ +${r.deltaPlaces}</span>`;
+          else if (r.deltaPlaces < 0) dBadge = `<span class="delta down">▼ -${Math.abs(r.deltaPlaces)}</span>`;
+        }
+        if (r.eliminated) {
+          dBadge = `<span class="delta" style="color:#fca5a5;background:rgba(239,68,68,.2);">SORTI P${r.eliminatedAt}</span>`;
+        }
+
+        return `
+          <div class="idol-card ${r.eliminated ? 'elim-card' : ''}" data-id="${r.id}">
+            <div class="idol-card-top">
+              <img class="idol-card-avatar" src="${r.img}" alt="${r.nom}" onerror="this.src='assets/placeholder.jpg'"/>
+              <div class="idol-card-title">
+                <div class="idol-card-name">#${r.rank} ${r.nom}</div>
+                <div class="idol-card-sub">
+                  <span>Moy: <strong>${fmt(r.moy)}</strong></span>
+                  ${dBadge}
+                </div>
+              </div>
+            </div>
+            ${buildSparklineSVG(r, primeNum, total)}
+            <div class="idol-Tri-pills">
+              <div>Perso<strong>${fmt(pPerso)}</strong></div>
+              <div>Profs<strong>${fmt(pProfs)}</strong></div>
+              <div>Popu<strong>${fmt(pPop)}</strong></div>
+            </div>
+          </div>
+        `;
+      }).join("");
     }
 
     function updateProfile(eleve, row, primeNum) {
@@ -1473,17 +1694,13 @@
       if (dom.activePrimeBadge) dom.activePrimeBadge.textContent = `Prime ${primeNum}`;
       if (dom.activeViewBadge)  dom.activeViewBadge.textContent  = `Vue : ${VIEW_NAMES[appState.view] || appState.view}`;
 
-      if (dom.officialRankBadge) {
-        if (row && row.officialRank <= 20) {
-          dom.officialRankBadge.style.display = "inline-flex";
-          dom.officialRankBadge.textContent = row.officialLabel;
-        } else {
-          dom.officialRankBadge.style.display = "none";
-        }
+      if (dom.currentPrimeRankBadge && row) {
+        const pVal = row["p" + primeNum];
+        dom.currentPrimeRankBadge.textContent = pVal != null ? `Note P${primeNum} : #${fmt(pVal)}` : `Dernier rang : #${fmt(row.activePrimeVal)}`;
       }
 
       let status = `<span style="color:var(--up); font-weight:600;">🟢 Encore en course</span>`;
-      if (row && row.officialRank === 1) {
+      if (eleve.isWinner) {
           status = `<span style="color:var(--gold); font-weight:700;">🏆 GAGNANT·E DE LA SAISON 🏆</span>`;
       } else if (eleve.customStatus != null) {
           status = `<span style="color:var(--gold); font-weight:600;">⭐ ${eleve.customStatus.toUpperCase()} ⭐</span>`;
@@ -1498,7 +1715,7 @@
         else evolTxt = ` • <span style="color:var(--muted);font-weight:600;">= Stable</span>`;
       }
         
-      dom.infoExtra.innerHTML = `Rang Moyenne : <strong>#${row ? row.avgRank : "—"}</strong>${evolTxt} • Moyenne : <strong>${row ? fmt(row.moy) : "—"}</strong><br/><div style="margin-top:6px;">${status}</div>`;
+      dom.infoExtra.innerHTML = `Rang En cours : <strong>#${row ? row.primeOrderRank : "—"}</strong>${evolTxt} • Rang Moyenne : <strong>#${row ? row.avgRank : "—"}</strong> (${row ? fmt(row.moy) : "—"})<br/><div style="margin-top:6px;">${status}</div>`;
     }
 
     function updateDuelSummary(mainEleve, rivalEleve, view, primeNum) {
@@ -1533,9 +1750,37 @@
           <strong style="color:#00d2ff;">🔵 ${rivalEleve.nom}</strong> (Moy. ${fmt(moyB)})
         </div>
         <div>
-          Score sur les Primes : <strong>${winsA}</strong> - <strong>${winsB}</strong> ${ties ? `(${ties} égal.)` : ""}
+          Primes gagnés : <strong>${winsA}</strong> - <strong>${winsB}</strong> ${ties ? `(${ties} égal.)` : ""}
         </div>
       `;
+    }
+
+    // Calcule les 5 notes sur 100 pour le Radar Pentagone
+    function computeRadarScores100(eleve, primeNum, maxStudents) {
+      const to100 = (rankVal) => {
+        if (rankVal == null || isNaN(rankVal)) return 50;
+        return Math.max(10, Math.min(100, Math.round(((maxStudents - rankVal) / Math.max(1, maxStudents - 1)) * 90 + 10)));
+      };
+      const mPerso = averageUpTo(eleve.perso, primeNum);
+      const mProfs = averageUpTo(eleve.profs, primeNum);
+      const mPop   = averageUpTo(eleve.pop, primeNum);
+
+      const src = sourceForView(eleve, appState.view);
+      const vals = [];
+      for (let p = 0; p <= primeNum; p++) {
+        if (src["p" + p] != null) vals.push(Number(src["p" + p]));
+      }
+      const peak = vals.length ? Math.min(...vals) : null;
+      const sig  = stdDev(vals);
+      const regScore = sig != null ? Math.max(15, Math.min(100, Math.round(100 - sig * 14))) : 70;
+
+      return [
+        to100(mPerso),
+        to100(mProfs),
+        to100(mPop),
+        regScore,
+        to100(peak)
+      ];
     }
 
     function buildGlobalChart(baseList, view, primeNum) {
@@ -1546,6 +1791,57 @@
       const rivalEleve = duelId ? eleves.find(e => e.id === duelId) : null;
 
       updateDuelSummary(mainEleve, rivalEleve, view, primeNum);
+
+      // MODE 3 : PENTAGONE RADAR STATS (RPG / SURVIVAL)
+      if (chartMode === "radar" && mainEleve) {
+        const maxStud = Math.max(baseList.length, 17);
+        const radarDatasets = [
+          {
+            label: mainEleve.nom,
+            data: computeRadarScores100(mainEleve, primeNum, maxStud),
+            borderColor: "#ff007a",
+            backgroundColor: "rgba(255, 0, 122, 0.25)",
+            borderWidth: 2.5,
+            pointBackgroundColor: "#ff007a"
+          }
+        ];
+        if (rivalEleve && rivalEleve.id !== mainEleve.id) {
+          radarDatasets.push({
+            label: rivalEleve.nom,
+            data: computeRadarScores100(rivalEleve, primeNum, maxStud),
+            borderColor: "#00d2ff",
+            backgroundColor: "rgba(0, 210, 255, 0.22)",
+            borderWidth: 2.5,
+            pointBackgroundColor: "#00d2ff"
+          });
+        }
+
+        chartLine = new Chart(dom.chartCanvas.getContext("2d"), {
+          type: "radar",
+          data: {
+            labels: ["💖 Perso", "🎓 Profs", "🔥 Public", "🎯 Régularité", "👑 Peak Power"],
+            datasets: radarDatasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0,
+                max: 100,
+                ticks: { display: false, stepSize: 25 },
+                grid: { color: "rgba(148, 163, 184, 0.2)" },
+                angleLines: { color: "rgba(148, 163, 184, 0.2)" },
+                pointLabels: { color: "#e5e7eb", font: { size: 11, weight: "600" } }
+              }
+            },
+            plugins: {
+              legend: { display: true, labels: { color: "#9ca3af", boxWidth: 12 } }
+            }
+          }
+        });
+        return;
+      }
 
       // MODE 2 : LES 4 COURBES DE L'ÉLÈVE SÉLECTIONNÉ (Perso, Profs, Popu, Fusion)
       if (chartMode === "multisource" && mainEleve) {
@@ -1656,7 +1952,7 @@
 
     function highlightDataset(id) {
       selectedId = id;
-      if (!chartLine || chartMode === "multisource") return;
+      if (!chartLine || chartMode !== "promo") return;
       chartLine.data.datasets.forEach(ds => {
         if (ds._id === id) {
           ds.borderColor = duelId ? "#ff007a" : ds._strongColor;
@@ -1719,8 +2015,8 @@
 
         let profileBadge = "En observation";
         if (numericVals.length >= 1) {
-          if (r.officialRank === 1) {
-            profileBadge = "🏆 Vainqueur Officiel";
+          if (r.isWinner) {
+            profileBadge = "🏆 Vainqueur de la Saison";
           } else if (r.eliminated && beatenSurvivorsCount >= 3) {
             profileBadge = `💔 Sorti(e) trop tôt (P${r.eliminatedAt})`;
           } else if (r.eliminated) {
@@ -1804,10 +2100,10 @@
           label: "🚀 Plus Forte Hausse",
           item: (bestGenUp && bestGenUp.deltaPlaces > 0) ? bestGenUp : (bestPrimeJump && bestPrimeJump.primeDelta > 0 ? bestPrimeJump : null),
           valTxt: (bestGenUp && bestGenUp.deltaPlaces > 0)
-            ? `+${bestGenUp.deltaPlaces} pl. au général`
+            ? `+${bestGenUp.deltaPlaces} pl. ce prime`
             : (bestPrimeJump && bestPrimeJump.primeDelta > 0 ? `+${fmt(bestPrimeJump.primeDelta)} sur le prime` : "Aucune hausse"),
           subTxt: (bestPrimeJump && bestPrimeJump.primeDelta > 0)
-            ? `Bond sur P${primeNum} : ${bestPrimeJump.nom} (+${fmt(bestPrimeJump.primeDelta)} pl.)`
+            ? `Note P${primeNum} : ${bestPrimeJump.nom} (+${fmt(bestPrimeJump.primeDelta)} pl.)`
             : "En attente d'évolution",
           color: "var(--up)"
         },
@@ -1815,17 +2111,17 @@
           label: "📉 Plus Forte Baisse",
           item: (worstGenDown && worstGenDown.deltaPlaces < 0) ? worstGenDown : (worstPrimeDrop && worstPrimeDrop.primeDelta < 0 ? worstPrimeDrop : null),
           valTxt: (worstGenDown && worstGenDown.deltaPlaces < 0)
-            ? `${worstGenDown.deltaPlaces} pl. au général`
+            ? `${worstGenDown.deltaPlaces} pl. ce prime`
             : (worstPrimeDrop && worstPrimeDrop.primeDelta < 0 ? `${fmt(worstPrimeDrop.primeDelta)} sur le prime` : "Aucune baisse"),
           subTxt: (worstPrimeDrop && worstPrimeDrop.primeDelta < 0)
-            ? `Chute sur P${primeNum} : ${worstPrimeDrop.nom} (${fmt(worstPrimeDrop.primeDelta)} pl.)`
+            ? `Note P${primeNum} : ${worstPrimeDrop.nom} (${fmt(worstPrimeDrop.primeDelta)} pl.)`
             : "En attente d'évolution",
           color: "var(--down)"
         },
         {
           label: `👑 #1 du Prime ${primeNum}`,
           item: primeLeader,
-          valTxt: primeLeader ? `${primeLeader.nom} (${fmt(primeLeader["p" + primeNum])})` : "Non renseigné",
+          valTxt: primeLeader ? `${primeLeader.nom} (#${fmt(primeLeader["p" + primeNum])})` : "Non renseigné",
           subTxt: primeLeader ? `Moyenne générale : ${fmt(primeLeader.moy)} (#${primeLeader.avgRank})` : "Remplis la colonne P" + primeNum,
           color: "var(--gold)"
         },
@@ -1875,7 +2171,7 @@
         comments.push({
           type: "gold",
           tag: "🏆 Lutte au sommet",
-          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine actuellement le classement à la moyenne avec <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}). ${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
+          html: `En vue <strong>${viewLabel}</strong>, <strong>${first.nom}</strong> domine la moyenne générale avec <strong>${fmt(first.moy)}</strong> (Peak : #${fmt(first.peak)}). ${gap > 1.0 ? `Il/Elle creuse un vrai écart d'avance (${gap} pts) sur <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}).` : `La course au trône est ultra serrée : seulement <strong>${gap} pt</strong> d'écart avec <strong>${second.nom}</strong> (#2 avec ${fmt(second.moy)}) !`}`
         });
       }
 
@@ -1962,12 +2258,9 @@
         if (risers.length) {
           const topRiser = risers[0];
           const secondRiser = risers[1];
-          let txt = `Entre le Prime ${pPrev} et le Prime ${primeNum}, la plus belle remontée au classement général est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.avgRank}).`;
+          let txt = `Entre le Prime ${pPrev} et le Prime ${primeNum}, la plus belle progression est signée <strong>${topRiser.nom}</strong> qui gagne <strong>+${topRiser.deltaPlaces} place(s)</strong> (passe de #${topRiser.prevRank} à #${topRiser.rank}).`;
           if (secondRiser && secondRiser.deltaPlaces >= 2) {
             txt += ` Belle dynamique aussi pour <strong>${secondRiser.nom}</strong> (+${secondRiser.deltaPlaces} places).`;
-          }
-          if (bestPrimeJump && bestPrimeJump.primeDelta >= 3) {
-            txt += ` Sur la note sèche du Prime ${primeNum}, <strong>${bestPrimeJump.nom}</strong> réalise un bond spectaculaire de <strong>+${fmt(bestPrimeJump.primeDelta)} places</strong> (${fmt(bestPrimeJump["p" + pPrev])} ➔ ${fmt(bestPrimeJump["p" + primeNum])}) !`;
           }
           comments.push({ type: "up", tag: "🚀 L'Exploit de la semaine", html: txt });
         }
@@ -1975,12 +2268,9 @@
         if (fallers.length) {
           const topFaller = fallers[0];
           const secondFaller = fallers[1];
-          let txt = `Coup dur cette semaine pour <strong>${topFaller.nom}</strong> qui accuse la plus forte baisse au classement général avec <strong>${topFaller.deltaPlaces} place(s)</strong> (glisse de #${topFaller.prevRank} à #${topFaller.avgRank}).`;
+          let txt = `Coup dur cette semaine pour <strong>${topFaller.nom}</strong> qui accuse la plus forte baisse avec <strong>${topFaller.deltaPlaces} place(s)</strong> (glisse de #${topFaller.prevRank} à #${topFaller.rank}).`;
           if (secondFaller && secondFaller.deltaPlaces <= -2) {
             txt += ` <strong>${secondFaller.nom}</strong> recule également de ${Math.abs(secondFaller.deltaPlaces)} places.`;
-          }
-          if (worstPrimeDrop && worstPrimeDrop.primeDelta <= -3) {
-            txt += ` Sur le Prime ${primeNum} uniquement, la chute la plus brutale est pour <strong>${worstPrimeDrop.nom}</strong> (${fmt(worstPrimeDrop["p" + pPrev])} ➔ ${fmt(worstPrimeDrop["p" + primeNum])}, soit ${fmt(worstPrimeDrop.primeDelta)} places).`;
           }
           comments.push({ type: "down", tag: "📉 Alerte & Chute au classement", html: txt });
         }
@@ -2038,14 +2328,15 @@
         }
         return `
           <tr data-id="${r.id}">
-            <td class="num"><strong>#${r.avgRank}</strong></td>
+            <td class="num"><strong>#${r.primeOrderRank}</strong></td>
+            <td class="num">#${r.avgRank}</td>
             <td>
               <div style="display:flex;align-items:center;gap:8px;">
                 <img class="avatar ${r.eliminated ? 'elim' : ''}" src="${r.img}" alt="${r.nom}" onerror="this.src='assets/placeholder.jpg'"/>
                 <strong>${r.nom}</strong>
               </div>
             </td>
-            <td class="num"><span class="profile-tag" style="color:var(--gold);">${r.officialLabel}</span></td>
+            <td class="num"><span class="profile-tag" style="color:var(--gold);">${r["p" + primeNum] != null ? '#' + fmt(r["p" + primeNum]) : 'Sorti P' + (r.eliminatedAt || r.lastActiveP)}</span></td>
             <td class="num">${fmt(r.moyPerso)}</td>
             <td class="num">${fmt(r.moyProfs)}</td>
             <td class="num">${fmt(r.moyPop)}</td>
@@ -2075,12 +2366,7 @@
 
       let bioParts = [];
       if (st.moy != null) {
-        bioParts.push(`Classé(e) <strong>#${st.avgRank}</strong> à la moyenne en vue <strong>${VIEW_NAMES[view]}</strong> (moy. <strong>${fmt(st.moy)}</strong>).`);
-      }
-      if (st.officialRank <= 20) {
-        const diffOff = st.avgRank - st.officialRank;
-        if (diffOff > 0) bioParts.push(`Son classement officiel (<strong>${st.officialLabel}</strong>) est <strong>+${diffOff} place(s) au-dessus</strong> de son rang à la moyenne.`);
-        else if (diffOff < 0) bioParts.push(`Son classement officiel (<strong>${st.officialLabel}</strong>) est <strong>${Math.abs(diffOff)} place(s) en-dessous</strong> de son rang à la moyenne.`);
+        bioParts.push(`Actuellement <strong>#${st.primeOrderRank}</strong> en cours et <strong>#${st.avgRank}</strong> à la moyenne en vue <strong>${VIEW_NAMES[view]}</strong> (moy. <strong>${fmt(st.moy)}</strong>).`);
       }
       if (st.firstEntry && st.lastEntry && st.valsUpToNow.length >= 2) {
         const diff = st.firstEntry.val - st.lastEntry.val;
@@ -2117,13 +2403,6 @@
               ${isAlreadyOut ? `<strong>${st.nom}</strong> a quitté le château lors du <strong>Prime ${st.eliminatedAt}</strong>.` : `Attention : <strong>${st.nom}</strong> sera éliminé(e) plus tard dans la saison (au <strong>Prime ${st.eliminatedAt}</strong>).`}
               ${beatenTxt} ${causeTxt}
             </div>
-          </div>
-        `;
-      } else if (st.officialRank <= 4) {
-        elimFocusHTML = `
-          <div class="comment-item gold">
-            <div class="comment-tag">⭐ Palmarès Officiel</div>
-            <div><strong>${st.nom}</strong> fait partie du carré final de sa saison : <strong>${st.officialLabel}</strong> !</div>
           </div>
         `;
       }
@@ -2184,7 +2463,7 @@
       selectedId = id;
       dom.tbody.querySelectorAll("tr").forEach(tr => tr.classList.toggle("selected", tr.dataset.id === id));
       updateProfile(eleves.find(e => e.id === id), rows.find(r => r.id === id) || allRows.find(r => r.id === id), primeNum);
-      if (chartMode === "multisource") {
+      if (chartMode !== "promo") {
         buildGlobalChart(rows, appState.view, primeNum);
       } else {
         highlightDataset(id);
@@ -2193,6 +2472,48 @@
         updateDuelSummary(mainEleve, rivalEleve, appState.view, primeNum);
       }
       renderStudentFocus(id, rows, allRows, primeNum, appState.view);
+    }
+
+    function stopTimelapse() {
+      if (timelapseTimer) {
+        clearInterval(timelapseTimer);
+        timelapseTimer = null;
+      }
+      if (dom.timelapseBtn) {
+        dom.timelapseBtn.classList.remove("playing");
+        dom.timelapseBtn.textContent = "▶️ Timelapse";
+      }
+    }
+
+    function toggleTimelapse() {
+      if (timelapseTimer) {
+        stopTimelapse();
+        return;
+      }
+      const baseListAll = getFilteredBaseList();
+      const maxP = maxAvailablePrime(baseListAll, appState.view);
+      if (maxP <= 0) return;
+
+      let currP = 0;
+      dom.timelapseBtn.classList.add("playing");
+      dom.timelapseBtn.textContent = "⏸️ Stop";
+      appState.prime = "0";
+      dom.primeSelect.value = "0";
+      apply();
+
+      timelapseTimer = setInterval(() => {
+        currP++;
+        if (currP > maxP) {
+          stopTimelapse();
+          appState.prime = "auto";
+          dom.primeSelect.value = "auto";
+          apply();
+          return;
+        }
+        appState.prime = String(currP);
+        dom.primeSelect.value = String(currP);
+        apply();
+      }, 1300);
     }
 
     function apply() {
@@ -2207,8 +2528,10 @@
       const rows = compute(baseList, primeNum, appState.view);
       const allRows = compute(baseListAll, primeNum, appState.view);
 
-      renderPodium(rows);
+      renderTimeline(baseListAll, primeNum, autoMax);
+      renderPodium(rows, primeNum);
       renderTable(rows, primeNum);
+      renderCardsGallery(rows, primeNum);
       buildGlobalChart(baseList, appState.view, primeNum);
       renderAnalytics(rows, allRows, primeNum, appState.view);
       writeParamsToURL(appState);
@@ -2227,11 +2550,31 @@
     function bindEvents() {
       dom.inputSearch.addEventListener("input", e => { appState.q = e.target.value; apply(); });
       dom.promoSelect.addEventListener("change", e => {
+        stopTimelapse();
         appState.promo = e.target.value;
         populateDuelSelect();
         apply();
       });
-      dom.primeSelect.addEventListener("change", e => { appState.prime = e.target.value; apply(); });
+      dom.primeSelect.addEventListener("change", e => {
+        stopTimelapse();
+        appState.prime = e.target.value;
+        apply();
+      });
+
+      if (dom.timelinePills) {
+        dom.timelinePills.addEventListener("click", e => {
+          const btn = e.target.closest("[data-tlprime]");
+          if (!btn) return;
+          stopTimelapse();
+          appState.prime = btn.dataset.tlprime;
+          dom.primeSelect.value = appState.prime;
+          apply();
+        });
+      }
+
+      if (dom.timelapseBtn) {
+        dom.timelapseBtn.addEventListener("click", toggleTimelapse);
+      }
       
       dom.sortTabs.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -2245,7 +2588,7 @@
         btn.addEventListener("click", () => {
           chartMode = btn.dataset.chartmode;
           dom.chartModeTabs.forEach(b => b.classList.toggle("active", b.dataset.chartmode === chartMode));
-          if (dom.duelFieldWrap) dom.duelFieldWrap.style.display = chartMode === "promo" ? "flex" : "none";
+          if (dom.duelFieldWrap) dom.duelFieldWrap.style.display = (chartMode === "promo" || chartMode === "radar") ? "flex" : "none";
           apply();
         });
       });
@@ -2303,6 +2646,7 @@
 
       dom.tbody.addEventListener("click", onStudentRowClick);
       dom.podiumBanner.addEventListener("click", onStudentRowClick);
+      dom.cardsGalleryGrid.addEventListener("click", onStudentRowClick);
       dom.advancedStatsBody.addEventListener("click", onStudentRowClick);
 
       if (dom.advTableHeadRow) {
@@ -2332,7 +2676,7 @@
       appState = {
         ...urlState,
         hideElim: (urlState.hideElim == null ? false : !!urlState.hideElim),
-        sort: (urlState.sort || "avg")
+        sort: (urlState.sort || "off")
       };
 
       try{ applyTheme(localStorage.getItem("staracTheme") || "dark"); }catch(e){}
