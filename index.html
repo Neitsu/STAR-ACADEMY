@@ -8,1062 +8,506 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* =======================================================================
-       DIRECTION ARTISTIQUE : CHUANG ASIA S2 (SCRAPBOOK) × STAR AC RAINBOW
+       1. DIRECTIONS ARTISTIQUES CLAIRES PAR SAISON (2026 / 2025 / 2024)
        ======================================================================= */
-    :root {
-      --bg-paper: #FAF6EE;
-      --bg-card: #FFFFFF;
-      --bg-lined: #FFFDF8;
-      --bg-subtle: #F2ECE1;
-      --ink: #161824;
-      --muted: #64687A;
-      --line: #E2D9C8;
-      --border-strong: #161824;
-
-      /* Palette Star Academy Rainbow */
-      --sa-pink: #FF1E80;
-      --sa-orange: #FF7A00;
-      --sa-yellow: #FFC700;
-      --sa-cyan: #00B8FF;
-      --sa-purple: #8A3FFC;
-      --sa-green: #12B886;
-      --sa-red: #FA5252;
-
-      --rainbow-grad: linear-gradient(125deg, #FF1E80 0%, #FF7A00 28%, #FFC700 52%, #00B8FF 78%, #8A3FFC 100%);
-      --shadow-sticker: 4px 4px 0px #161824;
-      --shadow-sticker-sm: 2px 2px 0px #161824;
-      --shadow-soft: 0 12px 30px rgba(22, 24, 36, 0.08);
-      --dot-color: rgba(22, 24, 36, 0.09);
+    :root, body[data-promo-theme="2026"] {
+      /* SAISON 2026 : ISABELLA — ROUGE RUBIS & VELOURS CARMIN */
+      --era-primary: #C81E2B; --era-secondary: #FF4D5E; --era-studio: #9E1B20;
+      --era-soft: #FFE4E6; --era-tint: #FFF5F5;
+      --era-grad: linear-gradient(135deg, #7F1D1D 0%, #C81E2B 55%, #F43F5E 100%);
+      --bg-paper: #FDF6F6; --bg-card: #FFFFFF; --bg-lined: #FFFBFB; --bg-subtle: #F9EBEB;
+      --ink: #1C1315; --muted: #6E565A; --line: #EBD5D7; --border-strong: #1C1315;
+      --dot-color: rgba(200, 30, 43, 0.13);
+    }
+    body[data-promo-theme="2025"] {
+      /* SAISON 2025 : AMBRE — DORÉ ORANGÉ, OCRE & MIEL SOLAIRE */
+      --era-primary: #D97706; --era-secondary: #EA580C; --era-studio: #DFA06E;
+      --era-soft: #FEF3C7; --era-tint: #FFFBEB;
+      --era-grad: linear-gradient(135deg, #B45309 0%, #DFA06E 50%, #F59E0B 100%);
+      --bg-paper: #FDF8F0; --bg-card: #FFFFFF; --bg-lined: #FFFEFA; --bg-subtle: #F7EDE0;
+      --ink: #1F160E; --muted: #73604C; --line: #E8D8C3; --border-strong: #1F160E;
+      --dot-color: rgba(217, 119, 6, 0.14);
+    }
+    body[data-promo-theme="2024"] {
+      /* SAISON 2024 : MARINE — ROSE BONBON, STUDIO CANDY & FUCHSIA */
+      --era-primary: #EC4899; --era-secondary: #F49AC2; --era-studio: #F49AC2;
+      --era-soft: #FCE7F3; --era-tint: #FDF2F8;
+      --era-grad: linear-gradient(135deg, #DB2777 0%, #F49AC2 55%, #FB7185 100%);
+      --bg-paper: #FDF6FA; --bg-card: #FFFFFF; --bg-lined: #FFFAFD; --bg-subtle: #F9E8F2;
+      --ink: #21121B; --muted: #755669; --line: #EDD2E2; --border-strong: #21121B;
+      --dot-color: rgba(236, 72, 153, 0.14);
+    }
+    body[data-promo-theme="all"] {
+      /* MULTIVERS : PRISME STAR ACADEMY */
+      --era-primary: #8A3FFC; --era-secondary: #FF1E80; --era-studio: #6D28D9;
+      --era-soft: #F3E8FF; --era-tint: #FAF5FF;
+      --era-grad: linear-gradient(125deg, #C81E2B 0%, #D97706 35%, #EC4899 70%, #8A3FFC 100%);
+      --bg-paper: #FAF7F2; --bg-card: #FFFFFF; --bg-lined: #FFFDF9; --bg-subtle: #F2ECE4;
+      --ink: #161824; --muted: #64687A; --line: #E2D9C8; --border-strong: #161824;
+      --dot-color: rgba(138, 63, 252, 0.12);
     }
 
-    body[data-theme="dark"] {
-      --bg-paper: #0E111B;
-      --bg-card: #171C2C;
-      --bg-lined: #1B2135;
-      --bg-subtle: #20273E;
-      --ink: #F3F5FA;
-      --muted: #949BB0;
-      --line: #2C3552;
-      --border-strong: #06080E;
-      --shadow-sticker: 4px 4px 0px #06080E;
-      --shadow-sticker-sm: 2px 2px 0px #06080E;
-      --shadow-soft: 0 14px 34px rgba(0, 0, 0, 0.45);
-      --dot-color: rgba(255, 255, 255, 0.06);
+    :root {
+      --sa-pink: #FF1E80; --sa-orange: #FF7A00; --sa-yellow: #FFC700;
+      --sa-cyan: #00B8FF; --sa-purple: #8A3FFC; --sa-green: #12B886; --sa-red: #FA5252;
+      --shadow-sticker: 4px 4px 0px var(--border-strong);
+      --shadow-sticker-sm: 2px 2px 0px var(--border-strong);
     }
 
     * { box-sizing: border-box; }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-paper); }
-    ::-webkit-scrollbar-thumb { background: var(--sa-pink); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb { background: var(--era-primary); border-radius: 99px; }
 
     body {
-      margin: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      color: var(--ink);
+      margin: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; color: var(--ink);
       background-color: var(--bg-paper);
       background-image:
-        radial-gradient(var(--dot-color) 1.5px, transparent 1.5px),
-        radial-gradient(circle at 10% 0%, rgba(255, 30, 128, 0.08), transparent 38%),
-        radial-gradient(circle at 90% 5%, rgba(0, 184, 255, 0.10), transparent 38%);
+        radial-gradient(var(--dot-color) 1.6px, transparent 1.6px),
+        radial-gradient(circle at 12% 0%, var(--era-soft), transparent 42%),
+        radial-gradient(circle at 88% 8%, var(--era-soft), transparent 40%);
       background-size: 22px 22px, 100% 100%, 100% 100%;
-      min-height: 100vh;
-      overflow-x: hidden;
+      min-height: 100vh; overflow-x: hidden; transition: background-color 0.35s ease, color 0.25s ease;
     }
 
-    #star-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-    }
-
+    #star-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
     #landing-menu, #app-dashboard { position: relative; z-index: 2; }
-    .container { width: min(1380px, 94vw); margin: 0 auto; }
-
-    h1, h2, h3, .font-display {
-      font-family: 'Fredoka', sans-serif;
-      letter-spacing: 0.5px;
-    }
-    .font-hand {
-      font-family: 'Caveat', cursive;
-      font-weight: 700;
-    }
+    .container { width: min(1400px, 94vw); margin: 0 auto; }
+    h1, h2, h3, .font-display { font-family: 'Fredoka', sans-serif; letter-spacing: 0.4px; }
+    .font-hand { font-family: 'Caveat', cursive; font-weight: 700; }
 
     /* =======================================================================
-       1. LANDING MENU : 4 CARTES 3D FLIP (STYLE KCA × CHUANG SCRAPBOOK)
+       2. PORTAIL D'ENTRÉE : 4 CARTES STUDIO ILLUSTRÉES (3D FLIP)
        ======================================================================= */
     #landing-menu {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      transition: opacity 0.45s ease, transform 0.45s ease;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 2rem 1rem; transition: opacity 0.45s ease, transform 0.45s ease;
     }
-
-    .landing-hero {
-      text-align: center;
-      margin-bottom: 2.2rem;
-      position: relative;
-    }
+    .landing-hero { text-align: center; margin-bottom: 2rem; position: relative; }
     .hello-sticker {
-      display: inline-block;
-      background: var(--sa-pink);
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.78rem;
-      letter-spacing: 2px;
-      padding: 6px 16px;
-      border-radius: 10px;
-      border: 2px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker-sm);
-      transform: rotate(-3deg);
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      display: inline-block; background: var(--era-primary); color: #fff; font-weight: 800;
+      font-size: 0.76rem; letter-spacing: 2px; padding: 6px 16px; border-radius: 10px;
+      border: 2px solid var(--border-strong); box-shadow: var(--shadow-sticker-sm);
+      transform: rotate(-2deg); text-transform: uppercase; margin-bottom: 10px;
     }
     .landing-title {
-      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-      margin: 0;
-      text-transform: uppercase;
-      line-height: 1.05;
-      color: var(--ink);
-      text-shadow: 3px 3px 0px var(--sa-yellow);
+      font-size: clamp(2.5rem, 5.5vw, 4.3rem); margin: 0; text-transform: uppercase;
+      line-height: 1.02; color: var(--ink); text-shadow: 4px 4px 0px var(--sa-yellow);
     }
-    body[data-theme="dark"] .landing-title {
-      text-shadow: 3px 3px 0px var(--sa-pink);
-    }
-    .landing-hand-sub {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(1.35rem, 2.8vw, 1.9rem);
-      color: var(--sa-cyan);
-      margin: 6px 0 0;
-      transform: rotate(-1deg);
-    }
+    .landing-hand-sub { font-family: 'Caveat', cursive; font-size: clamp(1.4rem, 2.8vw, 1.95rem); color: var(--era-primary); margin: 6px 0 0; }
     .landing-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 6px 18px;
-      background: var(--bg-card);
-      border: 2px solid var(--border-strong);
-      border-radius: 99px;
-      box-shadow: var(--shadow-sticker-sm);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 6px 18px;
+      background: var(--bg-card); border: 2px solid var(--border-strong); border-radius: 99px;
+      box-shadow: var(--shadow-sticker-sm); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
     }
 
-    .cards-layout {
-      display: flex;
-      gap: 26px;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 1320px;
-      padding: 10px;
-    }
-    .card-container {
-      width: 265px;
-      height: 390px;
-      perspective: 1500px;
-      cursor: pointer;
-    }
-    .flip-card {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-style: preserve-3d;
-    }
-    @media (hover: hover) {
-      .card-container:hover .flip-card { transform: rotateY(180deg) translateY(-10px); }
-    }
+    .cards-layout { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; max-width: 1360px; padding: 10px; }
+    .card-container { width: 280px; height: 425px; perspective: 1500px; cursor: pointer; }
+    .flip-card { width: 100%; height: 100%; position: relative; transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+    @media (hover: hover) { .card-container:hover .flip-card { transform: rotateY(180deg) translateY(-10px); } }
     .card-container.flipped .flip-card { transform: rotateY(180deg) translateY(-8px); }
 
     .card-face {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      background: var(--bg-card);
-      border: 3px solid var(--border-strong);
-      border-radius: 20px;
-      box-shadow: 6px 6px 0px var(--border-strong);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
+      position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border: 3px solid #161824; border-radius: 22px; box-shadow: 7px 7px 0px #161824;
+      padding: 14px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;
     }
-    /* Washi tape en haut des cartes */
     .card-face::before {
-      content: "";
-      position: absolute;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      width: 90px;
-      height: 22px;
-      background: rgba(255, 199, 0, 0.55);
-      border: 1.5px dashed rgba(22, 24, 36, 0.35);
-      z-index: 3;
+      content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+      width: 96px; height: 22px; background: rgba(255, 255, 255, 0.75); border: 1.5px dashed rgba(22, 24, 36, 0.45); z-index: 5;
     }
-    .card-back { transform: rotateY(180deg); background: var(--bg-lined); }
+    .card-back { transform: rotateY(180deg); }
+
+    .era-card-2026 .card-front { background: linear-gradient(160deg, #9E1B20 0%, #7F1D1D 100%); color: #fff; }
+    .era-card-2026 .card-back  { background: #FFF5F5; color: #1C1315; }
+    .era-card-2025 .card-front { background: linear-gradient(160deg, #DFA06E 0%, #B45309 100%); color: #fff; }
+    .era-card-2025 .card-back  { background: #FFFBEB; color: #1F160E; }
+    .era-card-2024 .card-front { background: linear-gradient(160deg, #F49AC2 0%, #DB2777 100%); color: #fff; }
+    .era-card-2024 .card-back  { background: #FDF2F8; color: #21121B; }
+    .era-card-all .card-front  { background: linear-gradient(145deg, #9E1B20 0%, #DFA06E 48%, #F49AC2 100%); color: #fff; }
+    .era-card-all .card-back   { background: #FAF5FF; color: #161824; }
 
     .promo-card-inner {
-      border: 2px dashed var(--line);
-      border-radius: 14px;
-      height: 100%;
-      padding: 18px 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      text-align: center;
-      position: relative;
+      border: 2px dashed rgba(255, 255, 255, 0.45); border-radius: 16px; height: 100%; padding: 14px 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; position: relative;
     }
-    .promo-star-badge {
-      width: 92px;
-      height: 92px;
-      border-radius: 26px;
-      border: 3px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.6rem;
-      color: #fff;
-      transform: rotate(-4deg);
-      margin-top: 12px;
+    .card-back .promo-card-inner { border-color: rgba(22, 24, 36, 0.25); }
+    .cover-portrait-frame {
+      width: 170px; height: 195px; border-radius: 18px; border: 3px solid #161824; box-shadow: 4px 4px 0px #161824;
+      overflow: hidden; position: relative; background: rgba(0,0,0,0.2); transform: rotate(-2deg);
     }
-    .promo-year-tag {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin: 8px 0 0;
+    .cover-portrait-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-era-tag {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: #161824; color: #fff;
+      font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: 99px; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase;
     }
-    .promo-hand-note {
-      font-family: 'Caveat', cursive;
-      font-size: 1.25rem;
-      color: var(--muted);
-    }
-    .tap-pill {
-      background: var(--ink);
-      color: var(--bg-paper);
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      padding: 7px 16px;
-      border-radius: 99px;
-    }
+    .promo-year-tag { font-family: 'Fredoka', sans-serif; font-size: 1.85rem; font-weight: 700; margin: 4px 0 0; text-shadow: 2px 2px 0px rgba(0,0,0,0.35); }
+    .tap-pill { background: #161824; color: #fff; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 6px 16px; border-radius: 99px; border: 2px solid #fff; }
     .enter-btn-sticker {
-      background: var(--sa-yellow);
-      color: #161824;
-      border: 2px solid #161824;
-      box-shadow: 3px 3px 0px #161824;
-      font-weight: 800;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 9px 18px;
-      border-radius: 99px;
+      background: var(--sa-yellow); color: #161824; border: 2.5px solid #161824; box-shadow: 3px 3px 0px #161824;
+      font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; padding: 10px 18px; border-radius: 99px;
     }
 
     /* =======================================================================
-       2. TOPBAR & NAVIGATION PAR ONGLETS
+       3. HEADER & BANNIÈRE HERO DE SAISON
        ======================================================================= */
     #app-dashboard { display: none; opacity: 0; transition: opacity 0.4s ease; }
-
-    header.app-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(250, 246, 238, 0.9);
-      border-bottom: 3px solid var(--border-strong);
-    }
-    body[data-theme="dark"] header.app-header {
-      background: rgba(14, 17, 27, 0.92);
-    }
-
-    .topbar {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 10px 0;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
+    header.app-header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); background: var(--bg-paper); border-bottom: 3px solid var(--border-strong); }
+    .topbar { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
     .brand-star {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: var(--rainbow-grad);
-      border: 2px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: #fff;
-      transform: rotate(-5deg);
+      width: 42px; height: 42px; border-radius: 12px; background: var(--era-grad); border: 2.5px solid var(--border-strong);
+      box-shadow: var(--shadow-sticker-sm); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: #fff; transform: rotate(-5deg);
     }
-    .brand-txt h1 {
-      margin: 0;
-      font-size: 1.25rem;
-      text-transform: uppercase;
-      line-height: 1;
-    }
-    .brand-txt span {
-      font-family: 'Caveat', cursive;
-      font-size: 1.05rem;
-      color: var(--sa-pink);
-    }
+    .brand-txt h1 { margin: 0; font-size: 1.25rem; text-transform: uppercase; line-height: 1; }
+    .brand-txt span { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--era-primary); }
 
-    /* Switcher de Saison (comme Circle Switcher dans KCA) */
     .promo-switcher {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--bg-subtle);
-      padding: 4px;
-      border-radius: 99px;
-      border: 2px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker-sm);
+      display: flex; align-items: center; gap: 5px; background: var(--bg-subtle); padding: 4px;
+      border-radius: 99px; border: 2px solid var(--border-strong); box-shadow: var(--shadow-sticker-sm);
     }
     .promo-btn {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.76rem;
-      padding: 6px 12px;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
+      border: 2px solid transparent; background: transparent; color: var(--muted); font-family: inherit;
+      font-weight: 800; font-size: 0.76rem; padding: 6px 13px; border-radius: 99px; cursor: pointer; transition: all 0.15s ease; white-space: nowrap;
     }
     .promo-btn:hover { color: var(--ink); }
-    .promo-btn.active {
-      background: var(--sa-yellow);
-      color: #161824;
-      border: 1.5px solid #161824;
-      box-shadow: 2px 2px 0px #161824;
-    }
+    .promo-btn.active { background: var(--era-primary); color: #fff; border-color: var(--border-strong); box-shadow: 2px 2px 0px var(--border-strong); }
 
-    nav.main-nav {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
+    nav.main-nav { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .nav-link, .icon-btn {
+      text-decoration: none; color: var(--ink); background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 12px; padding: 6px 12px; font-size: 0.78rem; font-weight: 800; box-shadow: var(--shadow-sticker-sm);
+      transition: transform 0.12s ease, background 0.12s ease; display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
     }
-    .nav-link {
-      text-decoration: none;
-      color: var(--ink);
-      background: var(--bg-card);
-      border: 2px solid var(--border-strong);
-      border-radius: 12px;
-      padding: 6px 12px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      box-shadow: var(--shadow-sticker-sm);
-      transition: transform 0.12s ease, background 0.12s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+    .nav-link:hover, .icon-btn:hover { transform: translateY(-2px); }
+    .nav-link.active { background: var(--era-primary); color: #fff; }
+
+    .era-hero-banner {
+      margin-top: 18px; background: var(--era-grad); color: #fff; border: 3px solid var(--border-strong);
+      border-radius: 22px; padding: 18px 22px; box-shadow: var(--shadow-sticker);
+      display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: center; position: relative; overflow: hidden;
     }
-    .nav-link:hover { transform: translateY(-2px); }
-    .nav-link.active {
-      background: var(--sa-pink);
-      color: #fff;
+    @media (max-width: 900px) { .era-hero-banner { grid-template-columns: 1fr; } }
+    .era-hero-banner::after { content: "★ ♪ ✦"; position: absolute; right: 18px; top: 8px; font-size: 2.2rem; opacity: 0.16; pointer-events: none; letter-spacing: 10px; }
+    .era-hero-left h2 { margin: 4px 0; font-size: clamp(1.45rem, 2.6vw, 2rem); text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.35); }
+    .era-hero-tag {
+      display: inline-block; background: #161824; color: var(--sa-yellow); font-size: 0.7rem;
+      font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 11px; border-radius: 99px; border: 1.5px solid #fff;
     }
-    .icon-btn {
-      background: var(--bg-card);
-      color: var(--ink);
-      border: 2px solid var(--border-strong);
-      border-radius: 12px;
-      padding: 6px 10px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: var(--shadow-sticker-sm);
+    .era-hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (max-width: 520px) { .era-hero-stats { grid-template-columns: 1fr; } }
+    .era-stat-pill {
+      background: rgba(22, 24, 36, 0.82); backdrop-filter: blur(6px); border: 2px solid #fff; border-radius: 14px;
+      padding: 8px 10px; display: flex; align-items: center; gap: 9px; color: #fff; cursor: pointer; transition: transform 0.15s ease;
     }
-    .icon-btn:hover { transform: translateY(-2px); }
+    .era-stat-pill:hover { transform: translateY(-2px); }
+    .era-stat-avatar { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 2px solid var(--sa-yellow); flex-shrink: 0; }
+    .era-stat-txt .lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.8px; color: #cbd5e1; font-weight: 700; }
+    .era-stat-txt .val { font-family: 'Fredoka', sans-serif; font-size: 0.95rem; line-height: 1.15; }
 
     /* =======================================================================
-       3. BARRE DE CONTRÔLE GLOBALE (PRIME TIMELINE + SOURCE PERSO/PROFS/POPU/FUSION)
+       4. BARRE DE CONTRÔLE (SOURCE + TRI + TIMELINE)
        ======================================================================= */
     .control-strip {
-      margin-top: 18px;
-      background: var(--bg-card);
-      border: 2.5px solid var(--border-strong);
-      border-radius: 18px;
-      padding: 12px 16px;
-      box-shadow: var(--shadow-sticker);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      margin-top: 14px; background: var(--bg-card); border: 2.5px solid var(--border-strong);
+      border-radius: 18px; padding: 12px 16px; box-shadow: var(--shadow-sticker); display: flex; flex-direction: column; gap: 10px;
     }
-    .control-top-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .source-pills {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+    .control-top-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+    .source-pills, .sort-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .src-btn {
-      border: 2px solid var(--border-strong);
-      background: var(--bg-subtle);
-      color: var(--ink);
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 6px 13px;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: all 0.12s ease;
+      border: 2px solid var(--border-strong); background: var(--bg-subtle); color: var(--ink); font-family: inherit;
+      font-weight: 800; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 13px; border-radius: 99px; cursor: pointer; transition: all 0.12s ease;
     }
-    .src-btn.active[data-view="perso"] { background: var(--sa-pink); color: #fff; box-shadow: var(--shadow-sticker-sm); }
-    .src-btn.active[data-view="profs"] { background: var(--sa-orange); color: #fff; box-shadow: var(--shadow-sticker-sm); }
-    .src-btn.active[data-view="pop"]   { background: var(--sa-cyan); color: #161824; box-shadow: var(--shadow-sticker-sm); }
-    .src-btn.active[data-view="fusion"]{ background: var(--sa-purple); color: #fff; box-shadow: var(--shadow-sticker-sm); }
-
-    .sort-pills {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+    .src-btn.active { background: var(--era-primary); color: #fff; box-shadow: var(--shadow-sticker-sm); }
     .sort-btn {
-      border: 2px solid var(--border-strong);
-      background: var(--bg-card);
-      color: var(--muted);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.74rem;
-      padding: 5px 11px;
-      border-radius: 10px;
-      cursor: pointer;
+      border: 2px solid var(--border-strong); background: var(--bg-card); color: var(--muted); font-family: inherit;
+      font-weight: 800; font-size: 0.73rem; padding: 5px 11px; border-radius: 10px; cursor: pointer;
     }
-    .sort-btn.active {
-      background: var(--sa-yellow);
-      color: #161824;
-      box-shadow: var(--shadow-sticker-sm);
-    }
+    .sort-btn.active { background: var(--sa-yellow); color: #161824; box-shadow: var(--shadow-sticker-sm); }
 
-    .timeline-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
+    .timeline-row { display: flex; align-items: center; gap: 7px; overflow-x: auto; padding-bottom: 2px; }
     .tl-play-btn {
-      border: 2px solid var(--border-strong);
-      background: var(--sa-green);
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.72rem;
-      padding: 5px 12px;
-      border-radius: 99px;
-      cursor: pointer;
-      flex-shrink: 0;
-      box-shadow: var(--shadow-sticker-sm);
+      border: 2px solid var(--border-strong); background: var(--sa-green); color: #fff; font-weight: 800;
+      font-size: 0.72rem; padding: 5px 12px; border-radius: 99px; cursor: pointer; flex-shrink: 0; box-shadow: var(--shadow-sticker-sm);
     }
     .tl-play-btn.playing { background: var(--sa-red); }
     .tl-chip {
-      border: 1.5px solid var(--line);
-      background: var(--bg-subtle);
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 0.72rem;
-      padding: 4px 10px;
-      border-radius: 99px;
-      cursor: pointer;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      border: 1.5px solid var(--line); background: var(--bg-subtle); color: var(--muted); font-weight: 700;
+      font-size: 0.72rem; padding: 4px 10px; border-radius: 99px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
     }
-    .tl-chip.has-data {
-      color: var(--ink);
-      border-color: var(--border-strong);
-      background: var(--bg-card);
-    }
-    .tl-chip.has-data::after {
-      content: "★";
-      font-size: 0.65rem;
-      color: var(--sa-orange);
-    }
-    .tl-chip.active {
-      background: var(--ink);
-      color: var(--bg-paper) !important;
-      border-color: var(--ink);
-    }
+    .tl-chip.has-data { color: var(--ink); border-color: var(--border-strong); background: var(--bg-card); }
+    .tl-chip.has-data::after { content: "★"; font-size: 0.65rem; color: var(--era-primary); }
+    .tl-chip.active { background: var(--era-primary); color: #fff !important; border-color: var(--border-strong); box-shadow: 1px 2px 0px var(--border-strong); }
+    .tl-chip.active::after { color: var(--sa-yellow); }
 
     /* =======================================================================
-       4. PAGES & COMPOSANTS CARNET SCRAPBOOK
+       5. COMPOSANTS CARNET, POLAROIDS, TABLEAUX & PAGES
        ======================================================================= */
-    main { padding: 1.4rem 0 4rem; }
+    main { padding: 1.2rem 0 4rem; }
     .page { display: none; }
-    .page.active { display: block; animation: popIn 0.3s ease forwards; }
-    @keyframes popIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .page.active { display: block; animation: popIn 0.28s ease forwards; }
+    @keyframes popIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     .notebook-card {
-      background: var(--bg-card);
-      border: 3px solid var(--border-strong);
-      border-radius: 22px;
-      padding: 22px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-sticker);
-      position: relative;
+      background: var(--bg-card); border: 3px solid var(--border-strong); border-radius: 22px;
+      padding: 20px; margin-bottom: 22px; box-shadow: var(--shadow-sticker); position: relative;
     }
     .lined-note {
-      background-color: var(--bg-lined);
-      background-image: repeating-linear-gradient(transparent, transparent 27px, rgba(0, 184, 255, 0.18) 28px);
-      border: 2px solid var(--border-strong);
-      border-radius: 14px;
-      padding: 14px 18px;
-      box-shadow: var(--shadow-sticker-sm);
-      line-height: 28px;
+      background-color: var(--bg-lined); background-image: repeating-linear-gradient(transparent, transparent 27px, var(--dot-color) 28px);
+      border: 2px solid var(--border-strong); border-radius: 14px; padding: 14px 18px; box-shadow: var(--shadow-sticker-sm);
     }
-
-    .section-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+    .section-header-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
     .sticker-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--sa-yellow);
-      color: #161824;
-      border: 2.5px solid #161824;
-      box-shadow: 3px 3px 0px #161824;
-      padding: 5px 14px;
-      border-radius: 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      transform: rotate(-1deg);
-      margin: 0;
+      display: inline-flex; align-items: center; gap: 8px; background: var(--era-primary); color: #fff;
+      border: 2.5px solid var(--border-strong); box-shadow: 3px 3px 0px var(--border-strong);
+      padding: 5px 14px; border-radius: 12px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; text-transform: uppercase; transform: rotate(-1deg); margin: 0;
     }
 
-    /* =======================================================================
-       5. GRILLE POLAROID DES ACADÉMICIENS (#contestants)
-       ======================================================================= */
-    .polaroid-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 22px;
-      padding: 8px 0;
-    }
+    .polaroid-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 20px; padding: 6px 0; }
     .polaroid-card {
-      background: var(--bg-card);
-      border: 3px solid var(--border-strong);
-      border-radius: 18px;
-      padding: 12px 12px 14px;
-      box-shadow: var(--shadow-sticker);
-      cursor: pointer;
-      position: relative;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      background: var(--bg-card); border: 3px solid var(--border-strong); border-radius: 18px; padding: 11px 11px 13px;
+      box-shadow: var(--shadow-sticker); cursor: pointer; position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex; flex-direction: column; gap: 8px; background-image: linear-gradient(180deg, var(--era-soft) 0%, var(--bg-card) 42%);
     }
-    .polaroid-card:hover {
-      transform: translateY(-6px) rotate(-1deg);
-      box-shadow: 7px 7px 0px var(--border-strong);
-    }
-    /* Punaise ou Washi Tape en haut du Polaroid */
+    .polaroid-card:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 7px 7px 0px var(--border-strong); }
     .polaroid-pin {
-      position: absolute;
-      top: -9px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--sa-pink);
-      border: 2px solid #161824;
-      box-shadow: 1px 2px 0px #161824;
-      z-index: 4;
+      position: absolute; top: -9px; left: 50%; transform: translateX(-50%); width: 18px; height: 18px;
+      border-radius: 50%; background: var(--era-primary); border: 2px solid #161824; box-shadow: 1px 2px 0px #161824; z-index: 4;
     }
-    .polaroid-card:nth-child(3n+2) .polaroid-pin { background: var(--sa-cyan); }
-    .polaroid-card:nth-child(3n) .polaroid-pin { background: var(--sa-yellow); }
-
     .polaroid-photo-wrap {
-      width: 100%;
-      height: 215px;
-      border-radius: 12px;
-      border: 2px solid var(--border-strong);
-      background: var(--bg-subtle);
-      overflow: hidden;
-      position: relative;
+      width: 100%; height: 215px; border-radius: 12px; border: 2.5px solid var(--border-strong);
+      background: var(--era-studio); overflow: hidden; position: relative;
     }
-    .polaroid-photo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
+    .polaroid-photo-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease, filter 0.3s ease; }
     .polaroid-card:hover .polaroid-photo-wrap img { transform: scale(1.04); }
-    .polaroid-card.is-elim { opacity: 0.78; }
-    .polaroid-card.is-elim .polaroid-photo-wrap img {
-      filter: grayscale(100%) contrast(110%);
-    }
+    .polaroid-card.is-elim.bw-mode .polaroid-photo-wrap img { filter: grayscale(100%) contrast(108%); opacity: 0.82; }
 
     .rank-sticker {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background: var(--bg-card);
-      color: var(--ink);
-      border: 2px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker-sm);
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      padding: 2px 9px;
-      border-radius: 10px;
-      z-index: 3;
+      position: absolute; top: 8px; left: 8px; background: var(--bg-card); color: var(--ink);
+      border: 2px solid #161824; box-shadow: 2px 2px 0px #161824; font-family: 'Fredoka', sans-serif;
+      font-size: 0.88rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; z-index: 3;
     }
     .rank-sticker.r-1 { background: var(--sa-yellow); color: #161824; }
     .rank-sticker.r-2 { background: #E2E8F0; color: #161824; }
     .rank-sticker.r-3 { background: #FDBA74; color: #161824; }
 
     .delta-sticker {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      border: 2px solid var(--border-strong);
-      box-shadow: var(--shadow-sticker-sm);
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 99px;
-      z-index: 3;
-      background: var(--bg-card);
+      position: absolute; top: 8px; right: 8px; border: 2px solid #161824; box-shadow: 2px 2px 0px #161824;
+      font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 99px; z-index: 3; background: var(--bg-card);
     }
     .delta-sticker.up { background: #D3F9D8; color: #087F5B; }
     .delta-sticker.down { background: #FFE3E3; color: #C92A2A; }
     .delta-sticker.eq { background: var(--bg-subtle); color: var(--muted); }
 
     .stamp-badge {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      padding: 3px 9px;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: 2px solid #161824;
-      transform: rotate(-4deg);
-      z-index: 3;
+      position: absolute; bottom: 8px; right: 8px; padding: 3px 10px; border-radius: 6px; font-size: 0.65rem;
+      font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; border: 2px solid #161824; box-shadow: 2px 2px 0px #161824; transform: rotate(-3deg); z-index: 3;
     }
     .stamp-elim { background: var(--sa-red); color: #fff; }
     .stamp-win  { background: var(--sa-yellow); color: #161824; }
+    .stamp-fin  { background: #E2E8F0; color: #161824; }
 
-    .polaroid-caption {
-      text-align: center;
-    }
-    .polaroid-name {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.25rem;
-      margin: 0;
-      color: var(--ink);
-    }
-    .polaroid-hand-sub {
-      font-family: 'Caveat', cursive;
-      font-size: 1.1rem;
-      color: var(--muted);
-      margin-top: -2px;
-    }
-    .polaroid-scores-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 4px;
-      border-top: 1.5px dashed var(--line);
-      padding-top: 8px;
-      text-align: center;
-      font-size: 0.66rem;
-    }
-    .polaroid-scores-strip div {
-      background: var(--bg-subtle);
-      border-radius: 6px;
-      padding: 3px 2px;
-      color: var(--muted);
-      font-weight: 600;
-    }
-    .polaroid-scores-strip strong {
-      display: block;
-      font-size: 0.78rem;
-      color: var(--ink);
-    }
+    .polaroid-caption { text-align: center; }
+    .polaroid-name { font-family: 'Fredoka', sans-serif; font-size: 1.22rem; margin: 0; color: var(--ink); }
+    .polaroid-hand-sub { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--era-primary); margin-top: -2px; }
+    .polaroid-spark { width: 100%; height: 30px; background: var(--bg-subtle); border-radius: 8px; border: 1px dashed var(--line); padding: 2px 4px; }
+    .polaroid-scores-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; text-align: center; font-size: 0.65rem; }
+    .polaroid-scores-strip div { background: var(--bg-subtle); border: 1px solid var(--line); border-radius: 6px; padding: 3px 2px; color: var(--muted); font-weight: 700; }
+    .polaroid-scores-strip strong { display: block; font-size: 0.78rem; color: var(--ink); }
 
-    /* =======================================================================
-       6. PODIUM TOP 3 & TABLEAU D'ALIGNEMENT (#rankings)
-       ======================================================================= */
-    .podium-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.12fr 1fr;
-      gap: 14px;
-      align-items: flex-end;
-      margin-bottom: 20px;
-    }
+    /* PODIUM & TABLEAUX */
+    .podium-grid { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 14px; align-items: flex-end; margin-bottom: 18px; }
     @media (max-width: 720px) { .podium-grid { grid-template-columns: 1fr; } }
     .podium-card {
-      background: var(--bg-lined);
-      border: 2.5px solid var(--border-strong);
-      border-radius: 16px;
-      padding: 12px 14px;
-      box-shadow: var(--shadow-sticker-sm);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: transform 0.15s ease;
+      background: var(--bg-lined); border: 2.5px solid var(--border-strong); border-radius: 16px;
+      padding: 12px 14px; box-shadow: var(--shadow-sticker-sm); display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.15s ease;
     }
     .podium-card:hover { transform: translateY(-3px); }
-    .podium-card.p-1 {
-      background: linear-gradient(135deg, rgba(255, 199, 0, 0.22), var(--bg-card));
-      padding: 16px;
-      box-shadow: var(--shadow-sticker);
-    }
-    .podium-pic {
-      width: 54px;
-      height: 54px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 2px solid var(--border-strong);
-      flex-shrink: 0;
-    }
+    .podium-card.p-1 { background: linear-gradient(135deg, var(--era-soft), var(--bg-card)); border-color: var(--era-primary); padding: 15px; box-shadow: var(--shadow-sticker); }
+    .podium-pic { width: 54px; height: 54px; border-radius: 14px; object-fit: cover; border: 2px solid var(--border-strong); background: var(--era-studio); flex-shrink: 0; }
     .p-1 .podium-pic { width: 64px; height: 64px; border-width: 2.5px; }
 
-    .table-wrapper {
-      border: 2.5px solid var(--border-strong);
-      border-radius: 16px;
-      overflow-x: auto;
-      background: var(--bg-card);
-      box-shadow: var(--shadow-sticker-sm);
-    }
-    table.sa-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      min-width: 1150px;
-    }
+    .table-wrapper { border: 2.5px solid var(--border-strong); border-radius: 16px; overflow-x: auto; background: var(--bg-card); box-shadow: var(--shadow-sticker-sm); }
+    table.sa-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     table.sa-table thead th {
-      background: var(--bg-subtle);
-      color: var(--ink);
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.8px;
-      padding: 10px 8px;
-      border-bottom: 2.5px solid var(--border-strong);
-      text-align: center;
-      white-space: nowrap;
+      background: var(--bg-subtle); color: var(--ink); font-weight: 800; text-transform: uppercase;
+      font-size: 0.7rem; letter-spacing: 0.8px; padding: 10px 8px; border-bottom: 2.5px solid var(--border-strong); text-align: center; white-space: nowrap;
     }
     table.sa-table thead th.col-left { text-align: left; }
-    table.sa-table tbody tr {
-      border-bottom: 1px dashed var(--line);
-      cursor: pointer;
-      background: var(--bg-card);
-      transition: background 0.12s ease;
-    }
+    table.sa-table tbody tr { border-bottom: 1px dashed var(--line); cursor: pointer; background: var(--bg-card); transition: background 0.12s ease; }
     table.sa-table tbody tr:nth-child(2n) { background: var(--bg-lined); }
-    table.sa-table tbody tr:hover { background: rgba(255, 199, 0, 0.15); }
-    table.sa-table tbody tr.is-elim-row { opacity: 0.68; }
-    table.sa-table td {
-      padding: 8px;
-      text-align: center;
-      font-variant-numeric: tabular-nums;
-      vertical-align: middle;
-    }
-    table.sa-table th.sticky-1, table.sa-table td.sticky-1 {
-      position: sticky;
-      left: 0;
-      z-index: 3;
-      width: 48px;
-      min-width: 48px;
-      background: inherit;
-    }
+    table.sa-table tbody tr:hover { background: var(--era-soft); }
+    table.sa-table tbody tr.is-elim-row { opacity: 0.72; }
+    table.sa-table td { padding: 8px; text-align: center; font-variant-numeric: tabular-nums; vertical-align: middle; }
+    table.sa-table th.sticky-1, table.sa-table td.sticky-1 { position: sticky; left: 0; z-index: 3; width: 48px; min-width: 48px; background: inherit; }
     table.sa-table th.sticky-2, table.sa-table td.sticky-2 {
-      position: sticky;
-      left: 48px;
-      z-index: 3;
-      width: 220px;
-      min-width: 220px;
-      max-width: 220px;
-      text-align: left;
-      background: inherit;
-      border-right: 2px solid var(--border-strong);
+      position: sticky; left: 48px; z-index: 3; width: 225px; min-width: 225px; max-width: 225px;
+      text-align: left; background: inherit; border-right: 2px solid var(--border-strong);
     }
-    table.sa-table thead th.sticky-1, table.sa-table thead th.sticky-2 {
-      background: var(--bg-subtle);
-      z-index: 4;
-    }
-
-    /* Heatmap dans le tableau */
-    table.heatmap-on td.hm-1 { background: rgba(255, 199, 0, 0.35); font-weight: 800; }
-    table.heatmap-on td.hm-top3 { background: rgba(0, 184, 255, 0.20); font-weight: 700; }
-    table.heatmap-on td.hm-top5 { background: rgba(138, 63, 252, 0.14); }
+    table.sa-table thead th.sticky-1, table.sa-table thead th.sticky-2 { background: var(--bg-subtle); z-index: 4; }
+    table.heatmap-on td.hm-1 { background: rgba(255, 199, 0, 0.38); font-weight: 800; }
+    table.heatmap-on td.hm-top3 { background: rgba(0, 184, 255, 0.22); font-weight: 700; }
+    table.heatmap-on td.hm-top5 { background: var(--era-soft); font-weight: 600; }
     table.heatmap-on td.hm-low { background: rgba(250, 82, 82, 0.16); color: var(--sa-red); }
 
-    /* =======================================================================
-       7. FICHE INDIVIDUELLE DE L'ÉLÈVE (#profile) - STYLE KCA ACADEMY
-       ======================================================================= */
-    .profile-layout {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
+    /* FICHE ÉLÈVE, DUEL & RECORDS */
+    .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start; }
     @media (max-width: 880px) { .profile-layout { grid-template-columns: 1fr; } }
-
     .profile-polaroid {
-      background: var(--bg-card);
-      border: 3px solid var(--border-strong);
-      border-radius: 20px;
-      padding: 14px;
-      box-shadow: var(--shadow-sticker);
-      text-align: center;
-      position: relative;
+      background: linear-gradient(180deg, var(--era-soft) 0%, var(--bg-card) 55%); border: 3px solid var(--border-strong);
+      border-radius: 20px; padding: 14px; box-shadow: var(--shadow-sticker); text-align: center; position: relative;
     }
-    .profile-polaroid img {
-      width: 100%;
-      height: 290px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 2px solid var(--border-strong);
-    }
-    .charts-split-2 {
-      display: grid;
-      grid-template-columns: 1fr 1.35fr;
-      gap: 22px;
-      margin-top: 22px;
-    }
+    .profile-polaroid img { width: 100%; height: 290px; object-fit: cover; border-radius: 12px; border: 2.5px solid var(--border-strong); background: var(--era-studio); }
+    .charts-split-2 { display: grid; grid-template-columns: 1fr 1.35fr; gap: 22px; margin-top: 22px; }
     @media (max-width: 900px) { .charts-split-2 { grid-template-columns: 1fr; } }
+    .stat-stickers-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 10px; margin: 14px 0 18px; }
+    .stat-sticker { background: var(--bg-lined); border: 2px solid var(--border-strong); border-radius: 14px; padding: 10px 12px; box-shadow: var(--shadow-sticker-sm); text-align: center; }
+    .stat-sticker .lbl { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px; }
+    .stat-sticker .val { font-family: 'Fredoka', sans-serif; font-size: 1.35rem; margin-top: 2px; }
 
-    .stat-stickers-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-      gap: 10px;
-      margin: 14px 0 18px;
-    }
-    .stat-sticker {
-      background: var(--bg-lined);
-      border: 2px solid var(--border-strong);
-      border-radius: 14px;
-      padding: 10px 12px;
-      box-shadow: var(--shadow-sticker-sm);
-      text-align: center;
-    }
-    .stat-sticker .lbl {
-      font-size: 0.68rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .stat-sticker .val {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.35rem;
-      margin-top: 2px;
-    }
-
-    /* =======================================================================
-       8. DUEL 1V1 & FAITS CHIFFRÉS (#duel & #records)
-       ======================================================================= */
-    .duel-header-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .duel-header-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin-bottom: 20px; }
     @media (max-width: 760px) { .duel-header-grid { grid-template-columns: 1fr; text-align: center; } }
-
-    .facts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 22px; }
     .fact-card {
-      background: var(--bg-lined);
-      border: 2.5px solid var(--border-strong);
-      border-radius: 16px;
-      padding: 14px 16px;
-      box-shadow: var(--shadow-sticker-sm);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      background: var(--bg-lined); border: 2.5px solid var(--border-strong); border-radius: 16px;
+      padding: 13px 15px; box-shadow: var(--shadow-sticker-sm); display: flex; align-items: center; gap: 12px;
     }
-    .fact-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 2px solid var(--border-strong);
-      flex-shrink: 0;
-    }
+    .fact-avatar { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; border: 2px solid var(--border-strong); background: var(--era-studio); flex-shrink: 0; }
     .input-pill, .select-pill {
-      border: 2px solid var(--border-strong);
-      background: var(--bg-card);
-      color: var(--ink);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: 7px 12px;
-      border-radius: 12px;
-      outline: none;
-      box-shadow: var(--shadow-sticker-sm);
+      border: 2px solid var(--border-strong); background: var(--bg-card); color: var(--ink);
+      font-family: inherit; font-weight: 700; font-size: 0.8rem; padding: 7px 12px; border-radius: 12px; outline: none; box-shadow: var(--shadow-sticker-sm);
     }
   </style>
 </head>
-<body data-theme="light">
+<body data-promo-theme="2026">
 
-<!-- CANVAS ÉTOILES & NOTES FLOTTANTES -->
 <canvas id="star-canvas"></canvas>
 
 <!-- =======================================================================
-     1. PORTAIL D'ENTRÉE : 4 CARTES 3D FLIP (PROMOS STAR ACADEMY)
+     1. PORTAIL D'ENTRÉE : 4 CARTES 3D AUX COULEURS DE CHAQUE SAISON
      ======================================================================= -->
 <div id="landing-menu">
   <div class="landing-hero">
-    <div class="hello-sticker">★ HELLO STAR ACADEMY ★</div>
+    <div class="hello-sticker">★ STAR ACADEMY SCRAPBOOK ★</div>
     <h1 class="landing-title">Star Ac' Scrapbook</h1>
-    <p class="landing-hand-sub">« See the evolution, find your favorites! » • Suivi Perso, Profs &amp; Public</p>
-    <div class="landing-hint">✦ Touche ou survole une carte de Promotion pour ouvrir le carnet ✦</div>
+    <p class="landing-hand-sub">3 Saisons • 3 Directions Artistiques • Suivi Perso, Profs &amp; Public</p>
+    <div class="landing-hint">✦ Touche ou survole une carte de Saison pour entrer dans son univers ✦</div>
   </div>
 
   <div class="cards-layout">
-    <!-- CARTE PROMO 2026 -->
-    <div class="card-container" onclick="handleCardTap(this, '2026')">
+    <!-- SAISON 2026 : ROUGE RUBIS (ISABELLA) -->
+    <div class="card-container era-card-2026" onmouseenter="previewEraTheme('2026')" onclick="handleCardTap(this, '2026')">
       <div class="flip-card">
         <div class="card-face card-front">
           <div class="promo-card-inner">
-            <span class="hello-sticker" style="background:var(--sa-pink);transform:rotate(2deg);">SAISON EN COURS</span>
-            <div class="promo-star-badge" style="background:var(--rainbow-grad);">★</div>
+            <span class="hello-sticker" style="background:#161824;color:#FFC700;">SAISON EN COURS • 2026</span>
+            <div class="cover-portrait-frame" style="background:#9E1B20;">
+              <img src="assets/isabella.jpg" alt="Isabella 2026" onerror="handleImgError(this, '2026')" />
+              <span class="cover-era-tag">♦ RED VELVET EDITION ♦</span>
+            </div>
             <div>
               <div class="promo-year-tag">PROMO 2026</div>
-              <div class="promo-hand-sub font-hand" style="font-size:1.2rem;color:var(--sa-pink);">17 Académiciens au Château</div>
+              <div class="font-hand" style="font-size:1.25rem;color:#FFE4E6;">DA Rouge Rubis &amp; Studio Carmin</div>
             </div>
-            <div class="tap-pill">✦ Retourner ✦</div>
+            <div class="tap-pill">✦ Retourner la carte ✦</div>
           </div>
         </div>
         <div class="card-face card-back">
           <div class="promo-card-inner">
-            <div class="font-hand" style="font-size:1.35rem;color:var(--sa-pink);">Nouvelle Génération</div>
-            <p style="font-size:0.8rem;color:var(--muted);line-height:1.45;margin:0;">
-              Amel, Antoine, Brieuc, Cameron, Elija, Félix, Isabella, Khalil, Kylian, Leeloo, Maud, Mélina, Morgan, Noémie, Tracy, Ydriss &amp; Zoé.
+            <div class="font-hand" style="font-size:1.5rem;color:#C81E2B;">Promotion 2026 (17 Élèves)</div>
+            <p style="font-size:0.8rem;line-height:1.5;margin:0;">
+              <strong>L'ère Rouge Velours :</strong> Amel, Antoine, Brieuc, Cameron, Elija, Félix, Isabella, Khalil, Kylian, Leeloo, Maud, Mélina, Morgan, Noémie, Tracy, Ydriss &amp; Zoé.
             </p>
-            <div class="enter-btn-sticker">★ Ouvrir Promo 2026 ★</div>
+            <div class="enter-btn-sticker" style="background:#C81E2B;color:#fff;">★ Ouvrir Saison 2026 ★</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CARTE PROMO 2025 -->
-    <div class="card-container" onclick="handleCardTap(this, '2025')">
+    <!-- SAISON 2025 : DORÉ ORANGÉ (AMBRE) -->
+    <div class="card-container era-card-2025" onmouseenter="previewEraTheme('2025')" onclick="handleCardTap(this, '2025')">
       <div class="flip-card">
         <div class="card-face card-front">
           <div class="promo-card-inner">
-            <span class="hello-sticker" style="background:var(--sa-orange);transform:rotate(-2deg);">ARCHIVES COMPLÈTES</span>
-            <div class="promo-star-badge" style="background:linear-gradient(135deg,#FF7A00,#FFC700);">👑</div>
+            <span class="hello-sticker" style="background:#161824;color:#FFC700;">SAISON D'AMBRE • 2025</span>
+            <div class="cover-portrait-frame" style="background:#DFA06E;">
+              <img src="assets/ambre.jpg" alt="Ambre 2025" onerror="handleImgError(this, '2025')" />
+              <span class="cover-era-tag">☀ GOLDEN AMBER EDITION ☀</span>
+            </div>
             <div>
               <div class="promo-year-tag">PROMO 2025</div>
-              <div class="promo-hand-sub font-hand" style="font-size:1.2rem;color:var(--sa-orange);">Saison d'Ambre &amp; Léa</div>
+              <div class="font-hand" style="font-size:1.25rem;color:#FEF3C7;">DA Doré Orangé &amp; Miel Solaire</div>
             </div>
-            <div class="tap-pill">✦ Retourner ✦</div>
+            <div class="tap-pill">✦ Retourner la carte ✦</div>
           </div>
         </div>
         <div class="card-face card-back">
           <div class="promo-card-inner">
-            <div class="font-hand" style="font-size:1.35rem;color:var(--sa-orange);">16 Primes Archivés</div>
-            <p style="font-size:0.8rem;color:var(--muted);line-height:1.45;margin:0;">
-              Revivez toute la trajectoire d'Ambre, Léa, Victor, Sarah, Bastiaan, Anouk et toute la promotion 2025 du Prime 0 à la Finale.
+            <div class="font-hand" style="font-size:1.5rem;color:#B45309;">16 Primes • Victoire d'Ambre</div>
+            <p style="font-size:0.8rem;line-height:1.5;margin:0;">
+              <strong>L'ère Ambre &amp; Or :</strong> Ambre 🏆, Léa 🥈, Victor, Sarah, Bastiaan, Anouk, Théo P., Melissa, Jeanne, Leo, Lily, Théo L., Léane, Ema, Noah, Lenny &amp; Mehdi.
             </p>
-            <div class="enter-btn-sticker">★ Ouvrir Promo 2025 ★</div>
+            <div class="enter-btn-sticker" style="background:#D97706;color:#fff;">★ Ouvrir Saison 2025 ★</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CARTE PROMO 2024 -->
-    <div class="card-container" onclick="handleCardTap(this, '2024')">
+    <!-- SAISON 2024 : ROSE BONBON (MARINE) -->
+    <div class="card-container era-card-2024" onmouseenter="previewEraTheme('2024')" onclick="handleCardTap(this, '2024')">
       <div class="flip-card">
         <div class="card-face card-front">
           <div class="promo-card-inner">
-            <span class="hello-sticker" style="background:var(--sa-cyan);color:#161824;transform:rotate(2deg);">ARCHIVES COMPLÈTES</span>
-            <div class="promo-star-badge" style="background:linear-gradient(135deg,#00B8FF,#8A3FFC);">💿</div>
+            <span class="hello-sticker" style="background:#161824;color:#F49AC2;">SAISON DE MARINE • 2024</span>
+            <div class="cover-portrait-frame" style="background:#F49AC2;">
+              <img src="assets/marine.jpg" alt="Marine 2024" onerror="handleImgError(this, '2024')" />
+              <span class="cover-era-tag">✿ PINK CANDY EDITION ✿</span>
+            </div>
             <div>
               <div class="promo-year-tag">PROMO 2024</div>
-              <div class="promo-hand-sub font-hand" style="font-size:1.2rem;color:var(--sa-cyan);">Saison de Marine &amp; Ebony</div>
+              <div class="font-hand" style="font-size:1.25rem;color:#FCE7F3;">DA Rose Poudré &amp; Fuchsia Pop</div>
             </div>
-            <div class="tap-pill">✦ Retourner ✦</div>
+            <div class="tap-pill">✦ Retourner la carte ✦</div>
           </div>
         </div>
         <div class="card-face card-back">
           <div class="promo-card-inner">
-            <div class="font-hand" style="font-size:1.35rem;color:var(--sa-purple);">Promotion 2024</div>
-            <p style="font-size:0.8rem;color:var(--muted);line-height:1.45;margin:0;">
-              Consultez tous les classements Perso, Profs, Popularité et Fusion de Marine, Ebony, Franck, Charles, Ulysse, Marguerite…
+            <div class="font-hand" style="font-size:1.5rem;color:#DB2777;">15 Primes • Victoire de Marine</div>
+            <p style="font-size:0.8rem;line-height:1.5;margin:0;">
+              <strong>L'ère Pink Pop :</strong> Marine 🏆, Ebony 🥈, Franck, Charles, Ulysse, Marguerite, Maïa, Maureen, Julie, Masseo, Emma, Noah, Thomas, Paul &amp; Maylis.
             </p>
-            <div class="enter-btn-sticker">★ Ouvrir Promo 2024 ★</div>
+            <div class="enter-btn-sticker" style="background:#EC4899;color:#fff;">★ Ouvrir Saison 2024 ★</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CARTE MULTIVERS TOUTES PROMOS -->
-    <div class="card-container" onclick="handleCardTap(this, 'all')">
+    <!-- MULTIVERS TOUTES PROMOS -->
+    <div class="card-container era-card-all" onmouseenter="previewEraTheme('all')" onclick="handleCardTap(this, 'all')">
       <div class="flip-card">
         <div class="card-face card-front">
           <div class="promo-card-inner">
-            <span class="hello-sticker" style="background:var(--sa-purple);transform:rotate(-2deg);">ALL-STARS</span>
-            <div class="promo-star-badge" style="background:linear-gradient(135deg,#8A3FFC,#FF1E80);">🌍</div>
+            <span class="hello-sticker" style="background:#161824;color:#fff;">ALL-STARS • 49 ÉLÈVES</span>
+            <div class="cover-portrait-frame" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#161824;">
+              <img src="assets/marine.jpg" alt="2024" style="height:100%;object-fit:cover;" onerror="handleImgError(this, '24')" />
+              <img src="assets/ambre.jpg" alt="2025" style="height:100%;object-fit:cover;" onerror="handleImgError(this, '25')" />
+              <img src="assets/isabella.jpg" alt="2026" style="height:100%;object-fit:cover;" onerror="handleImgError(this, '26')" />
+              <span class="cover-era-tag">★ 2024 • 2025 • 2026 ★</span>
+            </div>
             <div>
               <div class="promo-year-tag">MULTIVERS</div>
-              <div class="promo-hand-sub font-hand" style="font-size:1.2rem;color:var(--sa-purple);">2024 • 2025 • 2026</div>
+              <div class="font-hand" style="font-size:1.25rem;color:#F3E8FF;">Toutes les Promotions Réunies</div>
             </div>
-            <div class="tap-pill">✦ Retourner ✦</div>
+            <div class="tap-pill">✦ Retourner la carte ✦</div>
           </div>
         </div>
         <div class="card-face card-back">
           <div class="promo-card-inner">
-            <div class="font-hand" style="font-size:1.35rem;color:var(--sa-purple);">Comparaison Inter-Saisons</div>
-            <p style="font-size:0.8rem;color:var(--muted);line-height:1.45;margin:0;">
-              Compare les moyennes, les records et les trajectoires de toutes les promotions réunies dans un seul classement géant !
+            <div class="font-hand" style="font-size:1.5rem;color:#8A3FFC;">Le Choc des 3 Générations</div>
+            <p style="font-size:0.8rem;line-height:1.5;margin:0;">
+              Compare les moyennes, la régularité et les records des promotions <strong>2024</strong>, <strong>2025</strong> et <strong>2026</strong> dans un seul classement All-Stars !
             </p>
-            <div class="enter-btn-sticker">★ Ouvrir Multivers ★</div>
+            <div class="enter-btn-sticker" style="background:#8A3FFC;color:#fff;">★ Ouvrir le Multivers ★</div>
           </div>
         </div>
       </div>
@@ -1072,41 +516,39 @@
 </div>
 
 <!-- =======================================================================
-     2. TABLEAU DE BORD PRINCIPAL (MULTI-PAGES COMME KCA ACADEMY)
+     2. TABLEAU DE BORD PRINCIPAL
      ======================================================================= -->
 <div id="app-dashboard">
   <header class="app-header">
     <div class="container topbar">
-      <div class="brand" onclick="retourMenuPrincipal()" title="Retour au menu des cartes">
+      <div class="brand" onclick="retourMenuPrincipal()" title="Retour au portail des saisons">
         <div class="brand-star">★</div>
         <div class="brand-txt">
           <h1>Star Academy</h1>
-          <span>Carnet &amp; Classements</span>
+          <span id="headerEraSub">Saison 2026 • Rouge Rubis</span>
         </div>
       </div>
 
-      <!-- SÉLECTEUR DE SAISON -->
       <div class="promo-switcher" id="promoSwitcher">
-        <button type="button" class="promo-btn active" data-promo="2026" onclick="switchPromo('2026')">★ 2026</button>
-        <button type="button" class="promo-btn" data-promo="2025" onclick="switchPromo('2025')">★ 2025</button>
-        <button type="button" class="promo-btn" data-promo="2024" onclick="switchPromo('2024')">★ 2024</button>
-        <button type="button" class="promo-btn" data-promo="all" onclick="switchPromo('all')">🌍 Toutes</button>
+        <button type="button" class="promo-btn active" data-promo="2026" onclick="switchPromo('2026')">♦ 2026</button>
+        <button type="button" class="promo-btn" data-promo="2025" onclick="switchPromo('2025')">☀ 2025</button>
+        <button type="button" class="promo-btn" data-promo="2024" onclick="switchPromo('2024')">✿ 2024</button>
+        <button type="button" class="promo-btn" data-promo="all" onclick="switchPromo('all')">🌈 Toutes</button>
       </div>
 
-      <!-- NAVIGATION PRINCIPALE -->
       <nav class="main-nav">
         <a class="nav-link active" href="#contestants">📸 Académiciens</a>
         <a class="nav-link" href="#rankings">📊 Alignement &amp; Toile</a>
         <a class="nav-link" href="#duel">⚔️ Duel 1v1</a>
         <a class="nav-link" href="#records">🏆 Records &amp; Faits</a>
         <button type="button" class="icon-btn" id="syncBtn" title="Synchroniser avec Google Sheets">🔄 Sync</button>
-        <button type="button" class="icon-btn" id="themeBtn" title="Changer de thème">🌙 Nuit</button>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- BARRE DE CONTRÔLE PARTAGÉE (SOURCE + MODE DE TRI + TIMELINE DES PRIMES) -->
+    <div class="era-hero-banner" id="eraHeroBanner"></div>
+
     <div class="control-strip">
       <div class="control-top-row">
         <div class="source-pills" id="sourcePills">
@@ -1117,7 +559,7 @@
         </div>
 
         <div class="sort-pills" id="sortPills">
-          <button type="button" class="sort-btn active" data-sort="off" title="Trie par le rang du Prime actif + survivants devant">⚡ Ranking En Cours</button>
+          <button type="button" class="sort-btn active" data-sort="off" title="Trie par le rang du Prime sélectionné + survivants devant">⚡ Ranking En Cours</button>
           <button type="button" class="sort-btn" data-sort="avg" title="Trie par la moyenne cumulée depuis le Prime 0">📐 Moyenne Cumulée</button>
           <button type="button" class="sort-btn" data-sort="name">🔤 A-Z</button>
         </div>
@@ -1133,12 +575,11 @@
       Chargement en direct de ton Google Sheets...
     </div>
 
-    <!-- PAGES DE L'APPLICATION -->
-    <section id="contestants" class="page active" style="margin-top:20px;"></section>
-    <section id="profile" class="page" style="margin-top:20px;"></section>
-    <section id="rankings" class="page" style="margin-top:20px;"></section>
-    <section id="duel" class="page" style="margin-top:20px;"></section>
-    <section id="records" class="page" style="margin-top:20px;"></section>
+    <section id="contestants" class="page active" style="margin-top:18px;"></section>
+    <section id="profile" class="page" style="margin-top:18px;"></section>
+    <section id="rankings" class="page" style="margin-top:18px;"></section>
+    <section id="duel" class="page" style="margin-top:18px;"></section>
+    <section id="records" class="page" style="margin-top:18px;"></section>
   </main>
 </div>
 
@@ -1146,9 +587,6 @@
 (() => {
   "use strict";
 
-  // =======================================================================
-  // 1. TES LIENS GOOGLE SHEETS (CONSERVÉS À 100%)
-  // =======================================================================
   const SHEET_URLS = {
     "2026": {
       perso: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqDH8kAvxba-xTkkMOa6_tAT-h1YbT0j7QkOuDqihdqbk3omA4QU1kCqF4cB5S3sWhIU_X66N_flk-/pub?gid=1138979907&single=true&output=csv",
@@ -1167,67 +605,63 @@
     }
   };
 
+  const ERA_CONFIG = {
+    "2026": { badge: "♦ RED VELVET STUDIO • SAISON 2026 ♦", title: "Promotion 2026 — L'Ère Rouge Rubis", sub: "Direction artistique Rouge Carmin & Velours • 17 Académiciens", shortSub: "Saison 2026 • Rouge Rubis", primaryHex: "#C81E2B" },
+    "2025": { badge: "☀ GOLDEN AMBER STUDIO • SAISON 2025 ☀", title: "Promotion 2025 — L'Ère Ambre & Or", sub: "Direction artistique Doré Orangé & Miel Solaire • Victoire d'Ambre 🏆", shortSub: "Saison 2025 • Ambre Doré", primaryHex: "#D97706" },
+    "2024": { badge: "✿ PINK CANDY STUDIO • SAISON 2024 ✿", title: "Promotion 2024 — L'Ère Rose Pop", sub: "Direction artistique Rose Bonbon & Fuchsia • Victoire de Marine 🏆", shortSub: "Saison 2024 • Rose Pop", primaryHex: "#EC4899" },
+    "all":  { badge: "🌈 MULTIVERS ALL-STARS • 2024-2026 🌈", title: "Le Choc des Promotions (2024 • 2025 • 2026)", sub: "Comparaison globale de tous les académiciens toutes saisons confondues", shortSub: "Multivers • 3 Saisons", primaryHex: "#8A3FFC" }
+  };
+
+  const KNOWN_WINNERS = {
+    "2025_ambre":  { isWinner: true, status: "🏆 GAGNANTE 2025" },
+    "2025_lea":    { isFinalist: true, status: "🥈 FINALISTE 2025" },
+    "2024_marine": { isWinner: true, status: "🏆 GAGNANTE 2024" },
+    "2024_ebony":  { isFinalist: true, status: "🥈 FINALISTE 2024" }
+  };
+
   const MAX_PRIME = 16;
   const PRIMES_KEYS = Array.from({ length: MAX_PRIME + 1 }, (_, i) => "p" + i);
   const VIEW_LABELS = { perso: "Mon Classement", profs: "Professeurs", pop: "Popularité", fusion: "Fusion" };
 
   let eleves = [];
-  let webChartInstance = null;
-  let profileLineChart = null;
-  let profileRadarChart = null;
-  let duelLineChart = null;
-  let duelRadarChart = null;
-  let timelapseTimer = null;
-  let cardTapTimer = null;
+  let webChartInstance = null, profileLineChart = null, profileRadarChart = null, duelLineChart = null, duelRadarChart = null;
+  let timelapseTimer = null, cardTapTimer = null;
 
   const state = {
-    promo: "2026",
-    view: "perso",
-    prime: "auto",
-    sort: "off", // "off" (En cours), "avg" (Moyenne), "name" (A-Z)
-    search: "",
-    statusFilter: "all", // "all", "active", "elim"
-    hideElimTable: false,
-    heatmap: true,
-    webFocusId: "all",
-    profileMultiCurve: true,
-    duelA: "",
-    duelB: "",
-    recSortKey: "primeOrderRank",
-    recSortAsc: true
+    promo: "2026", view: "perso", prime: "auto", sort: "off",
+    search: "", statusFilter: "all", bwElim: true, hideElimTable: false,
+    compactCols: true, heatmap: true, webFocusId: "all", profileMultiCurve: true,
+    duelA: "", duelB: "", recSortKey: "primeOrderRank", recSortAsc: true
   };
 
-  // =======================================================================
-  // 2. CANVAS D'ÉTOILES POP EN ARRIÈRE-PLAN
-  // =======================================================================
   function initStarCanvas() {
     const cvs = document.getElementById("star-canvas");
     if (!cvs) return;
     const ctx = cvs.getContext("2d");
-    let w = cvs.width = window.innerWidth;
-    let h = cvs.height = window.innerHeight;
+    let w = cvs.width = window.innerWidth, h = cvs.height = window.innerHeight;
     window.addEventListener("resize", () => { w = cvs.width = window.innerWidth; h = cvs.height = window.innerHeight; });
 
-    const palette = ["#FF1E80", "#FF7A00", "#FFC700", "#00B8FF", "#8A3FFC"];
-    const items = Array.from({ length: 34 }, (_, i) => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vy: 0.18 + Math.random() * 0.4,
-      size: 9 + Math.random() * 10,
-      color: palette[i % palette.length],
-      phase: Math.random() * Math.PI * 2,
+    const palettes = {
+      "2026": ["#C81E2B", "#F43F5E", "#9E1B20", "#FFC700"],
+      "2025": ["#D97706", "#DFA06E", "#F59E0B", "#EA580C"],
+      "2024": ["#EC4899", "#F49AC2", "#DB2777", "#00B8FF"],
+      "all":  ["#C81E2B", "#D97706", "#EC4899", "#8A3FFC", "#00B8FF"]
+    };
+    const items = Array.from({ length: 36 }, (_, i) => ({
+      x: Math.random() * w, y: Math.random() * h, vy: 0.18 + Math.random() * 0.38,
+      size: 10 + Math.random() * 11, idx: i, phase: Math.random() * Math.PI * 2,
       glyph: i % 4 === 0 ? "♪" : (i % 2 === 0 ? "★" : "✦")
     }));
 
     function draw() {
       ctx.clearRect(0, 0, w, h);
+      const activePal = palettes[document.body.dataset.promoTheme || state.promo] || palettes["2026"];
       for (const it of items) {
-        it.y -= it.vy;
-        it.phase += 0.015;
+        it.y -= it.vy; it.phase += 0.015;
         if (it.y < -20) { it.y = h + 20; it.x = Math.random() * w; }
         ctx.save();
         ctx.font = `${Math.round(it.size)}px sans-serif`;
-        ctx.fillStyle = it.color;
+        ctx.fillStyle = activePal[it.idx % activePal.length];
         ctx.globalAlpha = 0.16 + 0.08 * Math.sin(it.phase);
         ctx.fillText(it.glyph, it.x + Math.sin(it.phase) * 8, it.y);
         ctx.restore();
@@ -1237,36 +671,24 @@
     requestAnimationFrame(draw);
   }
 
-  // =======================================================================
-  // 3. GESTION DES IMAGES + AVATAR SVG DE SECOURS AUTOMATIQUE
-  // =======================================================================
+  window.previewEraTheme = function(promoKey) { document.body.dataset.promoTheme = promoKey; };
+
+  function applyEraTheme(promoKey) {
+    document.body.dataset.promoTheme = promoKey;
+    const cfg = ERA_CONFIG[promoKey] || ERA_CONFIG["2026"];
+    const subEl = document.getElementById("headerEraSub");
+    if (subEl) subEl.textContent = cfg.shortSub;
+  }
+
   window.handleImgError = function(img, nom) {
     img.onerror = null;
     const initials = String(nom || "?").slice(0, 2).toUpperCase();
-    img.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#FF1E80"/>
-            <stop offset="50%" stop-color="#FF7A00"/>
-            <stop offset="100%" stop-color="#00B8FF"/>
-          </linearGradient>
-        </defs>
-        <rect width="200" height="200" fill="url(#g)"/>
-        <text x="100" y="118" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="800" font-size="64">${initials}</text>
-      </svg>
-    `);
+    const col = (ERA_CONFIG[state.promo] || ERA_CONFIG["2026"]).primaryHex;
+    img.src = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="${col}"/><text x="100" y="118" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="800" font-size="64">${initials}</text></svg>`);
   };
 
-  // =======================================================================
-  // 4. LECTURE GOOGLE SHEETS & MOTEUR DE CALCULS
-  // =======================================================================
-  function normKey(str) {
-    return String(str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
-  }
-  function cleanCell(str) {
-    return String(str || "").replace(/^"|"$/g, "").trim();
-  }
+  function normKey(str) { return String(str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, ""); }
+  function cleanCell(str) { return String(str || "").replace(/^"|"$/g, "").trim(); }
   const fmt = (n) => {
     if (n == null || isNaN(n) || !Number.isFinite(Number(n))) return "—";
     const v = Number(n);
@@ -1274,8 +696,7 @@
   };
   const mean = (arr) => {
     const vals = arr.filter(v => v != null && !isNaN(v)).map(Number);
-    if (!vals.length) return null;
-    return vals.reduce((a, b) => a + b, 0) / vals.length;
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
   };
   const stdDev = (arr) => {
     const vals = arr.filter(v => v != null && !isNaN(v)).map(Number);
@@ -1328,10 +749,9 @@
 
       const img = cleanCell(cols[1]) || `assets/${normKey(nom)}.jpg`;
       const rawElim = cleanCell(cols[2]);
-
-      let elimAt = null;
-      let customStatus = null;
-      let isWinner = false;
+      let elimAt = null, customStatus = null, isWinner = false, isFinalist = false;
+      const nKey = normKey(nom);
+      const id = `${promo}_${nKey}`;
 
       if (rawElim !== "") {
         const low = rawElim.toLowerCase();
@@ -1340,28 +760,27 @@
           elimAt = parseInt(pm[1], 10);
         } else {
           customStatus = rawElim;
-          if (low.includes("winner") || low.includes("gagnant") || low.includes("vainqueur") || low === "1er" || low === "1ere" || low === "1ère") {
-            isWinner = true;
-          }
+          if (low.includes("winner") || low.includes("gagnant") || low.includes("vainqueur") || low === "1er" || low === "1ere" || low === "1ère") isWinner = true;
+          else if (low.includes("finaliste") && !low.includes("demi")) isFinalist = true;
         }
       }
 
-      const nKey = normKey(nom);
-      const id = `${promo}_${nKey}`;
+      if (KNOWN_WINNERS[id]) {
+        if (KNOWN_WINNERS[id].isWinner) isWinner = true;
+        if (KNOWN_WINNERS[id].isFinalist) isFinalist = true;
+        customStatus = KNOWN_WINNERS[id].status;
+      }
 
       if (!elevesMap.has(id)) {
-        elevesMap.set(id, {
-          id, nom, normNom: nKey, promo,
-          img, eliminatedAt: elimAt, customStatus, isWinner,
-          perso: {}, profs: {}, pop: {}
-        });
+        elevesMap.set(id, { id, nom, normNom: nKey, promo, img, eliminatedAt: elimAt, customStatus, isWinner, isFinalist, perso: {}, profs: {}, pop: {} });
       }
       const cur = elevesMap.get(id);
       if (nom.length >= cur.nom.length && /[éèêëïîôùûüç]/i.test(nom)) cur.nom = nom;
-      if (elimAt !== null) cur.eliminatedAt = elimAt;
+      if (elimAt !== null && !cur.isWinner && !cur.isFinalist) cur.eliminatedAt = elimAt;
       if (customStatus !== null) {
         cur.customStatus = customStatus;
         if (isWinner) cur.isWinner = true;
+        if (isFinalist) cur.isFinalist = true;
       }
       if (img && !img.includes("placeholder")) cur.img = img;
 
@@ -1375,9 +794,7 @@
   }
 
   function getBaseList() {
-    let list = [...eleves];
-    if (state.promo !== "all") list = list.filter(e => String(e.promo) === String(state.promo));
-    return list;
+    return state.promo === "all" ? [...eleves] : eleves.filter(e => String(e.promo) === String(state.promo));
   }
 
   function hasDataForPrime(list, view, p) {
@@ -1421,9 +838,7 @@
     if (view === "profs") return eleve.profs;
     if (view === "pop")   return eleve.pop;
     const obj = {};
-    PRIMES_KEYS.forEach(k => {
-      obj[k] = mean([eleve.perso[k], eleve.profs[k], eleve.pop[k]]);
-    });
+    PRIMES_KEYS.forEach(k => { obj[k] = mean([eleve.perso[k], eleve.profs[k], eleve.pop[k]]); });
     return obj;
   }
 
@@ -1455,10 +870,8 @@
       const k = "p" + p;
       if (eleve.perso[k] != null || eleve.profs[k] != null || eleve.pop[k] != null) lastP = p;
     }
-    if (eleve.eliminatedAt != null && !eleve.isWinner && eleve.customStatus == null) {
-      if (primeNum > eleve.eliminatedAt) {
-        lastP = Math.min(lastP === -1 ? eleve.eliminatedAt : lastP, eleve.eliminatedAt);
-      }
+    if (eleve.eliminatedAt != null && !eleve.isWinner && !eleve.isFinalist && eleve.customStatus == null) {
+      if (primeNum > eleve.eliminatedAt) lastP = Math.min(lastP === -1 ? eleve.eliminatedAt : lastP, eleve.eliminatedAt);
     }
     return lastP;
   }
@@ -1476,9 +889,7 @@
       row.moyFusion = fusionMeanUpTo(eleve, primeNum);
 
       row.lastActiveP = getLastActivePrimeUpTo(eleve, primeNum);
-      row.activePrimeVal = row["p" + primeNum] != null
-        ? row["p" + primeNum]
-        : (row.lastActiveP >= 0 ? lastKnownRankUpTo(row, row.lastActiveP) : Infinity);
+      row.activePrimeVal = row["p" + primeNum] != null ? row["p" + primeNum] : (row.lastActiveP >= 0 ? lastKnownRankUpTo(row, row.lastActiveP) : Infinity);
 
       const vals = [];
       for (let p = 0; p <= primeNum; p++) {
@@ -1493,36 +904,28 @@
       return row;
     });
 
-    // Rang Moyenne
     const byAvg = withData.slice().sort((a, b) => {
       const av = a.moy ?? Infinity, bv = b.moy ?? Infinity;
-      if (av !== bv) return av - bv;
-      return a.nom.localeCompare(b.nom);
+      return av !== bv ? av - bv : a.nom.localeCompare(b.nom);
     });
     const avgMap = new Map();
     byAvg.forEach((r, idx) => avgMap.set(r.id, idx + 1));
 
-    // Rang En Cours (Prime actif + survivants devant)
     const byPrimeOrder = withData.slice().sort((a, b) => {
       if (a.lastActiveP !== b.lastActiveP) return b.lastActiveP - a.lastActiveP;
-      const aElim = (a.eliminatedAt != null && !a.isWinner && a.customStatus == null && a.eliminatedAt <= primeNum);
-      const bElim = (b.eliminatedAt != null && !b.isWinner && b.customStatus == null && b.eliminatedAt <= primeNum);
+      const aElim = (a.eliminatedAt != null && !a.isWinner && !a.isFinalist && a.customStatus == null && a.eliminatedAt <= primeNum);
+      const bElim = (b.eliminatedAt != null && !b.isWinner && !b.isFinalist && b.customStatus == null && b.eliminatedAt <= primeNum);
       const av = a.activePrimeVal ?? Infinity, bv = b.activePrimeVal ?? Infinity;
       if (av !== bv) return av - bv;
       if (aElim !== bElim) return aElim ? 1 : -1;
       const am = a.moy ?? Infinity, bm = b.moy ?? Infinity;
-      if (am !== bm) return am - bm;
-      return a.nom.localeCompare(b.nom);
+      return am !== bm ? am - bm : a.nom.localeCompare(b.nom);
     });
     const primeOrderMap = new Map();
     byPrimeOrder.forEach((r, idx) => primeOrderMap.set(r.id, idx + 1));
 
     return withData
-      .map(r => ({
-        ...r,
-        avgRank: avgMap.get(r.id) || 99,
-        primeOrderRank: primeOrderMap.get(r.id) || 99
-      }))
+      .map(r => ({ ...r, avgRank: avgMap.get(r.id) || 99, primeOrderRank: primeOrderMap.get(r.id) || 99 }))
       .sort((a, b) => {
         if (sortMode === "name") return a.nom.localeCompare(b.nom);
         if (sortMode === "off")  return a.primeOrderRank - b.primeOrderRank;
@@ -1549,22 +952,11 @@
       const prevRank = prevMap.get(r.id);
       const hasPrev = (prevRank != null && r.moy != null);
       const deltaPlaces = hasPrev ? (prevRank - curRef) : 0;
-      const isElim = (r.customStatus == null && !r.isWinner && r.eliminatedAt != null && primeNum >= r.eliminatedAt);
-
-      return {
-        ...r,
-        eliminated: isElim,
-        hasPrev,
-        prevRank: prevRank ?? null,
-        deltaPlaces,
-        pPrevUsed: pPrev
-      };
+      const isElim = (r.customStatus == null && !r.isWinner && !r.isFinalist && r.eliminatedAt != null && primeNum >= r.eliminatedAt);
+      return { ...r, eliminated: isElim, hasPrev, prevRank: prevRank ?? null, deltaPlaces, pPrevUsed: pPrev };
     });
   }
 
-  // =======================================================================
-  // 5. NAVIGATION ENTRE LE PORTAIL 3D ET LES PAGES
-  // =======================================================================
   window.handleCardTap = function(cardEl, promoChoice) {
     clearTimeout(cardTapTimer);
     const isTouch = window.matchMedia("(hover: none)").matches;
@@ -1578,48 +970,33 @@
   };
 
   function entrerCarnet(promoChoice) {
-    state.promo = promoChoice;
-    state.webFocusId = "all";
-    updatePromoSwitcherUI();
-    const menu = document.getElementById("landing-menu");
-    const dash = document.getElementById("app-dashboard");
-    menu.style.opacity = "0";
-    menu.style.transform = "scale(0.96)";
+    state.promo = promoChoice; state.prime = "auto"; state.webFocusId = "all";
+    applyEraTheme(promoChoice); updatePromoSwitcherUI();
+    const menu = document.getElementById("landing-menu"), dash = document.getElementById("app-dashboard");
+    menu.style.opacity = "0"; menu.style.transform = "scale(0.96)";
     setTimeout(() => {
-      menu.style.display = "none";
-      dash.style.display = "block";
+      menu.style.display = "none"; dash.style.display = "block";
       setTimeout(() => {
         dash.style.opacity = "1";
         if (!location.hash || location.hash === "#") location.hash = "#contestants";
         renderAll();
       }, 30);
-    }, 380);
+    }, 360);
   }
 
   window.retourMenuPrincipal = function() {
-    const menu = document.getElementById("landing-menu");
-    const dash = document.getElementById("app-dashboard");
+    const menu = document.getElementById("landing-menu"), dash = document.getElementById("app-dashboard");
     dash.style.opacity = "0";
     setTimeout(() => {
-      dash.style.display = "none";
-      menu.style.display = "flex";
-      history.replaceState(null, null, " ");
-      setTimeout(() => {
-        menu.style.opacity = "1";
-        menu.style.transform = "scale(1)";
-      }, 30);
-    }, 350);
+      dash.style.display = "none"; menu.style.display = "flex"; history.replaceState(null, null, " ");
+      setTimeout(() => { menu.style.opacity = "1"; menu.style.transform = "scale(1)"; }, 30);
+    }, 340);
   };
 
   window.switchPromo = function(promoChoice) {
     stopTimelapse();
-    state.promo = promoChoice;
-    state.prime = "auto";
-    state.webFocusId = "all";
-    state.duelA = "";
-    state.duelB = "";
-    updatePromoSwitcherUI();
-    renderAll();
+    state.promo = promoChoice; state.prime = "auto"; state.webFocusId = "all"; state.duelA = ""; state.duelB = "";
+    applyEraTheme(promoChoice); updatePromoSwitcherUI(); renderAll();
   };
 
   function updatePromoSwitcherUI() {
@@ -1628,13 +1005,52 @@
     });
   }
 
+  function renderEraHeroBanner(allRows, pNow, autoMax) {
+    const box = document.getElementById("eraHeroBanner");
+    if (!box || !allRows.length) return;
+    const cfg = ERA_CONFIG[state.promo] || ERA_CONFIG["2026"];
+    const leader = allRows[0];
+    const survivorsCount = allRows.filter(r => !r.eliminated).length;
+    const withDelta = allRows.filter(r => r.hasPrev && r.deltaPlaces > 0).sort((a, b) => b.deltaPlaces - a.deltaPlaces);
+    const topRiser = withDelta[0] || allRows[1] || leader;
+
+    box.innerHTML = `
+      <div class="era-hero-left">
+        <span class="era-hero-tag">${cfg.badge}</span>
+        <h2>${cfg.title}</h2>
+        <div class="font-hand" style="font-size:1.35rem;opacity:0.95;">${cfg.sub} • Prime actif : P${pNow} (sur P${autoMax})</div>
+      </div>
+      <div class="era-hero-stats">
+        <div class="era-stat-pill" onclick="location.hash='#profile/${leader.id}'">
+          <img class="era-stat-avatar" src="${leader.img}" alt="${leader.nom}" onerror="handleImgError(this, '${leader.nom.replace(/'/g, "\\'")}')" />
+          <div class="era-stat-txt">
+            <div class="lbl">👑 #1 (${VIEW_LABELS[state.view]})</div>
+            <div class="val">${leader.nom} <span style="color:var(--sa-yellow);">(${fmt(leader.moy)})</span></div>
+          </div>
+        </div>
+        <div class="era-stat-pill" onclick="location.hash='#profile/${topRiser.id}'">
+          <img class="era-stat-avatar" src="${topRiser.img}" alt="${topRiser.nom}" onerror="handleImgError(this, '${topRiser.nom.replace(/'/g, "\\'")}')" />
+          <div class="era-stat-txt">
+            <div class="lbl">🚀 Dynamique P${pNow}</div>
+            <div class="val">${topRiser.nom} <span style="color:#69DB7C;">${topRiser.deltaPlaces > 0 ? '+' + topRiser.deltaPlaces + ' pl.' : '#' + topRiser.rank}</span></div>
+          </div>
+        </div>
+        <div class="era-stat-pill" onclick="location.hash='#rankings'">
+          <div class="era-stat-avatar" style="display:flex;align-items:center;justify-content:center;background:#161824;font-weight:800;font-size:1rem;color:var(--sa-yellow);">
+            ${survivorsCount}/${allRows.length}
+          </div>
+          <div class="era-stat-txt">
+            <div class="lbl">🏰 Au Château (P${pNow})</div>
+            <div class="val">${survivorsCount} en lice • ${allRows.length - survivorsCount} sortis</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderControlStrip(baseList, pNow, autoMax) {
-    document.querySelectorAll("#sourcePills .src-btn").forEach(b => {
-      b.classList.toggle("active", b.dataset.view === state.view);
-    });
-    document.querySelectorAll("#sortPills .sort-btn").forEach(b => {
-      b.classList.toggle("active", b.dataset.sort === state.sort);
-    });
+    document.querySelectorAll("#sourcePills .src-btn").forEach(b => b.classList.toggle("active", b.dataset.view === state.view));
+    document.querySelectorAll("#sortPills .sort-btn").forEach(b => b.classList.toggle("active", b.dataset.sort === state.sort));
 
     const chipsBox = document.getElementById("timelineChips");
     if (!chipsBox) return;
@@ -1647,13 +1063,24 @@
     chipsBox.innerHTML = html;
   }
 
-  // =======================================================================
-  // 6. RENDU PAGE 1 : LES ACADÉMICIENS (GRILLE POLAROID CHUANG / KCA)
-  // =======================================================================
+  function buildSparklineSVG(row, primeNum, maxStudents) {
+    const pts = [];
+    for (let p = 0; p <= primeNum; p++) {
+      const v = row["p" + p];
+      if (v != null && !isNaN(v)) pts.push({ p, v: Number(v) });
+    }
+    if (pts.length < 2) {
+      return `<svg class="polaroid-spark" viewBox="0 0 120 26"><text x="60" y="16" text-anchor="middle" fill="currentColor" opacity="0.45" font-size="8.5">Prime initial (P${primeNum})</text></svg>`;
+    }
+    const maxP = Math.max(1, primeNum), maxR = Math.max(17, maxStudents);
+    const coords = pts.map(pt => `${(6 + (pt.p / maxP) * 108).toFixed(1)},${(4 + ((pt.v - 1) / (maxR - 1)) * 18).toFixed(1)}`).join(" ");
+    const col = (ERA_CONFIG[state.promo] || ERA_CONFIG["2026"]).primaryHex;
+    return `<svg class="polaroid-spark" viewBox="0 0 120 26"><polyline fill="none" stroke="${col}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="${coords}" /></svg>`;
+  }
+
   function renderContestantsPage(allRows, pNow) {
     const root = document.getElementById("contestants");
     if (!root) return;
-
     const promoTitle = state.promo === "all" ? "Toutes les Saisons" : `Promotion ${state.promo}`;
     const filtered = allRows.filter(r => {
       if (state.search && !r.nom.toLowerCase().includes(state.search.toLowerCase())) return false;
@@ -1665,12 +1092,14 @@
     const cardsHTML = filtered.map(r => {
       const rCls = r.rank === 1 ? "r-1" : r.rank === 2 ? "r-2" : r.rank === 3 ? "r-3" : "";
       let dCls = "eq", dTxt = "=";
-      if (!r.hasPrev) { dTxt = "NEW"; }
+      if (!r.hasPrev) dTxt = "NEW";
       else if (r.deltaPlaces > 0) { dCls = "up"; dTxt = `▲ +${r.deltaPlaces}`; }
       else if (r.deltaPlaces < 0) { dCls = "down"; dTxt = `▼ -${Math.abs(r.deltaPlaces)}`; }
 
       let stampHTML = "";
-      if (r.isWinner) stampHTML = `<div class="stamp-badge stamp-win">★ WINNER ★</div>`;
+      if (r.isWinner) stampHTML = `<div class="stamp-badge stamp-win">🏆 GAGNANT·E</div>`;
+      else if (r.isFinalist) stampHTML = `<div class="stamp-badge stamp-fin">🥈 FINALISTE</div>`;
+      else if (r.customStatus) stampHTML = `<div class="stamp-badge stamp-win">⭐ ${r.customStatus}</div>`;
       else if (r.eliminated) stampHTML = `<div class="stamp-badge stamp-elim">SORTI·E P${r.eliminatedAt}</div>`;
 
       const pPerso = r.perso["p" + pNow] ?? r.moyPerso;
@@ -1678,7 +1107,7 @@
       const pPop   = r.pop["p" + pNow]   ?? r.moyPop;
 
       return `
-        <div class="polaroid-card ${r.eliminated ? 'is-elim' : ''}" onclick="location.hash='#profile/${r.id}'">
+        <div class="polaroid-card ${r.eliminated ? 'is-elim' : ''} ${state.bwElim ? 'bw-mode' : ''}" onclick="location.hash='#profile/${r.id}'">
           <div class="polaroid-pin"></div>
           <div class="polaroid-photo-wrap">
             <span class="rank-sticker ${rCls}">#${r.rank < 10 ? '0' + r.rank : r.rank}</span>
@@ -1690,6 +1119,7 @@
             <h3 class="polaroid-name">${r.nom}</h3>
             <div class="polaroid-hand-sub">Promo ${r.promo} • Moy. ${fmt(r.moy)}</div>
           </div>
+          ${buildSparklineSVG(r, pNow, allRows.length)}
           <div class="polaroid-scores-strip">
             <div>Perso<strong>${fmt(pPerso)}</strong></div>
             <div>Profs<strong>${fmt(pProfs)}</strong></div>
@@ -1706,77 +1136,66 @@
           <div>
             <h2 class="sticker-title">📸 Trombinoscope — ${promoTitle}</h2>
             <span class="font-hand" style="font-size:1.3rem;color:var(--muted);margin-left:10px;">
-              Clique sur un Polaroid pour ouvrir son carnet détaillé (Prime ${pNow} • ${VIEW_LABELS[state.view]})
+              Clique sur un Polaroid pour ouvrir son carnet (Prime ${pNow} • ${VIEW_LABELS[state.view]})
             </span>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
             <input type="search" id="searchPolaroid" class="input-pill" placeholder="🔍 Rechercher un élève…" value="${state.search}" />
             <select id="filterPolaroid" class="select-pill">
               <option value="all" ${state.statusFilter === 'all' ? 'selected' : ''}>Tous les élèves (${allRows.length})</option>
               <option value="active" ${state.statusFilter === 'active' ? 'selected' : ''}>🟢 Encore en course</option>
               <option value="elim" ${state.statusFilter === 'elim' ? 'selected' : ''}>🚪 Éliminés</option>
             </select>
+            <button type="button" class="sort-btn ${!state.bwElim ? 'active' : ''}" id="toggleBwBtn">
+              ${state.bwElim ? '🎨 Photos en couleur' : '⚫ N&B sur éliminés'}
+            </button>
           </div>
         </div>
-
-        <div class="polaroid-grid">
-          ${cardsHTML || `<p style="color:var(--muted);">Aucun académicien trouvé pour ce filtre.</p>`}
-        </div>
+        <div class="polaroid-grid">${cardsHTML || `<p style="color:var(--muted);">Aucun académicien trouvé.</p>`}</div>
       </div>
     `;
 
-    document.getElementById("searchPolaroid")?.addEventListener("input", e => {
-      state.search = e.target.value;
-      renderContestantsPage(allRows, pNow);
-    });
-    document.getElementById("filterPolaroid")?.addEventListener("change", e => {
-      state.statusFilter = e.target.value;
-      renderContestantsPage(allRows, pNow);
-    });
+    document.getElementById("searchPolaroid")?.addEventListener("input", e => { state.search = e.target.value; renderContestantsPage(allRows, pNow); });
+    document.getElementById("filterPolaroid")?.addEventListener("change", e => { state.statusFilter = e.target.value; renderContestantsPage(allRows, pNow); });
+    document.getElementById("toggleBwBtn")?.addEventListener("click", () => { state.bwElim = !state.bwElim; renderContestantsPage(allRows, pNow); });
   }
 
-  // =======================================================================
-  // 7. RENDU PAGE 2 : FICHE INDIVIDUELLE (#profile/id) COMME KCA ACADEMY
-  // =======================================================================
   function renderProfilePage(studentId, allRows, pNow) {
     const root = document.getElementById("profile");
     if (!root) return;
-
     const idx = allRows.findIndex(r => r.id === studentId);
     const st = idx >= 0 ? allRows[idx] : allRows[0];
-    if (!st) {
-      root.innerHTML = `<div class="notebook-card"><p>Élève introuvable.</p></div>`;
-      return;
-    }
+    if (!st) { root.innerHTML = `<div class="notebook-card"><p>Élève introuvable.</p></div>`; return; }
 
     const prevSt = idx > 0 ? allRows[idx - 1] : null;
     const nextSt = idx >= 0 && idx < allRows.length - 1 ? allRows[idx + 1] : null;
     const fusionSrc = sourceForView(st, "fusion");
+    const activeSrc = sourceForView(st, state.view);
 
     let statusBadgeHTML = `<span class="hello-sticker" style="background:var(--sa-green);transform:none;">🟢 ENCORE EN COURSE</span>`;
     if (st.isWinner) statusBadgeHTML = `<span class="hello-sticker" style="background:var(--sa-yellow);color:#161824;transform:none;">🏆 GAGNANT·E DE LA SAISON</span>`;
+    else if (st.isFinalist) statusBadgeHTML = `<span class="hello-sticker" style="background:#E2E8F0;color:#161824;transform:none;">🥈 FINALISTE DE LA SAISON</span>`;
     else if (st.customStatus) statusBadgeHTML = `<span class="hello-sticker" style="background:var(--sa-purple);transform:none;">⭐ ${st.customStatus.toUpperCase()}</span>`;
     else if (st.eliminatedAt != null) statusBadgeHTML = `<span class="hello-sticker" style="background:var(--sa-red);transform:none;">🚪 ÉLIMINÉ·E AU PRIME ${st.eliminatedAt}</span>`;
 
-    // Table des cycles (Primes) de l'élève
     const maxP = maxAvailablePrime(getBaseList(), "fusion");
     let cycleRowsHTML = "";
     for (let p = 0; p <= maxP; p++) {
       const k = "p" + p;
       const vp = st.perso[k], vpr = st.profs[k], vpo = st.pop[k], vf = fusionSrc[k];
-      const prevF = p > 0 ? fusionSrc["p" + (p - 1)] : null;
+      const prevVal = p > 0 ? activeSrc["p" + (p - 1)] : null, curVal = activeSrc[k];
       let dHtml = "—";
-      if (vf != null && prevF != null) {
-        const diff = prevF - vf;
+      if (curVal != null && prevVal != null) {
+        const diff = prevVal - curVal;
         if (diff > 0) dHtml = `<span style="color:var(--sa-green);font-weight:800;">▲ +${fmt(diff)}</span>`;
         else if (diff < 0) dHtml = `<span style="color:var(--sa-red);font-weight:800;">▼ ${fmt(diff)}</span>`;
         else dHtml = `<span style="color:var(--muted);">=</span>`;
       }
-      const isOut = (st.eliminatedAt != null && !st.isWinner && st.customStatus == null && p >= st.eliminatedAt);
+      const isOut = (st.eliminatedAt != null && !st.isWinner && !st.isFinalist && st.customStatus == null && p >= st.eliminatedAt);
       if (vp == null && vpr == null && vpo == null && !isOut) continue;
 
       cycleRowsHTML += `
-        <tr style="${p === pNow ? 'background:rgba(255,199,0,0.18);font-weight:700;' : ''}">
+        <tr style="${p === pNow ? 'background:var(--era-soft);font-weight:700;' : ''}">
           <td style="text-align:left;font-weight:800;">Prime ${p}</td>
           <td>${fmt(vp)}</td>
           <td>${fmt(vpr)}</td>
@@ -1802,54 +1221,25 @@
             <div class="polaroid-pin"></div>
             <img src="${st.img}" alt="${st.nom}" onerror="handleImgError(this, '${st.nom.replace(/'/g, "\\'")}')" />
             <h2 style="font-size:1.8rem;margin:10px 0 4px;">${st.nom}</h2>
-            <div class="font-hand" style="font-size:1.3rem;color:var(--muted);margin-bottom:10px;">Promotion ${st.promo}</div>
+            <div class="font-hand" style="font-size:1.3rem;color:var(--era-primary);margin-bottom:10px;">Promotion ${st.promo}</div>
             ${statusBadgeHTML}
           </div>
 
           <div>
             <div class="stat-stickers-row">
-              <div class="stat-sticker">
-                <div class="lbl">Rang (${VIEW_LABELS[state.view]})</div>
-                <div class="val" style="color:var(--sa-pink);">#${st.rank}</div>
-              </div>
-              <div class="stat-sticker">
-                <div class="lbl">MoyennePerso</div>
-                <div class="val">${fmt(st.moyPerso)}</div>
-              </div>
-              <div class="stat-sticker">
-                <div class="lbl">Moyenne Profs</div>
-                <div class="val">${fmt(st.moyProfs)}</div>
-              </div>
-              <div class="stat-sticker">
-                <div class="lbl">Moyenne Public</div>
-                <div class="val">${fmt(st.moyPop)}</div>
-              </div>
-              <div class="stat-sticker">
-                <div class="lbl">Moyenne Fusion</div>
-                <div class="val" style="color:var(--sa-purple);">${fmt(st.moyFusion)}</div>
-              </div>
-              <div class="stat-sticker">
-                <div class="lbl">Record (Peak)</div>
-                <div class="val" style="color:var(--sa-green);">#${fmt(st.peak)}</div>
-              </div>
+              <div class="stat-sticker"><div class="lbl">Rang (${VIEW_LABELS[state.view]})</div><div class="val" style="color:var(--era-primary);">#${st.rank}</div></div>
+              <div class="stat-sticker"><div class="lbl">Moyenne Perso</div><div class="val">${fmt(st.moyPerso)}</div></div>
+              <div class="stat-sticker"><div class="lbl">Moyenne Profs</div><div class="val">${fmt(st.moyProfs)}</div></div>
+              <div class="stat-sticker"><div class="lbl">Moyenne Public</div><div class="val">${fmt(st.moyPop)}</div></div>
+              <div class="stat-sticker"><div class="lbl">Moyenne Fusion</div><div class="val" style="color:var(--sa-purple);">${fmt(st.moyFusion)}</div></div>
+              <div class="stat-sticker"><div class="lbl">Record (Peak)</div><div class="val" style="color:var(--sa-green);">#${fmt(st.peak)}</div></div>
             </div>
 
             <h3 style="margin:18px 0 10px;">📓 Carnet des Primes de ${st.nom}</h3>
             <div class="table-wrapper">
               <table class="sa-table" style="min-width:520px;">
-                <thead>
-                  <tr>
-                    <th class="col-left">Cycle</th>
-                    <th>💖 Perso</th>
-                    <th>🎓 Profs</th>
-                    <th>🔥 Public</th>
-                    <th>⚡ Fusion</th>
-                    <th>Évolution</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${cycleRowsHTML || `<tr><td colspan="6">Aucune note enregistrée pour le moment.</td></tr>`}
-                </tbody>
+                <thead><tr><th class="col-left">Cycle</th><th>💖 Perso</th><th>🎓 Profs</th><th>🔥 Public</th><th>⚡ Fusion</th><th>Évolution</th></tr></thead>
+                <tbody>${cycleRowsHTML || `<tr><td colspan="6">Aucune note enregistrée.</td></tr>`}</tbody>
               </table>
             </div>
           </div>
@@ -1878,8 +1268,8 @@
       renderProfilePage(st.id, allRows, pNow);
     });
 
-    // Radar Chart
     const maxStud = Math.max(allRows.length, 17);
+    const eraHex = (ERA_CONFIG[st.promo] || ERA_CONFIG[state.promo] || ERA_CONFIG["2026"]).primaryHex;
     const to100 = (v) => v == null || isNaN(v) ? 50 : Math.max(12, Math.min(100, Math.round(((maxStud - v) / Math.max(1, maxStud - 1)) * 88 + 12)));
     const regScore = st.sigma != null ? Math.max(15, Math.min(100, Math.round(100 - st.sigma * 14))) : 70;
 
@@ -1890,24 +1280,12 @@
         type: "radar",
         data: {
           labels: ["💖 Perso", "🎓 Profs", "🔥 Public", "🎯 Régularité", "👑 Peak"],
-          datasets: [{
-            label: st.nom,
-            data: [to100(st.moyPerso), to100(st.moyProfs), to100(st.moyPop), regScore, to100(st.peak)],
-            backgroundColor: "rgba(255, 30, 128, 0.22)",
-            borderColor: "#FF1E80",
-            pointBackgroundColor: "#FF1E80",
-            borderWidth: 2.5
-          }]
+          datasets: [{ label: st.nom, data: [to100(st.moyPerso), to100(st.moyProfs), to100(st.moyPop), regScore, to100(st.peak)], backgroundColor: eraHex + "33", borderColor: eraHex, pointBackgroundColor: eraHex, borderWidth: 2.5 }]
         },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { r: { min: 0, max: 100, ticks: { display: false } } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { min: 0, max: 100, ticks: { display: false } } } }
       });
     }
 
-    // Line Chart
     if (profileLineChart) profileLineChart.destroy();
     const ctxL = document.getElementById("profileLineCanvas");
     if (ctxL) {
@@ -1920,32 +1298,25 @@
             { label: "Public", data: keys.map(k => st.pop[k] ?? null), borderColor: "#00B8FF", backgroundColor: "#00B8FF", borderWidth: 2.5, tension: 0.25, spanGaps: true },
             { label: "Fusion", data: keys.map(k => fusionSrc[k] ?? null), borderColor: "#8A3FFC", borderDash: [5, 5], borderWidth: 2, tension: 0.25, spanGaps: true }
           ]
-        : [
-            { label: `${st.nom} (${VIEW_LABELS[state.view]})`, data: keys.map(k => st[k] ?? null), borderColor: "#FF1E80", backgroundColor: "#FF1E80", borderWidth: 3.5, pointRadius: 5, tension: 0.25, spanGaps: true }
-          ];
+        : [{ label: `${st.nom} (${VIEW_LABELS[state.view]})`, data: keys.map(k => st[k] ?? null), borderColor: eraHex, backgroundColor: eraHex, borderWidth: 3.5, pointRadius: 5, tension: 0.25, spanGaps: true }];
 
       profileLineChart = new Chart(ctxL, {
-        type: "line",
-        data: { labels, datasets },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          scales: { y: { reverse: true, min: 1, max: maxStud, ticks: { stepSize: 1 } } }
-        }
+        type: "line", data: { labels, datasets },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { reverse: true, min: 1, max: maxStud, ticks: { stepSize: 1 } } } }
       });
     }
   }
 
-  // =======================================================================
-  // 8. RENDU PAGE 3 : ALIGNEMENT & TOILE DES DESTINS (#rankings)
-  // =======================================================================
   function renderRankingsPage(allRows, pNow) {
     const root = document.getElementById("rankings");
     if (!root) return;
 
     const rows = state.hideElimTable ? allRows.filter(r => !r.eliminated) : allRows;
     const totalCount = allRows.length || 17;
+    const maxAvailP = maxAvailablePrime(getBaseList(), "fusion");
+    const visibleMaxP = state.compactCols ? Math.max(pNow, maxAvailP, 1) : MAX_PRIME;
+    const visibleKeys = Array.from({ length: visibleMaxP + 1 }, (_, i) => "p" + i);
 
-    // Podium Top 3
     const top3 = rows.slice(0, 3);
     const podiumHTML = top3.length >= 3 ? [
       { r: top3[1], medal: "🥈 #2", cls: "p-2" },
@@ -1956,9 +1327,7 @@
         <img class="podium-pic" src="${p.r.img}" alt="${p.r.nom}" onerror="handleImgError(this, '${p.r.nom.replace(/'/g, "\\'")}')" />
         <div>
           <div style="font-family:'Fredoka',sans-serif;font-size:1.1rem;">${p.medal} ${p.r.nom}</div>
-          <div style="font-size:0.78rem;color:var(--muted);">
-            Prime ${pNow} : <strong>#${fmt(p.r["p" + pNow])}</strong> • Moyenne : <strong>${fmt(p.r.moy)}</strong>
-          </div>
+          <div style="font-size:0.78rem;color:var(--muted);">Prime ${pNow} : <strong>#${fmt(p.r["p" + pNow])}</strong> • Moyenne : <strong>${fmt(p.r.moy)}</strong></div>
         </div>
       </div>
     `).join("") : "";
@@ -1978,13 +1347,13 @@
       else if (r.deltaPlaces > 0) { dCls = "up"; dTxt = `▲ +${r.deltaPlaces}`; }
       else if (r.deltaPlaces < 0) { dCls = "down"; dTxt = `▼ -${Math.abs(r.deltaPlaces)}`; }
 
-      const cells = PRIMES_KEYS.map(k => `<td class="${hmClass(r[k])}">${fmt(r[k])}</td>`).join("");
+      const cells = visibleKeys.map(k => `<td class="${hmClass(r[k])}">${fmt(r[k])}</td>`).join("");
       return `
         <tr class="${r.eliminated ? 'is-elim-row' : ''}" onclick="location.hash='#profile/${r.id}'">
           <td class="sticky-1"><strong>#${r.rank}</strong></td>
           <td class="sticky-2">
             <div style="display:flex;align-items:center;gap:8px;">
-              <img src="${r.img}" alt="${r.nom}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border-strong);${r.eliminated ? 'filter:grayscale(100%);' : ''}" onerror="handleImgError(this, '${r.nom.replace(/'/g, "\\'")}')" />
+              <img src="${r.img}" alt="${r.nom}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border-strong);${r.eliminated && state.bwElim ? 'filter:grayscale(100%);' : ''}" onerror="handleImgError(this, '${r.nom.replace(/'/g, "\\'")}')" />
               <strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.nom}</strong>
               <span class="delta-sticker ${dCls}" style="position:static;margin-left:auto;padding:1px 6px;font-size:0.65rem;">${dTxt}</span>
             </div>
@@ -2001,13 +1370,14 @@
     root.innerHTML = `
       <div class="notebook-card">
         <div class="section-header-row">
-          <div>
-            <h2 class="sticker-title">📊 Tableau d'Alignement (${VIEW_LABELS[state.view]})</h2>
-          </div>
+          <h2 class="sticker-title">📊 Tableau d'Alignement (${VIEW_LABELS[state.view]})</h2>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button type="button" class="sort-btn ${state.heatmap ? 'active' : ''}" id="toggleHmBtn">🎨 Couleurs Heatmap</button>
+            <button type="button" class="sort-btn ${state.compactCols ? 'active' : ''}" id="toggleCompactColsBtn">
+              ${state.compactCols ? '📐 Colonnes actives (P0-P' + visibleMaxP + ')' : '↔️ Afficher P0 à P16'}
+            </button>
+            <button type="button" class="sort-btn ${state.heatmap ? 'active' : ''}" id="toggleHmBtn">🎨 Heatmap</button>
             <button type="button" class="sort-btn ${state.hideElimTable ? 'active' : ''}" id="toggleElimTableBtn">
-              ${state.hideElimTable ? '👁️ Afficher les éliminés' : 'Masquer les éliminés'}
+              ${state.hideElimTable ? '👁️ Afficher éliminés' : 'Masquer éliminés'}
             </button>
           </div>
         </div>
@@ -2020,7 +1390,7 @@
               <tr>
                 <th class="sticky-1">#</th>
                 <th class="sticky-2 col-left">Académicien</th>
-                ${PRIMES_KEYS.map((k, idx) => `<th style="${idx === pNow ? 'background:var(--sa-yellow);color:#161824;' : ''}">P${idx}</th>`).join("")}
+                ${visibleKeys.map((k, idx) => `<th style="${idx === pNow ? 'background:var(--era-primary);color:#fff;' : ''}">P${idx}</th>`).join("")}
                 <th>Moy.</th>
               </tr>
             </thead>
@@ -2029,13 +1399,12 @@
         </div>
       </div>
 
-      <!-- LA GRANDE TOILE DES DESTINS (COMME SUR STAR KCA ACADEMY 3) -->
       <div class="notebook-card">
         <div class="section-header-row">
           <div>
-            <h2 class="sticker-title" style="background:var(--sa-cyan);">🕸️ La Toile des Trajectoires</h2>
+            <h2 class="sticker-title">🕸️ La Toile des Trajectoires</h2>
             <span class="font-hand" style="font-size:1.25rem;color:var(--muted);margin-left:10px;">
-              Clique sur un nom sous le graphique ou utilise le menu pour isoler une courbe !
+              Clique sur un prénom dans la légende ou utilise le menu pour isoler une courbe !
             </span>
           </div>
           <select id="webFocusSelect" class="select-pill">${focusOptions}</select>
@@ -2044,27 +1413,16 @@
       </div>
     `;
 
-    document.getElementById("toggleHmBtn")?.addEventListener("click", () => {
-      state.heatmap = !state.heatmap;
-      renderRankingsPage(allRows, pNow);
-    });
-    document.getElementById("toggleElimTableBtn")?.addEventListener("click", () => {
-      state.hideElimTable = !state.hideElimTable;
-      renderRankingsPage(allRows, pNow);
-    });
-    document.getElementById("webFocusSelect")?.addEventListener("change", e => {
-      state.webFocusId = e.target.value;
-      renderRankingsPage(allRows, pNow);
-    });
+    document.getElementById("toggleCompactColsBtn")?.addEventListener("click", () => { state.compactCols = !state.compactCols; renderRankingsPage(allRows, pNow); });
+    document.getElementById("toggleHmBtn")?.addEventListener("click", () => { state.heatmap = !state.heatmap; renderRankingsPage(allRows, pNow); });
+    document.getElementById("toggleElimTableBtn")?.addEventListener("click", () => { state.hideElimTable = !state.hideElimTable; renderRankingsPage(allRows, pNow); });
+    document.getElementById("webFocusSelect")?.addEventListener("change", e => { state.webFocusId = e.target.value; renderRankingsPage(allRows, pNow); });
 
     if (webChartInstance) webChartInstance.destroy();
     const ctxW = document.getElementById("webChartCanvas");
     if (ctxW) {
-      const maxP = maxAvailablePrime(getBaseList(), "fusion");
-      const labels = Array.from({ length: maxP + 1 }, (_, i) => "Prime " + i);
-      const keys = Array.from({ length: maxP + 1 }, (_, i) => "p" + i);
+      const labels = Array.from({ length: visibleMaxP + 1 }, (_, i) => "Prime " + i);
       const hasFocus = state.webFocusId && state.webFocusId !== "all";
-
       webChartInstance = new Chart(ctxW, {
         type: "line",
         data: {
@@ -2073,28 +1431,21 @@
             const hue = (i * 37) % 360;
             const focused = !hasFocus || state.webFocusId === r.id;
             const alpha = hasFocus && !focused ? 0.12 : (r.eliminated ? 0.35 : 0.9);
-            const col = `hsla(${hue}, 82%, 52%, ${alpha})`;
+            const col = `hsla(${hue}, 82%, 48%, ${alpha})`;
             return {
-              studentId: r.id,
-              label: r.nom,
-              data: keys.map(k => r[k] ?? null),
-              borderColor: col,
-              backgroundColor: col,
+              studentId: r.id, label: r.nom, data: visibleKeys.map(k => r[k] ?? null),
+              borderColor: col, backgroundColor: col,
               borderWidth: (hasFocus && focused) ? 4.5 : (focused ? 2.5 : 1.2),
               pointRadius: (hasFocus && focused) ? 6 : 3,
-              borderDash: r.eliminated ? [5, 5] : [],
-              tension: 0.25,
-              spanGaps: true
+              borderDash: r.eliminated ? [5, 5] : [], tension: 0.25, spanGaps: true
             };
           })
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: "bottom",
-              labels: { boxWidth: 12, padding: 14, usePointStyle: true },
+              position: "bottom", labels: { boxWidth: 12, padding: 14, usePointStyle: true },
               onClick: (e, legendItem, legend) => {
                 const ds = legend.chart.data.datasets[legendItem.datasetIndex];
                 if (ds && ds.studentId) {
@@ -2104,17 +1455,12 @@
               }
             }
           },
-          scales: {
-            y: { reverse: true, min: 1, max: totalCount, ticks: { stepSize: 1 } }
-          }
+          scales: { y: { reverse: true, min: 1, max: totalCount, ticks: { stepSize: 1 } } }
         }
       });
     }
   }
 
-  // =======================================================================
-  // 9. RENDU PAGE 4 : DUEL 1V1 (#duel)
-  // =======================================================================
   function renderDuelPage(allRows, pNow) {
     const root = document.getElementById("duel");
     if (!root || allRows.length < 2) return;
@@ -2126,7 +1472,7 @@
     const b = allRows.find(r => r.id === state.duelB) || allRows[1];
 
     let winsA = 0, winsB = 0, ties = 0;
-    const maxP = maxAvailablePrime(getBaseList(), "fusion");
+    const maxP = Math.max(maxAvailablePrime(getBaseList(), "fusion"), 1);
     for (let p = 0; p <= pNow; p++) {
       const va = a["p" + p], vb = b["p" + p];
       if (va != null && vb != null) {
@@ -2142,7 +1488,7 @@
     root.innerHTML = `
       <div class="notebook-card">
         <div class="section-header-row">
-          <h2 class="sticker-title" style="background:var(--sa-pink);color:#fff;">⚔️ Face-à-Face 1v1 (${VIEW_LABELS[state.view]})</h2>
+          <h2 class="sticker-title">⚔️ Face-à-Face 1v1 (${VIEW_LABELS[state.view]})</h2>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <select id="duelSelectA" class="select-pill">${optsA}</select>
             <strong class="font-display">VS</strong>
@@ -2151,10 +1497,10 @@
         </div>
 
         <div class="duel-header-grid">
-          <div class="fact-card" style="border-color:var(--sa-pink);">
+          <div class="fact-card" style="border-color:var(--era-primary);">
             <img class="fact-avatar" src="${a.img}" alt="${a.nom}" onerror="handleImgError(this, '${a.nom.replace(/'/g, "\\'")}')" />
             <div>
-              <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;color:var(--sa-pink);">#${a.rank} ${a.nom}</div>
+              <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;color:var(--era-primary);">#${a.rank} ${a.nom}</div>
               <div style="font-size:0.8rem;color:var(--muted);">Moyenne : <strong>${fmt(a.moy)}</strong> • Peak : <strong>#${fmt(a.peak)}</strong></div>
             </div>
           </div>
@@ -2175,14 +1521,8 @@
         </div>
 
         <div class="charts-split-2">
-          <div class="lined-note">
-            <h3 style="margin:0 0 8px;">🕸️ Radar Comparatif</h3>
-            <div style="height:290px;"><canvas id="duelRadarCanvas"></canvas></div>
-          </div>
-          <div class="lined-note">
-            <h3 style="margin:0 0 8px;">📈 Duel de Trajectoires</h3>
-            <div style="height:290px;"><canvas id="duelLineCanvas"></canvas></div>
-          </div>
+          <div class="lined-note"><h3 style="margin:0 0 8px;">🕸️ Radar Comparatif</h3><div style="height:290px;"><canvas id="duelRadarCanvas"></canvas></div></div>
+          <div class="lined-note"><h3 style="margin:0 0 8px;">📈 Duel de Trajectoires</h3><div style="height:290px;"><canvas id="duelLineCanvas"></canvas></div></div>
         </div>
       </div>
     `;
@@ -2191,14 +1531,9 @@
     document.getElementById("duelSelectB")?.addEventListener("change", e => { state.duelB = e.target.value; renderDuelPage(allRows, pNow); });
 
     const maxStud = Math.max(allRows.length, 17);
+    const eraHex = (ERA_CONFIG[state.promo] || ERA_CONFIG["2026"]).primaryHex;
     const to100 = (v) => v == null || isNaN(v) ? 50 : Math.max(12, Math.min(100, Math.round(((maxStud - v) / Math.max(1, maxStud - 1)) * 88 + 12)));
-    const scoreArr = (st) => [
-      to100(st.moyPerso),
-      to100(st.moyProfs),
-      to100(st.moyPop),
-      st.sigma != null ? Math.max(15, Math.min(100, Math.round(100 - st.sigma * 14))) : 70,
-      to100(st.peak)
-    ];
+    const scoreArr = (st) => [to100(st.moyPerso), to100(st.moyProfs), to100(st.moyPop), st.sigma != null ? Math.max(15, Math.min(100, Math.round(100 - st.sigma * 14))) : 70, to100(st.peak)];
 
     if (duelRadarChart) duelRadarChart.destroy();
     const ctxDR = document.getElementById("duelRadarCanvas");
@@ -2208,7 +1543,7 @@
         data: {
           labels: ["💖 Perso", "🎓 Profs", "🔥 Public", "🎯 Régularité", "👑 Peak"],
           datasets: [
-            { label: a.nom, data: scoreArr(a), borderColor: "#FF1E80", backgroundColor: "rgba(255, 30, 128, 0.22)", borderWidth: 2.5 },
+            { label: a.nom, data: scoreArr(a), borderColor: eraHex, backgroundColor: eraHex + "33", borderWidth: 2.5 },
             { label: b.nom, data: scoreArr(b), borderColor: "#00B8FF", backgroundColor: "rgba(0, 184, 255, 0.22)", borderWidth: 2.5 }
           ]
         },
@@ -2226,7 +1561,7 @@
         data: {
           labels,
           datasets: [
-            { label: a.nom, data: keys.map(k => a[k] ?? null), borderColor: "#FF1E80", backgroundColor: "#FF1E80", borderWidth: 3.5, pointRadius: 4, tension: 0.25, spanGaps: true },
+            { label: a.nom, data: keys.map(k => a[k] ?? null), borderColor: eraHex, backgroundColor: eraHex, borderWidth: 3.5, pointRadius: 4, tension: 0.25, spanGaps: true },
             { label: b.nom, data: keys.map(k => b[k] ?? null), borderColor: "#00B8FF", backgroundColor: "#00B8FF", borderWidth: 3.5, pointRadius: 4, tension: 0.25, spanGaps: true }
           ]
         },
@@ -2235,9 +1570,6 @@
     }
   }
 
-  // =======================================================================
-  // 10. RENDU PAGE 5 : RECORDS & FAITS CHIFFRÉS (100% FACTUEL, ZÉRO PIF)
-  // =======================================================================
   function renderRecordsPage(allRows, pNow) {
     const root = document.getElementById("records");
     if (!root) return;
@@ -2246,43 +1578,18 @@
     const topUp = withDelta.slice().sort((a, b) => b.deltaPlaces - a.deltaPlaces)[0];
     const topDown = withDelta.slice().sort((a, b) => a.deltaPlaces - b.deltaPlaces)[0];
     const pLeader = allRows.filter(r => r["p" + pNow] != null).sort((a, b) => a["p" + pNow] - b["p" + pNow])[0];
-
     const with3 = allRows.filter(r => r.moyPerso != null && r.moyProfs != null && r.moyPop != null);
     const diffPersoProfs = with3.slice().sort((a, b) => (b.moyProfs - b.moyPerso) - (a.moyProfs - a.moyPerso))[0];
     const diffPopProfs   = with3.slice().sort((a, b) => (b.moyProfs - b.moyPop) - (a.moyProfs - a.moyPop))[0];
-    const lastElim       = allRows.filter(r => r.eliminatedAt != null && r.eliminatedAt <= pNow).sort((a, b) => b.eliminatedAt - a.eliminatedAt)[0];
+    const lastElim       = allRows.filter(r => !r.isWinner && !r.isFinalist && r.eliminatedAt != null && r.eliminatedAt <= pNow).sort((a, b) => b.eliminatedAt - a.eliminatedAt)[0];
 
     const facts = [
-      {
-        title: `👑 #1 sur le Prime ${pNow}`,
-        st: pLeader,
-        text: pLeader ? `Classé(e) #${fmt(pLeader["p" + pNow])} sur ce Prime (Moy. ${fmt(pLeader.moy)})` : "Prime non renseigné"
-      },
-      {
-        title: `🚀 Plus Forte Progression`,
-        st: (topUp && topUp.deltaPlaces > 0) ? topUp : null,
-        text: (topUp && topUp.deltaPlaces > 0) ? `+${topUp.deltaPlaces} place(s) gagnée(s) (#${topUp.prevRank} ➔ #${topUp.rank})` : "Aucune hausse sur ce prime"
-      },
-      {
-        title: `📉 Plus Forte Baisse`,
-        st: (topDown && topDown.deltaPlaces < 0) ? topDown : null,
-        text: (topDown && topDown.deltaPlaces < 0) ? `${topDown.deltaPlaces} place(s) perdue(s) (#${topDown.prevRank} ➔ #${topDown.rank})` : "Aucune baisse sur ce prime"
-      },
-      {
-        title: `💖 Ton Préféré vs Profs`,
-        st: diffPersoProfs,
-        text: diffPersoProfs ? `Moy. Perso ${fmt(diffPersoProfs.moyPerso)} vs Profs ${fmt(diffPersoProfs.moyProfs)} (${fmt(diffPersoProfs.moyProfs - diffPersoProfs.moyPerso)} pl. d'écart)` : "En attente des 3 sources"
-      },
-      {
-        title: `🔥 Chouchou du Public vs Profs`,
-        st: diffPopProfs,
-        text: diffPopProfs ? `Moy. Popu ${fmt(diffPopProfs.moyPop)} vs Profs ${fmt(diffPopProfs.moyProfs)} (${fmt(diffPopProfs.moyProfs - diffPopProfs.moyPop)} pl. d'écart)` : "En attente des 3 sources"
-      },
-      {
-        title: `🚪 Dernier Départ enregistré`,
-        st: lastElim,
-        text: lastElim ? `Éliminé(e) au Prime ${lastElim.eliminatedAt} (Moy. ${fmt(lastElim.moy)})` : "Aucun éliminé jusqu'au Prime " + pNow
-      }
+      { title: `👑 #1 sur le Prime ${pNow}`, st: pLeader, text: pLeader ? `Classé(e) #${fmt(pLeader["p" + pNow])} sur ce Prime (Moy. ${fmt(pLeader.moy)})` : "Prime non renseigné" },
+      { title: `🚀 Plus Forte Progression`, st: (topUp && topUp.deltaPlaces > 0) ? topUp : null, text: (topUp && topUp.deltaPlaces > 0) ? `+${topUp.deltaPlaces} place(s) gagnée(s) (#${topUp.prevRank} ➔ #${topUp.rank})` : "Aucune hausse sur ce prime" },
+      { title: `📉 Plus Forte Baisse`, st: (topDown && topDown.deltaPlaces < 0) ? topDown : null, text: (topDown && topDown.deltaPlaces < 0) ? `${topDown.deltaPlaces} place(s) perdue(s) (#${topDown.prevRank} ➔ #${topDown.rank})` : "Aucune baisse sur ce prime" },
+      { title: `💖 Ton Préféré vs Profs`, st: diffPersoProfs, text: diffPersoProfs ? `Moy. Perso ${fmt(diffPersoProfs.moyPerso)} vs Profs ${fmt(diffPersoProfs.moyProfs)} (${fmt(diffPersoProfs.moyProfs - diffPersoProfs.moyPerso)} pl. d'écart)` : "En attente des 3 sources" },
+      { title: `🔥 Chouchou du Public vs Profs`, st: diffPopProfs, text: diffPopProfs ? `Moy. Popu ${fmt(diffPopProfs.moyPop)} vs Profs ${fmt(diffPopProfs.moyProfs)} (${fmt(diffPopProfs.moyProfs - diffPopProfs.moyPop)} pl. d'écart)` : "En attente des 3 sources" },
+      { title: `🚪 Dernier Départ enregistré`, st: lastElim, text: lastElim ? `Éliminé(e) au Prime ${lastElim.eliminatedAt} (Moy. ${fmt(lastElim.moy)})` : "Aucun éliminé jusqu'au Prime " + pNow }
     ];
 
     const sortedRec = allRows.slice().sort((a, b) => {
@@ -2290,16 +1597,12 @@
       if (k === "nom") return state.recSortAsc ? a.nom.localeCompare(b.nom) : b.nom.localeCompare(a.nom);
       const va = a[k] == null ? (state.recSortAsc ? Infinity : -Infinity) : Number(a[k]);
       const vb = b[k] == null ? (state.recSortAsc ? Infinity : -Infinity) : Number(b[k]);
-      if (va !== vb) return state.recSortAsc ? (va - vb) : (vb - va);
-      return a.nom.localeCompare(b.nom);
+      return va !== vb ? (state.recSortAsc ? va - vb : vb - va) : a.nom.localeCompare(b.nom);
     });
 
     root.innerHTML = `
       <div class="notebook-card">
-        <div class="section-header-row">
-          <h2 class="sticker-title">🏆 Les Chiffres Clés au Prime ${pNow}</h2>
-        </div>
-
+        <div class="section-header-row"><h2 class="sticker-title">🏆 Les Chiffres Clés au Prime ${pNow}</h2></div>
         <div class="facts-grid">
           ${facts.map(f => `
             <div class="fact-card" ${f.st ? `onclick="location.hash='#profile/${f.st.id}'" style="cursor:pointer;"` : ""}>
@@ -2336,7 +1639,7 @@
                 <tr class="${r.eliminated ? 'is-elim-row' : ''}" onclick="location.hash='#profile/${r.id}'">
                   <td><strong>#${r.primeOrderRank}</strong></td>
                   <td>#${r.avgRank}</td>
-                  <td style="text-align:left;"><strong>${r.nom}</strong> ${r.eliminated ? `<span style="color:var(--sa-red);font-size:0.7rem;">(P${r.eliminatedAt})</span>` : ""}</td>
+                  <td style="text-align:left;"><strong>${r.nom}</strong> ${r.isWinner ? '🏆' : r.eliminated ? `<span style="color:var(--sa-red);font-size:0.7rem;">(P${r.eliminatedAt})</span>` : ""}</td>
                   <td>${fmt(r.moyPerso)}</td>
                   <td>${fmt(r.moyProfs)}</td>
                   <td>${fmt(r.moyPop)}</td>
@@ -2358,17 +1661,11 @@
       if (!th) return;
       const key = th.dataset.rsort;
       if (state.recSortKey === key) state.recSortAsc = !state.recSortAsc;
-      else {
-        state.recSortKey = key;
-        state.recSortAsc = key === "top3Count" ? false : true;
-      }
+      else { state.recSortKey = key; state.recSortAsc = key === "top3Count" ? false : true; }
       renderRecordsPage(allRows, pNow);
     });
   }
 
-  // =======================================================================
-  // 11. TIMELAPSE & ORCHESTRATION GLOBALE
-  // =======================================================================
   function stopTimelapse() {
     if (timelapseTimer) { clearInterval(timelapseTimer); timelapseTimer = null; }
     const btn = document.getElementById("timelapseBtn");
@@ -2402,11 +1699,13 @@
 
   function renderAll() {
     if (!eleves.length) return;
+    applyEraTheme(state.promo);
     const baseList = getBaseList();
     const autoMax = maxAvailablePrime(baseList, state.view);
     const pNow = activePrimeNum(baseList);
     const allRows = computeFull(baseList, pNow, state.view);
 
+    renderEraHeroBanner(allRows, pNow, autoMax);
     renderControlStrip(baseList, pNow, autoMax);
     renderContestantsPage(allRows, pNow);
     renderRankingsPage(allRows, pNow);
@@ -2445,30 +1744,18 @@
     document.getElementById("timelapseBtn")?.addEventListener("click", toggleTimelapse);
     document.getElementById("syncBtn")?.addEventListener("click", () => hydrateData(true));
 
-    document.getElementById("themeBtn")?.addEventListener("click", () => {
-      const cur = document.body.dataset.theme || "light";
-      const next = cur === "light" ? "dark" : "light";
-      document.body.dataset.theme = next;
-      document.getElementById("themeBtn").textContent = next === "light" ? "🌙 Nuit" : "☀️ Carnet";
-    });
-
     const onHashChange = () => {
       const hash = location.hash || "";
       const menu = document.getElementById("landing-menu");
       const dash = document.getElementById("app-dashboard");
 
       if (!hash || hash === "#") {
-        dash.style.display = "none";
-        dash.style.opacity = "0";
-        menu.style.display = "flex";
-        menu.style.opacity = "1";
-        menu.style.transform = "scale(1)";
+        dash.style.display = "none"; dash.style.opacity = "0";
+        menu.style.display = "flex"; menu.style.opacity = "1"; menu.style.transform = "scale(1)";
         return;
       }
 
-      menu.style.display = "none";
-      dash.style.display = "block";
-      dash.style.opacity = "1";
+      menu.style.display = "none"; dash.style.display = "block"; dash.style.opacity = "1";
 
       const [page, param] = hash.slice(1).split("/");
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
